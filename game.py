@@ -1,8 +1,17 @@
+import map
+import initialize
+
+
+def game():
+    start_map = initialize.initialize()
+    print(map.map_art(start_map))
+
+
 def main():
     """
     Drive the program
     """
-    print("Hello world")
+    game()
 
 
 if __name__ == "__main__":

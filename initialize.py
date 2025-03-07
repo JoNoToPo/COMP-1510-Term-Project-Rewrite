@@ -33,6 +33,18 @@ def room_connector(first_room, second_room):
     return map.room_combiner(first_room, map.room_combiner(second_room, map.room_combiner(first_hall, second_hall)))
 
 
+def starting_map(starting_room, max_room_size, min_room_size):
+    room2 = room_radomizer(max_room_size, min_room_size)
+    room3 = room_radomizer(max_room_size, min_room_size)
+    room4 = room_radomizer(max_room_size, min_room_size)
+    return room_connector(room_connector(starting_room, room2), room_connector(room3, room4))
+
+def initialize():
+    starting_room = room_radomizer(8, 4)
+    y_position = random.choice(list(starting_room.keys()))
+    x_position = random.choice(list(starting_room[y_position].keys()))
+    return map.player_location(starting_map(starting_room, 8, 3), x_position, y_position)
+
 def main():
     """
     Drive the program
