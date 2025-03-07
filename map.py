@@ -22,6 +22,12 @@ def room_combiner(first_room, second_room):
                     output[row][column] = 1
     return output
 
+
+def player_location(map_key, x_coordinate, y_coordinate):
+    map_key[y_coordinate][x_coordinate] = 2
+    return map_key
+
+
 def map_art(map_key):
     output = ""
     for row in range(map_key["map_size"]):
@@ -48,6 +54,7 @@ def main():
     room3 = room(1, 20, 2, 20)
     room4 = room(10, 10, 19, 19)
     combined_rooms = room_combiner(room1, room_combiner(room2, room_combiner(room3, room4)))
+    player_placement(combined_rooms, 3, 5)
     print(map_art(combined_rooms))
 
 
