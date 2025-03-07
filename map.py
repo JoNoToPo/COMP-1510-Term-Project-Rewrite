@@ -1,0 +1,55 @@
+def room(y_length, x_length, x_offset, y_offset):
+    output = {"map_size": 30}
+    for row in range(y_offset, y_length + y_offset):
+        output[row] = {}
+        for column in range(x_offset, x_length + x_offset):
+            output[row][column] = 1
+    return output
+
+
+def room_combiner(first_room, second_room):
+    output = {"map_size": 30}
+    for row in set(first_room.keys()).union(set(second_room.keys())):
+        if type(row) == type(""):
+            continue
+        output[row] = {}
+        for column in range(first_room["map_size"]):
+            if row in first_room.keys():
+                if column in first_room[row].keys():
+                    output[row][column] = 1
+            if row in second_room.keys():
+                if column in second_room[row].keys():
+                    output[row][column] = 1
+    return output
+
+def map_art(map_key):
+    output = ""
+    for row in range(map_key["map_size"]):
+        if row not in map_key.keys():
+            output += "|/|" * map_key["map_size"]
+        else:
+            for column in range(map_key["map_size"]):
+                if column not in map_key[row].keys():
+                    output += "|/|"
+                elif map_key[row][column] == 1:
+                    output += " . "
+                elif map_key[row][column] == 2:
+                    output += " @ "
+        output += "\n"
+    return output
+
+
+def main():
+    """
+    Drive the program
+    """
+    room1 = room(5, 6, 1, 1)
+    room2 = room(20, 1, 2, 1)
+    room3 = room(1, 20, 2, 20)
+    room4 = room(10, 10, 19, 19)
+    combined_rooms = room_combiner(room1, room_combiner(room2, room_combiner(room3, room4)))
+    print(map_art(combined_rooms))
+
+
+if __name__ == "__main__":
+    main()
