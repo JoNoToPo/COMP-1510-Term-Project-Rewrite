@@ -1,6 +1,13 @@
 import map
 
 
+def new_character():
+    first_name = random.choice(["Chris", "Derek", "Peter", "Johnny", "Thomas"])
+    last_name = random.choice(["Thompson", "The Axe Morgan", "The Wise", "Jefferson"])
+    character_spread = {"name": first_name + " " + last_name, "health": 3, "x_coordinate": 0, "y_coordinate": 0}
+    return character_spread
+
+
 def parse(user_input, character, map_key):
     if user_input in ["n", "s", "e", "w", "north", "south", "east", "west"]:
         move(user_input, character, map_key)

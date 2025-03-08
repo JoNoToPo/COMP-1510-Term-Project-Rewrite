@@ -40,13 +40,6 @@ def starting_map(starting_room, max_room_size, min_room_size, number_of_rooms):
     return starting_room
 
 
-def new_character():
-    first_name = random.choice(["Chris", "Derek", "Peter", "Johnny", "Thomas"])
-    last_name = random.choice(["Thompson", "The Axe Morgan", "The Wise", "Jefferson"])
-    character_spread = {"name": first_name + " " + last_name, "health": 3, "x_coordinate": 0, "y_coordinate": 0}
-    return character_spread
-
-
 def initialize_mob(mob, start_room):
     mob["y_coordinate"] = random.choice(list(start_room.keys()))
     mob["x_coordinate"] = random.choice(list(start_room[mob["y_coordinate"]].keys()))

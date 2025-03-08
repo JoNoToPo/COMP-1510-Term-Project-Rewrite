@@ -5,7 +5,7 @@ import player
 
 def game():
     start_room = initialize.room_radomizer(8, 4)
-    current_character = initialize.initialize_mob(initialize.new_character(), start_room)
+    current_character = initialize.initialize_mob(player.new_character(), start_room)
     start_map = initialize.starting_map(start_room, 8, 4, 3)
     menu_text = (
             "-" * 53 +
