@@ -22,14 +22,14 @@ def room_connector(first_room, second_room):
             second_hall = map.room(1, x_end - x_start, x_start, y_end)
         else:
             first_hall = map.room(y_end - y_start, 1, x_start, y_start)
-            second_hall = map.room(1, x_start - x_end, x_end + 1, y_end)
+            second_hall = map.room(1, x_start - x_end + 1, x_end, y_end)
     else:
         if x_start < x_end:
             first_hall = map.room(y_start - y_end, 1, x_start, y_end)
-            second_hall = map.room(1, x_end - x_start, x_start + 1, y_end)
+            second_hall = map.room(1, x_end - x_start, x_start, y_end)
         else:
             first_hall = map.room(y_start - y_end, 1, x_start, y_end)
-            second_hall = map.room(1, x_start - x_end, x_end + 1, y_end)
+            second_hall = map.room(1, x_start - x_end + 1, x_end, y_end)
     return map.room_combiner(first_room, map.room_combiner(second_room, map.room_combiner(first_hall, second_hall)))
 
 
