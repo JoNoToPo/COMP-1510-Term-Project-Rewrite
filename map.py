@@ -6,7 +6,8 @@ def room(y_length, x_length, x_offset, y_offset):
     Defines the location of a room as a dictionary for the map.
 
     :precondition: four positive integers
-    :postcondition: a dictionary
+    :postcondition: a dictionary with keys representing rows the content of which are dictionaries the keys
+    being the column and the content being 1
     :param y_length: an integer defining the length of the room in the y-axis
     :param x_length: an integer defining the length of the room in the x-axis
     :param x_offset: an integer defining how far offset the room is from the left in the x-axis
@@ -42,11 +43,6 @@ def rewrite_spot(map_key, x_coordinate, y_coordinate, content):
     return map_key
 
 
-def player_move_from(map_key, x_coordinate, y_coordinate):
-    map_key[y_coordinate][x_coordinate] = 1
-    return map_key
-
-
 def display_text_next_to_map(map_key, input_text, rows_down):
     line = ""
     for letter in input_text:
@@ -63,7 +59,7 @@ def display_text_next_to_map(map_key, input_text, rows_down):
 
 
 def map_art(map_key):
-    output = ""
+    output = "|/|" * 31 + "\n"
     for row in range(30):
         if row not in map_key.keys():
             output += "|/|" * 31
@@ -90,7 +86,8 @@ def main():
     room3 = room(1, 20, 2, 20)
     room4 = room(10, 10, 19, 19)
     combined_rooms = room_combiner(room1, room_combiner(room2, room_combiner(room3, room4)))
-    player_location(combined_rooms, 3, 5)
+    rewrite_spot(combined_rooms, 3, 5, 2)
+    display_text_next_to_map(combined_rooms, "This is neat!", 10)
     print(map_art(combined_rooms))
 
 
