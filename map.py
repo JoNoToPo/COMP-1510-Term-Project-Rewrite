@@ -37,9 +37,8 @@ def room_combiner(first_room, second_room):
     return output
 
 
-
-def player_location(map_key, x_coordinate, y_coordinate):
-    map_key[y_coordinate][x_coordinate] = 2
+def rewrite_spot(map_key, x_coordinate, y_coordinate, content):
+    map_key[y_coordinate][x_coordinate] = content
     return map_key
 
 

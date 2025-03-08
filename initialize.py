@@ -48,11 +48,10 @@ def new_character():
     return character_spread
 
 
-def initialize(player):
-    starting_room = room_radomizer(8, 4)
-    player["x_coordinate"] = random.choice(list(starting_room.keys()))
-    player["y_coordinate"] = random.choice(list(starting_room[player["x_coordinate"]].keys()))
-    return player
+def initialize_mob(mob, start_room):
+    mob["y_coordinate"] = random.choice(list(start_room.keys()))
+    mob["x_coordinate"] = random.choice(list(start_room[mob["y_coordinate"]].keys()))
+    return mob
 
 def main():
     """
