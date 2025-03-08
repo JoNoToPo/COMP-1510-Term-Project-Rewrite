@@ -1,5 +1,5 @@
 import map
-
+import random
 
 def new_character():
     first_name = random.choice(["Chris", "Derek", "Peter", "Johnny", "Thomas"])
