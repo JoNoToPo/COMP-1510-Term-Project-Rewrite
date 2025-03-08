@@ -1,8 +1,22 @@
+import player
+
+
 def room(y_length, x_length, x_offset, y_offset):
+    """
+    Defines the location of a room as a dictionary for the map.
+
+    :precondition: four positive integers
+    :postcondition: a dictionary
+    :param y_length: an integer defining the length of the room in the y-axis
+    :param x_length: an integer defining the length of the room in the x-axis
+    :param x_offset: an integer defining how far offset the room is from the left in the x-axis
+    :param y_offset: an integer defining how far offset the room is from the top in the y-axis
+    :return: a dictionary containing the
+    """
     output = {}
     for row in range(y_offset, y_length + y_offset):
         output[row] = {}
-        for column in range(x_offset, x_length + x_offset):
+        for column in range(x_offset + 1, x_length + x_offset + 1):
             output[row][column] = 1
     return output
 
@@ -23,8 +37,29 @@ def room_combiner(first_room, second_room):
     return output
 
 
+
 def player_location(map_key, x_coordinate, y_coordinate):
     map_key[y_coordinate][x_coordinate] = 2
+    return map_key
+
+
+def player_move_from(map_key, x_coordinate, y_coordinate):
+    map_key[y_coordinate][x_coordinate] = 1
+    return map_key
+
+
+def display_text_next_to_map(map_key, input_text, rows_down):
+    line = ""
+    for letter in input_text:
+        if rows_down not in set(map_key.keys()):
+            map_key[rows_down] = {30: ""}
+        if letter != "/":
+            line += letter
+        else:
+            map_key[rows_down][30] = line
+            rows_down += 1
+            line = ""
+    map_key[rows_down][30] = line
     return map_key
 
 
@@ -32,15 +67,17 @@ def map_art(map_key):
     output = ""
     for row in range(30):
         if row not in map_key.keys():
-            output += "|/|" * 30
+            output += "|/|" * 31
         else:
-            for column in range(30):
+            for column in range(31):
                 if column not in map_key[row].keys():
                     output += "|/|"
                 elif map_key[row][column] == 1:
                     output += " . "
                 elif map_key[row][column] == 2:
                     output += " @ "
+                elif type(map_key[row][column]) == type(""):
+                    output += "|/|   " + map_key[row][column]
         output += "\n"
     return output
 

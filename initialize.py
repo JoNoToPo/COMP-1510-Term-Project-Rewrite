@@ -37,13 +37,22 @@ def starting_map(starting_room, max_room_size, min_room_size):
     room2 = room_radomizer(max_room_size, min_room_size)
     room3 = room_radomizer(max_room_size, min_room_size)
     room4 = room_radomizer(max_room_size, min_room_size)
-    return room_connector(room_connector(starting_room, room2), room_connector(room3, room4))
+    room5 = room_radomizer(max_room_size, min_room_size)
+    return room_connector(room_connector(room_connector(starting_room, room2), room_connector(room3, room4)), room5)
 
-def initialize():
+
+def new_character():
+    first_name = random.choice(["Chris", "Derek", "Peter", "Johnny", "Thomas"])
+    last_name = random.choice(["Thompson", "The Axe Morgan", "The Wise", "Jefferson"])
+    character_spread = {"name": first_name + " " + last_name, "health": 3, "x_coordinate": 0, "y_coordinate": 0}
+    return character_spread
+
+
+def initialize(player):
     starting_room = room_radomizer(8, 4)
-    y_position = random.choice(list(starting_room.keys()))
-    x_position = random.choice(list(starting_room[y_position].keys()))
-    return map.player_location(starting_map(starting_room, 8, 3), x_position, y_position)
+    player["x_coordinate"] = random.choice(list(starting_room.keys()))
+    player["y_coordinate"] = random.choice(list(starting_room[player["x_coordinate"]].keys()))
+    return player
 
 def main():
     """
