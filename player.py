@@ -1,6 +1,7 @@
 import map
 import random
 
+
 def new_character():
     first_name = random.choice(["Chris", "Derek", "Peter", "Johnny", "Thomas"])
     last_name = random.choice(["Thompson", "The Axe Morgan", "The Wise", "Jefferson"])
@@ -11,6 +12,8 @@ def new_character():
 def parse(user_input, character, map_key):
     if user_input in ["n", "s", "e", "w", "north", "south", "east", "west"]:
         move(user_input, character, map_key)
+    elif user_input == "help":
+        return player_help(user_input)
 
 
 def move(user_input, character, map_key):
@@ -31,3 +34,7 @@ def move(user_input, character, map_key):
                 character["y_coordinate"] -= 1
     return character
 
+def player_help(user_input):
+    if user_input == "help":
+        output = "this is some helpful text"
+        return output
