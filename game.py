@@ -20,7 +20,7 @@ def game():
             "/or if you want more details about any action /type \"help (action)\""
             " and it will be explained to you.")
     print(map.map_art(map.display_text_next_to_map(
-        map.rewrite_spot(start_map, current_character["x_coordinate"], current_character["y_coordinate"], 2),
+        map.rewrite(start_map, current_character["x_coordinate"], current_character["y_coordinate"], 2, 1),
         menu_text, 0)))
     while True:
         player_input = str(input("To play, move to your time machine \"T\":")).strip().lower()
@@ -28,12 +28,12 @@ def game():
             action = player.parse(player_input, current_character, start_map)
             if type(action) == type("string"):
                 print(map.map_art(map.display_text_next_to_map(
-                    map.rewrite_spot(start_map, current_character["x_coordinate"], current_character["y_coordinate"],
-                                     2), action, 11)))
+                    map.rewrite(start_map, current_character["x_coordinate"], current_character["y_coordinate"],
+                                2, 1), action, 0)))
             else:
                 print(map.map_art(map.display_text_next_to_map(
-                    map.rewrite_spot(start_map, current_character["x_coordinate"], current_character["y_coordinate"],
-                                     2), menu_text, 0)))
+                    map.rewrite(start_map, current_character["x_coordinate"], current_character["y_coordinate"],
+                                2, 1), menu_text, 0)))
         else:
             continue
 

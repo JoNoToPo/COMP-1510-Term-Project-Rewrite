@@ -1,4 +1,5 @@
 import player
+import random
 
 
 def room(y_length, x_length, x_offset, y_offset):
@@ -38,8 +39,10 @@ def room_combiner(first_room, second_room):
     return output
 
 
-def rewrite_spot(map_key, x_coordinate, y_coordinate, content):
-    map_key[y_coordinate][x_coordinate] = content
+def rewrite(map_key, x_coordinate, y_coordinate, content, area):
+    for row in range(area):
+        for column in range(area):
+            map_key[y_coordinate - row + int(area / 2)][x_coordinate - column + int(area / 2)] = content
     return map_key
 
 
@@ -59,10 +62,10 @@ def display_text_next_to_map(map_key, input_text, rows_down):
 
 
 def map_art(map_key):
-    output = "|/|" * 31 + "\n"
+    output = "|/|" * 30 + "\n"
     for row in range(30):
         if row not in map_key.keys():
-            output += "|/|" * 31
+            output += "|/|" * 30
         else:
             for column in range(31):
                 if column not in map_key[row].keys():
@@ -71,8 +74,11 @@ def map_art(map_key):
                     output += " . "
                 elif map_key[row][column] == 2:
                     output += " @ "
+                elif map_key[row][column] == 3:
+                    for number in range(3):
+                        output += chr(random.randint(32, 176))
                 elif type(map_key[row][column]) == type(""):
-                    output += "|/|   " + map_key[row][column]
+                    output += map_key[row][column]
         output += "\n"
     return output
 
