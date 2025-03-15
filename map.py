@@ -17,69 +17,71 @@ def room(y_length, x_length, x_offset, y_offset):
     """
     output = {}
     for row in range(y_offset, y_length + y_offset):
-        output[row] = {}
         for column in range(x_offset + 1, x_length + x_offset + 1):
-            output[row][column] = 1
+            output[(row, column)] = random.choices(["   ", " . "], [0.9, 0.1])[0]
     return output
 
 
 def room_combiner(first_room, second_room):
     output = {}
-    for row in set(first_room.keys()).union(set(second_room.keys())):
-        if type(row) == type(""):
-            continue
-        output[row] = {}
-        for column in range(30):
-            if row in first_room.keys():
-                if column in first_room[row].keys():
-                    output[row][column] = 1
-            if row in second_room.keys():
-                if column in second_room[row].keys():
-                    output[row][column] = 1
+    for key in list(first_room.keys()) + list(second_room.keys()):
+        if key in first_room.keys():
+            output[key] = first_room[key]
+        else:
+            output[key] = second_room[key]
     return output
 
 
 def rewrite(map_key, x_coordinate, y_coordinate, content, area):
     for row in range(area):
         for column in range(area):
-            map_key[y_coordinate - row + int(area / 2)][x_coordinate - column + int(area / 2)] = content
+            if (player.authenticate_place(x_coordinate - column + int(area / 2), y_coordinate - row + int(area / 2),
+                                          map_key) and map_key[(y_coordinate - row + int(area / 2),
+                                          x_coordinate - column + int(area / 2))] == 3):
+                map_key[(y_coordinate - row + int(area / 2), x_coordinate - column + int(area / 2))] = (
+                    random.choices(["   ", " . "], [0.9, 0.1]))[0]
+            else:
+                map_key[(y_coordinate - row + int(area / 2), x_coordinate - column + int(area / 2))] = content
     return map_key
 
-
 def display_text_next_to_map(map_key, input_text, rows_down):
-    line = ""
+    line = "   "
     for letter in input_text:
         if rows_down not in set(map_key.keys()):
-            map_key[rows_down] = {30: ""}
+            map_key[rows_down] = {31: ""}
         if letter != "/":
             line += letter
         else:
-            map_key[rows_down][30] = line
+            map_key[rows_down][31] = line
             rows_down += 1
-            line = ""
-    map_key[rows_down][30] = line
+            line = "   "
+    map_key[rows_down][31] = line
     return map_key
 
 
 def map_art(map_key):
-    output = "|/|" * 30 + "\n"
+    output = "|/|" * 31 + "\n"
     for row in range(30):
         if row not in map_key.keys():
-            output += "|/|" * 30
+            output += "|/|" * 31 + "\n"
         else:
-            for column in range(31):
-                if column not in map_key[row].keys():
-                    output += "|/|"
-                elif map_key[row][column] == 1:
+            for column in range(32):
+                if not player.authenticate_place(column, row, map_key):
+                    output += random.choices(["|/|", "000"], [0.95, 0.05])[0]
+                elif map_key[(row, column)] == "   ":
+                    output += "   "
+                elif map_key[(row, column)] == " . ":
                     output += " . "
-                elif map_key[row][column] == 2:
+                elif map_key[(row, column)] == 2:
                     output += " @ "
-                elif map_key[row][column] == 3:
+                elif map_key[(row, column)] == 3:
                     for number in range(3):
-                        output += chr(random.randint(32, 176))
-                elif type(map_key[row][column]) == type(""):
-                    output += map_key[row][column]
-        output += "\n"
+                        output += chr(random.randint(32, 5000))
+                elif map_key[(row, column)] == 4:
+                    output += " T "
+                elif type(map_key[(row, column)]) == type(""):
+                    output += map_key[(row, column)]
+            output += "\n"
     return output
 
 
@@ -92,7 +94,7 @@ def main():
     room3 = room(1, 20, 2, 20)
     room4 = room(10, 10, 19, 19)
     combined_rooms = room_combiner(room1, room_combiner(room2, room_combiner(room3, room4)))
-    rewrite_spot(combined_rooms, 3, 5, 2)
+    rewrite(combined_rooms, 3, 5, 2, 1)
     display_text_next_to_map(combined_rooms, "This is neat!", 10)
     print(map_art(combined_rooms))
 

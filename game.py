@@ -1,12 +1,16 @@
 import map
 import initialize
 import player
+import mobs
 
 
 def game():
+    """
+    Drive the game
+    """
     start_room = initialize.room_radomizer(8, 4)
     current_character = initialize.initialize_mob(player.new_character(), start_room)
-    start_map = initialize.starting_map(start_room, 8, 4, 3)
+    start_map = initialize.starting_map(start_room, 8, 4, 4)
     menu_text = (
             "-" * 53 +
             "/,------.        ,--.   ,--.       ,--.  ,--."

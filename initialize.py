@@ -1,5 +1,7 @@
 import random
 import map
+import mobs
+import player
 
 
 def room_radomizer(max_size, min_size):
@@ -12,10 +14,12 @@ def room_radomizer(max_size, min_size):
 
 
 def room_connector(first_room, second_room):
-    y_start = random.choice(list(first_room.keys()))
-    x_start = random.choice(list(first_room[y_start].keys()))
-    y_end = random.choice(list(second_room.keys()))
-    x_end = random.choice(list(second_room[y_end].keys()))
+    random_place_first_room = random.choice(list(first_room.keys()))
+    y_start = random_place_first_room[0]
+    x_start = random_place_first_room[1]
+    random_place_second_room = random.choice(list(second_room.keys()))
+    y_end = random_place_second_room[0]
+    x_end = random_place_second_room[1]
     if y_start < y_end:
         if x_start < x_end:
             first_hall = map.room(y_end - y_start, 1, x_start, y_start)
@@ -34,6 +38,8 @@ def room_connector(first_room, second_room):
 
 
 def starting_map(starting_room, max_room_size, min_room_size, number_of_rooms):
+    initialize_mob(mobs.time_machine, starting_room)
+    map.rewrite(starting_room, mobs.time_machine["x_coordinate"], mobs.time_machine["y_coordinate"], 4, 1)
     while number_of_rooms != 1:
         starting_room = room_connector(starting_room, room_radomizer(max_room_size, min_room_size))
         number_of_rooms -= 1
@@ -41,8 +47,13 @@ def starting_map(starting_room, max_room_size, min_room_size, number_of_rooms):
 
 
 def initialize_mob(mob, start_room):
-    mob["y_coordinate"] = random.choice(list(start_room.keys()))
-    mob["x_coordinate"] = random.choice(list(start_room[mob["y_coordinate"]].keys()))
+    placed = False
+    while not placed:
+        place = random.choice(list(start_room.keys()))
+        mob["y_coordinate"] = place[0]
+        mob["x_coordinate"] = place[1]
+        if player.authenticate_place(mob["x_coordinate"], mob["y_coordinate"], start_room):
+            placed = True
     return mob
 
 
