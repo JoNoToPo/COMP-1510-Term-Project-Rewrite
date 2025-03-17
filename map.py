@@ -47,41 +47,36 @@ def rewrite(map_key, x_coordinate, y_coordinate, content, area):
 def display_text_next_to_map(map_key, input_text, rows_down):
     line = "   "
     for letter in input_text:
-        if rows_down not in set(map_key.keys()):
-            map_key[rows_down] = {31: ""}
         if letter != "/":
             line += letter
         else:
-            map_key[rows_down][31] = line
+            map_key[(rows_down, 31)] = line
             rows_down += 1
             line = "   "
-    map_key[rows_down][31] = line
+    map_key[(rows_down, 31)] = line
     return map_key
 
 
 def map_art(map_key):
     output = "|/|" * 31 + "\n"
     for row in range(30):
-        if row not in map_key.keys():
-            output += "|/|" * 31 + "\n"
-        else:
-            for column in range(32):
-                if not player.authenticate_place(column, row, map_key):
-                    output += random.choices(["|/|", "000"], [0.95, 0.05])[0]
-                elif map_key[(row, column)] == "   ":
-                    output += "   "
-                elif map_key[(row, column)] == " . ":
-                    output += " . "
-                elif map_key[(row, column)] == 2:
-                    output += " @ "
-                elif map_key[(row, column)] == 3:
-                    for number in range(3):
-                        output += chr(random.randint(32, 5000))
-                elif map_key[(row, column)] == 4:
-                    output += " T "
-                elif type(map_key[(row, column)]) == type(""):
-                    output += map_key[(row, column)]
-            output += "\n"
+        for column in range(32):
+            if not player.authenticate_place(column, row, map_key):
+                output += random.choices(["|/|", "000"], [0.95, 0.05])[0]
+            elif map_key[(row, column)] == "   ":
+                output += "   "
+            elif map_key[(row, column)] == " . ":
+                output += " . "
+            elif map_key[(row, column)] == 2:
+                output += " @ "
+            elif map_key[(row, column)] == 3:
+                for number in range(3):
+                    output += chr(random.randint(32, 5000))
+            elif map_key[(row, column)] == 4:
+                output += " T "
+            elif type(map_key[(row, column)]) == type(""):
+                output += map_key[(row, column)]
+        output += "\n"
     return output
 
 
