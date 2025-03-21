@@ -32,17 +32,18 @@ def room_combiner(first_room, second_room):
     return output
 
 
-def rewrite(map_key, x_coordinate, y_coordinate, content, area):
+def rewrite(map_key, x_coordinate, y_coordinate, content, area=1):
     for row in range(area):
         for column in range(area):
             if (player.authenticate_place(x_coordinate - column + int(area / 2), y_coordinate - row + int(area / 2),
-                                          map_key) and map_key[(y_coordinate - row + int(area / 2),
-                                          x_coordinate - column + int(area / 2))] == 3):
+                                          map_key) and map_key[
+                (y_coordinate - row + int(area / 2), x_coordinate - column + int(area / 2))] == 3):
                 map_key[(y_coordinate - row + int(area / 2), x_coordinate - column + int(area / 2))] = (
                     random.choices(["   ", " . "], [0.9, 0.1]))[0]
             else:
                 map_key[(y_coordinate - row + int(area / 2), x_coordinate - column + int(area / 2))] = content
     return map_key
+
 
 def display_text_next_to_map(map_key, input_text, rows_down):
     line = "   "
@@ -63,12 +64,6 @@ def map_art(map_key):
         for column in range(32):
             if not player.authenticate_place(column, row, map_key):
                 output += random.choices(["|/|", "000"], [0.95, 0.05])[0]
-            elif map_key[(row, column)] == "   ":
-                output += "   "
-            elif map_key[(row, column)] == " . ":
-                output += " . "
-            elif map_key[(row, column)] == 2:
-                output += " @ "
             elif map_key[(row, column)] == 3:
                 for number in range(3):
                     output += chr(random.randint(32, 5000))
