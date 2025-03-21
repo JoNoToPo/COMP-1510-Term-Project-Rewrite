@@ -1,6 +1,5 @@
 import random
 import map
-import mobs
 import player
 
 
@@ -38,8 +37,6 @@ def room_connector(first_room, second_room):
 
 
 def starting_map(starting_room, max_room_size, min_room_size, number_of_rooms):
-    initialize_mob(mobs.time_machine, starting_room)
-    map.rewrite(starting_room, mobs.time_machine["x_coordinate"], mobs.time_machine["y_coordinate"], 4, 1)
     while number_of_rooms != 1:
         starting_room = room_connector(starting_room, room_radomizer(max_room_size, min_room_size))
         number_of_rooms -= 1
