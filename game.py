@@ -1,45 +1,46 @@
 import map
-import initialize
+import initialize as i
 import player
-import mobs
+import text as t
+import levels
 
 
 def game():
     """
     Drive the game
     """
-    start_room = initialize.room_radomizer(8, 4)
-    current_character = initialize.initialize_mob(player.new_character(), start_room)
-    start_map = initialize.starting_map(start_room, 8, 4, 4)
-    menu_text = (
-            "-" * 53 +
-            "/,------.        ,--.   ,--.       ,--.  ,--."
-            "/|  .--. ' ,---. |  |   |  |,--.--.`--',-'  '-. ,---.  "
-            "/|  '--'.'| .-. :|  |.'.|  ||  .--',--.'-.  .-'| .-. : "
-            "/|  |\\  \\ \\   --.|   ,'.   ||  |   |  |  |  |  \\   --. "
-            "/`--' '--' `----''--'   '--'`--'   `--'  `--'   `----' /"
-            + "-" * 53 +
-            "//Your name is " + current_character["name"] + " /and you are going to rewrite History" +
-            "/////////////////To learn how to play type \"help\" at any time,"
-            "/or if you want more details about any action /type \"help (action)\""
-            " and it will be explained to you.")
-    print(map.map_art(map.display_text_next_to_map(
-        map.rewrite(start_map, current_character["x_coordinate"], current_character["y_coordinate"], 2, 1),
-        menu_text, 0)))
+    achieved_goal = True
+    current_character = player.new_character()
+    time_machine = {"x_coordinate": 0, "y_coordinate": 0, "content": " T ", "alive": True}
     while True:
+        if (achieved_goal and current_character["y_coordinate"] == time_machine["y_coordinate"] and
+                current_character["x_coordinate"] == time_machine["x_coordinate"]):
+            current_character["level"] += 1
+            enemies = levels.append_enemies(current_character)
+            start_room = i.room_radomizer(8 + current_character["level"], 4 + current_character["level"])
+            i.initialize_mob(current_character, start_room)
+            time_machine = i.initialize_mob({"x_coordinate": 0, "y_coordinate": 0}, start_room)
+            current_map = i.starting_map(start_room, 8, 4, 2 + current_character["level"])
+            for enemy in enemies:
+                i.initialize_mob(enemy, current_map)
+            map.rewrite(current_map, time_machine["x_coordinate"], time_machine["y_coordinate"], " T ")
+            map.rewrite(current_map, current_character["x_coordinate"], current_character["y_coordinate"], " @ ")
+            level_text = t.line + t.title + t.line + "//Your name is " + current_character["name"] + t.start_text
+            print(map.map_art(map.display_text_next_to_map(
+                current_map, level_text, 0)))
+        achieved_goal = levels.check_level_goal(current_character, enemies)
         player_input = str(input("To play, move to your time machine \"T\":")).strip().lower()
         if player_input:
-            action = player.parse(player_input, current_character, start_map)
+            action = player.parse(player_input, current_character, current_map, achieved_goal)
             if type(action) == type("string"):
                 print(map.map_art(map.display_text_next_to_map(
-                    map.rewrite(start_map, current_character["x_coordinate"], current_character["y_coordinate"],
-                                2, 1), action, 0)))
+                    current_map, action, 0)))
             else:
                 print(map.map_art(map.display_text_next_to_map(
-                    map.rewrite(start_map, current_character["x_coordinate"], current_character["y_coordinate"],
-                                2, 1), menu_text, 0)))
+                    current_map, level_text, 0)))
         else:
-            continue
+            print("Please make an Input")
+
 
 
 def main():
