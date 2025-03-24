@@ -86,7 +86,33 @@ def player_rewrite(user_input: str, character: dict, map_key: dict):
         print("After 'r' please specify the direction you want to rewrite, 'w', 'a', 's', or 'd'")
 
 def how_died(map_key, character):
-    if map_key[character["y_coordinate"], character["x_coordinate"]] == " • ":
-        return "You got shot \nGame Over"
-    if map_key[character["y_coordinate"], character["x_coordinate"]] == " H ":
-        return "Hitler pulls out a knife and stabs you \nGame Over"
+    """
+    Finds how the character.
+
+    :precondition: two dictionaries
+    :postcondition: a string
+    :param map_key: a dictionary containing tuples of the room coordinates as the keys and a string of the contents
+    as the value
+    :param character: a dictionary containing at least two keys called Y-coordinate and X-coordinate corresponding to
+    the location of the character
+    :return: a string corresponding to what killed the chaacter
+
+    >>> print(how_died({(0, 0): input_color(' • ', 'RED')}, {"x_coordinate": 0, "y_coordinate": 0}))
+    You got shot
+    Game Over
+    """
+    place = map_key[(character["y_coordinate"], character["x_coordinate"])]
+    if place == "   " or place == " . ":
+        return "you are the floor now"
+    if place == input_color(" • ", "RED"):
+        return ("You got shot "
+                "\nGame Over")
+    if place == input_color(" H ", "RED"):
+        return ("Hitler pulls out a knife and stabs you "
+                "\nGame Over")
+    if place == 3:
+        return ("Your conciousness fragments over dfferent parts of history "
+                "\nand for a brief moment you feel like you understand everything. "
+                "\nBut just as quickly as that understanding comes, "
+                "\nYour mind breaks from the information overload and you drift into unconsiousness "
+                "\nGame Over")
