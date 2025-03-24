@@ -1,12 +1,14 @@
 import map
 import random
 import text as t
+from text import input_color
 
 
 def new_character():
     first_name = random.choice(["Chris", "Derek", "Peter", "Johnny", "Thomas"])
     last_name = random.choice(["Thompson", "The Axe Morgan", "The Wise", "Jefferson"])
-    character_spread = {"name": first_name + " " + last_name, "level": 0, "x_coordinate": 0, "y_coordinate": 0, "alive": True}
+    character_spread = {"name": first_name + " " + last_name, "level": 0, "x_coordinate": 0, "y_coordinate": 0,
+                        "alive": True, "symbol": input_color(" @ ", "GREEN")}
     return character_spread
 
 
@@ -19,7 +21,7 @@ def parse(user_input, character: dict, map_key: dict, goal_achieved: bool):
         player_rewrite(user_input, character, map_key)
 
 
-def move(user_input: str, character: dict, map_key: dict, goal_achieved: bool):
+def move(user_input: str, character: dict, map_key: dict, goal_achieved=True):
     map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"],
                 random.choices(["   ", " . "], [0.9, 0.1])[0])
     if user_input[0] == "a" and authenticate_move(character["x_coordinate"] - 1, character["y_coordinate"], map_key,
@@ -35,7 +37,7 @@ def move(user_input: str, character: dict, map_key: dict, goal_achieved: bool):
                                                     goal_achieved):
         character["y_coordinate"] -= 1
     map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"],
-                " @ ")
+                character["symbol"])
     return character
 
 def authenticate_place(x_coordinate: int, y_coordinate: int, map_key: dict):
@@ -65,9 +67,13 @@ def player_help(user_input: str) -> str:
 def player_rewrite(user_input: str, character: dict, map_key: dict):
     area = character["level"] * 2 - 1
     try:
+        direction = user_input[1]
+    except IndexError:
+        direction = None
+    try:
         direction = user_input.split()[1][0]
     except IndexError:
-        direction = user_input[1]
+        pass
     if direction == "a":
         map.rewrite(map_key, character["x_coordinate"] - (int(area / 2) + 1), character["y_coordinate"], 3, area)
     elif direction == "d":
