@@ -49,7 +49,7 @@ def initialize_mob(mob, start_room):
         place = random.choice(list(start_room.keys()))
         mob["y_coordinate"] = place[0]
         mob["x_coordinate"] = place[1]
-        if player.authenticate_place(mob["x_coordinate"], mob["y_coordinate"], start_room):
+        if player.authenticate_move(mob["x_coordinate"], mob["y_coordinate"], start_room, False):
             placed = True
     return mob
 
