@@ -67,8 +67,17 @@ def map_art(map_key):
             elif map_key[(row, column)] == 3:
                 for number in range(3):
                     output += chr(random.randint(32, 5000))
-            elif map_key[(row, column)] == 4:
-                output += " T "
+            elif type(map_key[(row, column)]) == type(""):
+                output += map_key[(row, column)]
+        output += "\n"
+    return output
+
+def level_start_display(map_key):
+    output = ""
+    for row in range(30):
+        for column in range(31, 32):
+            if not player.authenticate_place(column, row, map_key):
+                output += ""
             elif type(map_key[(row, column)]) == type(""):
                 output += map_key[(row, column)]
         output += "\n"
