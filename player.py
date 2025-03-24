@@ -77,4 +77,10 @@ def player_rewrite(user_input: str, character: dict, map_key: dict):
     elif direction == "w":
         map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"] - (int(area / 2) + 1), 3, area)
     else:
-        print("invalid input")
+        print("After 'r' please specify the direction you want to rewrite, 'w', 'a', 's', or 'd'")
+
+def how_died(map_key, character):
+    if map_key[character["y_coordinate"], character["x_coordinate"]] == " • ":
+        return "You got shot \nGame Over"
+    if map_key[character["y_coordinate"], character["x_coordinate"]] == " H ":
+        return "Hitler pulls out a knife and stabs you \nGame Over"
