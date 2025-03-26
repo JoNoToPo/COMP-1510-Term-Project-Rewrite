@@ -119,28 +119,21 @@ def mob_ai(mobs, map_key, character):
 
 
 def shot(direction: str, character: dict, map_key: dict):
-    map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"],
-                "   ")
-    if direction[0] == "a" and player.authenticate_place(character["x_coordinate"] - 1, character["y_coordinate"],
-                                                         map_key):
+    map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"], "   ")
+    if (direction[0] == "a"
+            and player.authenticate_place(character["x_coordinate"] - 1, character["y_coordinate"], map_key)):
         character["x_coordinate"] -= 1
-        map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"],
-                    character["symbol"])
-    elif direction[0] == "d" and player.authenticate_place(character["x_coordinate"] + 1, character["y_coordinate"],
-                                                           map_key):
+    elif (direction[0] == "d"
+          and player.authenticate_place(character["x_coordinate"] + 1, character["y_coordinate"], map_key)):
         character["x_coordinate"] += 1
-        map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"],
-                    character["symbol"])
-    elif direction[0] == "s" and player.authenticate_place(character["x_coordinate"], character["y_coordinate"] + 1,
-                                                           map_key):
+    elif (direction[0] == "s"
+          and player.authenticate_place(character["x_coordinate"], character["y_coordinate"] + 1, map_key)):
         character["y_coordinate"] += 1
-        map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"],
-                    character["symbol"])
-    elif direction[0] == "w" and player.authenticate_place(character["x_coordinate"], character["y_coordinate"] - 1,
-                                                           map_key):
+    elif (direction[0] == "w"
+          and player.authenticate_place(character["x_coordinate"], character["y_coordinate"] - 1, map_key)):
         character["y_coordinate"] -= 1
-        map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"],
-                    character["symbol"])
+        map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"], character["symbol"])
+
     return character
 
 
