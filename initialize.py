@@ -43,13 +43,14 @@ def starting_map(starting_room, max_room_size, min_room_size, number_of_rooms):
     return starting_room
 
 
-def initialize_mob(mob, start_room):
+def initialize_mob(mob, map_key, start_room):
     placed = False
     while not placed:
-        place = random.choice(list(start_room.keys()))
+        place = random.choice(list(map_key.keys()))
         mob["y_coordinate"] = place[0]
         mob["x_coordinate"] = place[1]
-        if player.authenticate_move(mob["x_coordinate"], mob["y_coordinate"], start_room, False):
+        if (player.authenticate_move(mob["x_coordinate"], mob["y_coordinate"], map_key, False)
+                and place not in start_room.keys()):
             placed = True
     return mob
 

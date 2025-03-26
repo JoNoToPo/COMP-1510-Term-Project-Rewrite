@@ -1,5 +1,7 @@
 import player
 import random
+from text import input_color
+import text
 
 
 def room(y_length, x_length, x_offset, y_offset):
@@ -13,12 +15,12 @@ def room(y_length, x_length, x_offset, y_offset):
     :param x_length: an integer defining the length of the room in the x-axis
     :param x_offset: an integer defining how far offset the room is from the left in the x-axis
     :param y_offset: an integer defining how far offset the room is from the top in the y-axis
-    :return: a dictionary containing the
+    :return: a dictionary containing the coordinates the room contains
     """
     output = {}
     for row in range(y_offset, y_length + y_offset):
         for column in range(x_offset + 1, x_length + x_offset + 1):
-            output[(row, column)] = random.choices(["   ", " . "], [0.9, 0.1])[0]
+            output[(row, column)] = "   "
     return output
 
 
@@ -38,8 +40,7 @@ def rewrite(map_key, x_coordinate, y_coordinate, content, area=1):
             if (player.authenticate_place(x_coordinate - column + int(area / 2), y_coordinate - row + int(area / 2),
                                           map_key) and map_key[
                 (y_coordinate - row + int(area / 2), x_coordinate - column + int(area / 2))] == 3):
-                map_key[(y_coordinate - row + int(area / 2), x_coordinate - column + int(area / 2))] = (
-                    random.choices(["   ", " . "], [0.9, 0.1]))[0]
+                map_key[(y_coordinate - row + int(area / 2), x_coordinate - column + int(area / 2))] = "   "
             else:
                 map_key[(y_coordinate - row + int(area / 2), x_coordinate - column + int(area / 2))] = content
     return map_key
@@ -58,15 +59,27 @@ def display_text_next_to_map(map_key, input_text, rows_down):
     return map_key
 
 
-def map_art(map_key):
+def map_art(map_key, character):
     output = "|/|" * 31 + "\n"
     for row in range(30):
         for column in range(32):
             if not player.authenticate_place(column, row, map_key):
-                output += random.choices(["|/|", "000"], [0.95, 0.05])[0]
+                if character["level"] == 4:
+                    output += input_color(random.choices(["|/|", "000"], [0.95, 0.05])[0], "WHITE", "WHITE")
+                elif character["level"] == 3:
+                    output += input_color(random.choices(["|/|", "|||"], [0.95, 0.05])[0], "GREEN")
+                elif character["level"] == 2:
+                    output += input_color(random.choices(["]]]", "[[["], [0.95, 0.05])[0], "DARK_GRAY", "BLACK")
+                elif character["level"] == 1:
+                    output += input_color(random.choices(["0|0", "0|0"], [0.95, 0.05])[0], "BLUE", "DARK_GRAY")
+                else:
+                    output += random.choices(["000", "0|0"], [0.95, 0.05])[0]
             elif map_key[(row, column)] == 3:
                 for number in range(3):
-                    output += chr(random.randint(32, 5000))
+                    output += input_color(
+                        chr(random.randint(48, 5000)),
+                        random.choice(text.colors),
+                        random.choice(text.colors))
             elif type(map_key[(row, column)]) == type(""):
                 output += map_key[(row, column)]
         output += "\n"

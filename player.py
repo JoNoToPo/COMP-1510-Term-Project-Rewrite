@@ -1,5 +1,7 @@
 import map
 import random
+
+import text
 import text as t
 from text import input_color
 
@@ -7,7 +9,7 @@ from text import input_color
 def new_character():
     first_name = random.choice(["Chris", "Derek", "Peter", "Johnny", "Thomas"])
     last_name = random.choice(["Thompson", "The Axe Morgan", "The Wise", "Jefferson"])
-    character_spread = {"name": first_name + " " + last_name, "level": 0, "x_coordinate": 0, "y_coordinate": 0,
+    character_spread = {"name": first_name + " " + last_name, "level": 3, "x_coordinate": 0, "y_coordinate": 0,
                         "alive": True, "symbol": input_color(" @ ", "GREEN")}
     return character_spread
 
@@ -19,11 +21,13 @@ def parse(user_input, character: dict, map_key: dict, goal_achieved: bool):
         return player_help(user_input)
     elif user_input[0] == "r":
         player_rewrite(user_input, character, map_key)
+    elif user_input.lower().strip() == "level text":
+        return text.level_text(character)
 
 
 def move(user_input: str, character: dict, map_key: dict, goal_achieved=True):
     map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"],
-                random.choices(["   ", " . "], [0.9, 0.1])[0])
+                "   ")
     if user_input[0] == "a" and authenticate_move(character["x_coordinate"] - 1, character["y_coordinate"], map_key,
                                                   goal_achieved):
         character["x_coordinate"] -= 1
@@ -40,6 +44,7 @@ def move(user_input: str, character: dict, map_key: dict, goal_achieved=True):
                 character["symbol"])
     return character
 
+
 def authenticate_place(x_coordinate: int, y_coordinate: int, map_key: dict):
     if (y_coordinate, x_coordinate) in map_key.keys():
         return True
@@ -48,19 +53,20 @@ def authenticate_place(x_coordinate: int, y_coordinate: int, map_key: dict):
 
 def authenticate_move(x_coordinate: int, y_coordinate: int, map_key: dict, goal_achieved: bool):
     if authenticate_place(x_coordinate, y_coordinate, map_key):
-        if map_key[(y_coordinate, x_coordinate)] == "   " or " . ":
+        if map_key[(y_coordinate, x_coordinate)] == "   ":
             return True
         if goal_achieved:
-            if map_key[(y_coordinate, x_coordinate)] == " T ":
+            if map_key[(y_coordinate, x_coordinate)] == input_color(" T ", "BRIGHT_BLUE", "DARK_GRAY"):
                 return True
     return False
 
 
 def player_help(user_input: str) -> str:
+    output = ""
     if user_input == "help":
-        output = t.line + t.help
+        output = t.line + t.help_text
     if user_input == "help" + "w" or "a" or "s" or "d":
-        output = t.line + t.help
+        output = t.line + t.help_text
     return output
 
 
@@ -85,6 +91,7 @@ def player_rewrite(user_input: str, character: dict, map_key: dict):
     else:
         print("After 'r' please specify the direction you want to rewrite, 'w', 'a', 's', or 'd'")
 
+
 def how_died(map_key, character):
     """
     Finds how the character.
@@ -97,22 +104,58 @@ def how_died(map_key, character):
     the location of the character
     :return: a string corresponding to what killed the chaacter
 
-    >>> print(how_died({(0, 0): input_color(' • ', 'RED')}, {"x_coordinate": 0, "y_coordinate": 0}))
-    You got shot
+    >>> print(how_died({(0, 0): input_color(' • ', 'BRIGHT_RED')}, {"x_coordinate": 0, "y_coordinate": 0}))
+    Whether by a bullet or a shard of rock, the result is the same.
+    You got shot.
     Game Over
     """
     place = map_key[(character["y_coordinate"], character["x_coordinate"])]
-    if place == "   " or place == " . ":
-        return "you are the floor now"
-    if place == input_color(" • ", "RED"):
-        return ("You got shot "
-                "\nGame Over")
-    if place == input_color(" H ", "RED"):
-        return ("Hitler pulls out a knife and stabs you "
-                "\nGame Over")
-    if place == 3:
-        return ("Your conciousness fragments over dfferent parts of history "
+    if not place:
+        return (f"\n{you_died}"
+                "\nYou somehow became a wall."
+                "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
+    elif place == "   " or place == " . ":
+        return (f"\n{you_died}"
+                "\nYou are the floor now?"
+                "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
+    elif place == input_color(" • ", "BRIGHT_RED"):
+        return (f"\n{you_died}"
+                "\nWhether by a bullet or a shard of rock, the result is the same."
+                "\nYou got shot."
+                "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
+    elif place == input_color(" H ", "RED"):
+        return ("Hitler pulls out a knife and stabs you."
+                "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
+    elif place == 3:
+        return (f"\n{you_died}"
+                "\nYour consciousness fragments over different parts of history "
                 "\nand for a brief moment you feel like you understand everything. "
                 "\nBut just as quickly as that understanding comes, "
-                "\nYour mind breaks from the information overload and you drift into unconsiousness "
-                "\nGame Over")
+                "\nYour mind breaks from the information overload and you drift into unconsciousness."
+                "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
+    elif place == "demolished by a meteor":
+        return (f"\n{you_died}"
+                "\nThe last thing you see is the meteor crashing down onto the planet right above your head."
+                "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
+    elif place == "Great-Grandfather":
+        return (f"\n{you_died}"
+                f"\n\n{killed_freindly}"
+                "\noops you killed one of your Great-Grandfathers."
+                "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
+    elif place == "Time Machine":
+        return (f"\n{you_died}"
+                f"\n\n{killed_freindly}"
+                f"\noops you destroyed your time machine."
+                "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
+    elif place == f"{"Great-" * 500}Grandfather":
+        return (f"\n{you_died}"
+                f"\n\n{killed_freindly}"
+                f"\nooops you killed one of your {"Great-" * 500}Grandfather."
+                "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
+
+killed_freindly = "You look at your hand as it becomes transparent. \nThe rewrite device in your hand clatters to the ground."
+you_died = (f",--.   ,--.                 ,------.  ,--.          ,--. "
+            f"\n \  `.'  /,---. ,--.,--.    |  .-.  \ `--' ,---.  ,-|  | "
+            f"\n  '.    /| .-. ||  ||  |    |  |  \  :,--.| .-. :' .-. | "
+            f"\n    |  | ' '-' ''  ''  '    |  '--'  /|  |\   --.\ `-' | "
+            f"\n    `--'  `---'  `----'     `-------' `--' `----' `---'  ")
