@@ -4,8 +4,75 @@ import map
 import player
 from text import input_color
 
+hitler = {"name": "Hitler", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
+          "symbol": input_color(" H ", "RED"),
+          "ai": ["move", "shoot"]}
+
+meteor = {"name": "meteor", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
+          "symbol": input_color(" M ", "RED"),
+          "ai": ["fall", "countdown"], "time left": 50}
+
+dummy = {"name": "Dummy", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
+         "symbol": input_color(" D ", "RED"), "ai": ["stay"]}
+
+professor = {"name": "Professor", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
+             "symbol": input_color(" P ", "YELLOW"),
+             "ai": ["stay"]}
+
+great_grandfather = {"name": "Great-Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
+                     "symbol": input_color(" G ", "YELLOW"),
+                     "ai": ["stay"]}
+
+greater_grandfather = {"name": f"{"Great-" * 500}Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
+                       "symbol": input_color(" G ", "YELLOW"),
+                       "ai": ["stay"]}
+
+greatest_grandfather = {"name": "GREATEST GRANDFATHER", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
+                        "symbol": input_color(" G ", "WHITE", "BRIGHT_RED"),
+                        "ai": ["move", "rewrite"], "level": 4}
+
+
+def append_mobs(character):
+    """
+    Creates a list of mobs based on what level the player is.
+
+    :precondition: a dictionary
+    :postcondition: a list
+    :param character: the player character dictionary with at least one key named 'level' with an integer value
+    :return: a list containing dictionaries pertaining to the mobs in the level
+
+    >>> append_mobs({"level": 0})
+    []
+    """
+    if character["level"] == 1:
+        return [dummy, professor]
+    elif character["level"] == 2:
+        return [hitler, great_grandfather, great_grandfather]
+    elif character["level"] == 3:
+        return [greater_grandfather, greater_grandfather, greater_grandfather, greater_grandfather, greater_grandfather,
+                meteor]
+    elif character["level"] == 4:
+        return [greatest_grandfather]
+    else:
+        return []
+
 
 def check_level_goal(character, mobs):
+    """
+    Finds if the goal of a level has been completed.
+
+    :precondition: two dictionaries
+    :postconditon: a boolean value
+    :param character: the player character dictionary with at least one key named 'level' with an integer value
+    :param mobs: a list containing dictionaries each containing a key called 'alive' with a boolean value and a
+    key called 'name' with a string value
+    :return: the correct boolean value pertaining to whether the level goal has been achieved or not
+
+    >>> check_level_goal({"level": 1}, [{"name": "name", "alive": False}])
+    True
+    >>> check_level_goal({"level": 5}, [{"name": "name", "alive": False}])
+    False
+    """
     for mob in mobs:
         if mob["name"] == "meteor":
             return False
@@ -19,123 +86,137 @@ def check_level_goal(character, mobs):
         return False
 
 
-def append_mobs(character):
-    if character["level"] == 1:
-        return [{"name": "Dummy", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
-                 "symbol": input_color(" D ", "RED"), "ai": "stay"},
-                {"name": "Professor", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
-                 "symbol": input_color(" P ", "YELLOW"),
-                 "ai": "stay"}]
-    elif character["level"] == 2:
-        return [{"name": "Hitler", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
-                 "symbol": input_color(" H ", "RED"),
-                 "ai": ["move", "shoot"]},
-                {"name": "Great-Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
-                 "symbol": input_color(" G ", "YELLOW"),
-                 "ai": "stay"},
-                {"name": "Great-Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
-                 "symbol": input_color(" G ", "YELLOW"),
-                 "ai": "stay"}
-                ]
-    elif character["level"] == 3:
-        return [{"name": "meteor", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
-                 "symbol": input_color(" M ", "RED"),
-                 "ai": ["fall", "countdown"], "time left": 50},
-                {"name": f"{"Great-" * 500}Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
-                 "symbol": input_color(" G ", "YELLOW"),
-                 "ai": "stay"},
-                {"name": f"{"Great-" * 500}Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
-                 "symbol": input_color(" G ", "YELLOW"),
-                 "ai": "stay"},
-                {"name": f"{"Great-" * 500}Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
-                 "symbol": input_color(" G ", "YELLOW"),
-                 "ai": "stay"}]
-    elif character["level"] == 4:
-        return [{"name": "GREATEST GRANDFATHER", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
-                 "symbol": input_color(" G ", "BRIGHT_RED", "WHITE"),
-                 "ai": ["move", "rewrite"], "level": 4}]
-    else:
-        return []
-
-
 def overwritten(map_key, mobs, character):
+    """
+    Checks if a mob has been overwritten.
+
+    :precondition: two dictionaries and a list of dictionaries
+    :postconditon: a list of dictionaries
+    :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple as the key and any
+    values
+    :param mobs: a list of dictionaries containing mob stats which are at minimum, the key strings "alive", "name",
+     "y_coordinate", "x_coordinate", and "symbol"
+    :param character: the dictionary containing the player character's stats
+    :return: each mob dictionary in the mobs list modified correctly to have the value corresponding to whether or not
+    they have been overwritten
+    """
     for mob in mobs:
         if map_key[(mob["y_coordinate"], mob["x_coordinate"])] != mob["symbol"]:
             mob["alive"] = False
-            if mob["name"] == "bullet" or mob["name"] == "meteor":
-                mobs.remove(mob)
-            elif (mob["name"] == "Great-Grandfather"
-                  or mob["name"] == "Great-Grandfather"
-                  or mob["name"] == "Professor"
-                  or mob["name"] == "Time Machine"
-                  or mob["name"] == f"{"Great-" * 500}Grandfather"):
-                if map_key[(mob["y_coordinate"], mob["x_coordinate"])] == 3:
-                    map_key[(character["y_coordinate"], character["x_coordinate"])] = mob["name"]
-                else:
-                    mobs.remove(mob)
+            happens_when_died(map_key, mob, mobs, character)
+
+
+def happens_when_died(map_key, mob, mobs, character):
+    """
+    Either kills the player or removes the mob depending on the mob's name.
+
+    :precondition: the dictionary for the map, the current mob dictionary, a list of mob dictionaries, and
+    the player dictionary
+    :postcondition: either the position or character overwritten with the name of the mob or the mob being removed from
+    the mob list
+    :param map_key:
+    """
+    if mob["name"] == "bullet" or mob["name"] == "meteor":
+        mobs.remove(mob)
+    if mob["name"] == "Time Machine":
+        if map_key[(mob["y_coordinate"], mob["x_coordinate"])] == 3:
+            map_key[(character["y_coordinate"], character["x_coordinate"])] = mob["name"]
+        elif map_key[(mob["y_coordinate"], mob["x_coordinate"])] != character["symbol"]:
+            mob["alive"] = True
+            map_key[(mob["y_coordinate"], mob["x_coordinate"])] = mob["symbol"]
+    elif (mob["name"] == "Great-Grandfather"
+          or mob["name"] == "Professor"
+          or mob["name"] == f"{"Great-" * 500}Grandfather"):
+        if map_key[(mob["y_coordinate"], mob["x_coordinate"])] == 3:
+            map_key[(character["y_coordinate"], character["x_coordinate"])] = mob["name"]
+        else:
+            mobs.remove(mob)
 
 
 def mob_ai(mobs, map_key, character):
     overwritten(map_key, mobs, character)
     for mob in mobs:
         if mob["alive"]:
-            for ai in mob["ai"]:
-                if ai == "move":
-                    player.move(random.choices(["w", "a", "s", "d"]), mob, map_key)
-                    map.rewrite(map_key, mob["x_coordinate"], mob["y_coordinate"], mob["symbol"])
-                if ai == "shoot" and random.random() > .5:
-                    direction = random.choices([("w", 0, -1), ("a", -1, 0), ("s", 0, 1), ("d", 1, 0)])
-                    mobs.append({"name": "bullet", "x_coordinate": mob["x_coordinate"] + direction[0][1],
-                                 "y_coordinate": mob["y_coordinate"] + direction[0][2], "alive": True,
-                                 "symbol": input_color(" • ", "BRIGHT_RED"),
-                                 "ai": ["shot"], "direction": direction[0][0]})
-                if ai == "shot":
-                    shot(mob["direction"], mob, map_key)
+            ai_parse(mob, mobs, map_key, character)
+    for mob in mobs:
+        if mob["alive"]:
+            if not (mob["name"] == "bullet" and
+                    map_key[(mob["y_coordinate"], mob["x_coordinate"])] == input_color(" M ", "RED")):
+                map.rewrite(map_key, mob["x_coordinate"], mob["y_coordinate"], mob["symbol"])
 
-                if (ai == "fall" and mob["time left"] == 48) or (ai == "fall" and mob["time left"] == 50):
-                    direction = random.choice([random.choices([0, 1], k=2), random.choices([0, -1], k=2)])
-                    try:
-                        if (map_key[(mob["y_coordinate"] + direction[1], mob["x_coordinate"] + direction[0])] !=
-                                input_color(" • ", "BRIGHT_RED")):
-                            mobs.append({"name": "meteor", "x_coordinate": mob["x_coordinate"] + direction[0],
-                                         "y_coordinate": mob["y_coordinate"] + direction[1], "alive": True,
-                                         "symbol": input_color(" M ", "RED"),
-                                         "ai": ["fall", "countdown"], "time left": 49})
-                    except KeyError:
-                        mobs.append({"name": "meteor", "x_coordinate": mob["x_coordinate"] + direction[0],
-                                     "y_coordinate": mob["y_coordinate"] + direction[1], "alive": True,
-                                     "symbol": input_color(" M ", "RED"),
-                                     "ai": ["fall", "countdown"], "time left": 49})
-                    for mob2 in mobs:
-                        if mob2["alive"]:
-                            map.rewrite(map_key, mob2["x_coordinate"], mob2["y_coordinate"],
-                                        mob2["symbol"])
-                if ai == "countdown":
-                    mob["time left"] -= 1
-                    if mob["time left"] == 0:
-                        map_key[(character["y_coordinate"], character["x_coordinate"])] = "demolished by a meteor"
-                if ai == "rewrite" and random.random() > .5:
-                    player.player_rewrite(random.choice(["rw", "ra", "rs", "rd"]), mob, map_key)
+
+def ai_parse(mob, mobs, map_key, character):
+    direction = random.choices([("w", 0, -1), ("a", -1, 0), ("s", 0, 1), ("d", 1, 0)])
+    for ai in mob["ai"]:
+        if ai == "move":
+            player.move(direction[0], mob, map_key)
+        if (ai == "shoot" and random.random() > .3
+                and player.authenticate_place(mob["x_coordinate"] + direction[0][1],
+                                              mob["y_coordinate"] + direction[0][2], map_key)):
+            mobs.append({"name": "bullet", "x_coordinate": mob["x_coordinate"] + direction[0][1],
+                         "y_coordinate": mob["y_coordinate"] + direction[0][2], "alive": True,
+                         "symbol": input_color(" • ", "BRIGHT_RED"),
+                         "ai": ["shot"], "direction": direction[0][0], "just_shot": True})
+        if ai == "shot":
+            shot(mob["direction"], mob, map_key)
+        if ai == "fall":
+            fall(mob, mobs, map_key)
+        if ai == "countdown":
+            countdown(mob, map_key, character)
+        if ai == "rewrite" and random.random() > .5:
+            player.player_rewrite(random.choice(["rw", "ra", "rs", "rd"]), mob, map_key)
+
+
+def countdown(mob, map_key, character):
+    mob["time left"] -= 1
+    if mob["time left"] == 0:
+        map_key[(character["y_coordinate"], character["x_coordinate"])] = "demolished by a meteor"
+
+
+def fall(mob, mobs, map_key):
+    if mob["time left"] == 48 or mob["time left"] == 50:
+        times = 20
+        while times > 0:
+            direction = random.choice([random.choices([0, 1], k=2), random.choices([0, -1], k=2)])
+            times -= 1
+            if (mob["y_coordinate"] + direction[1], mob["x_coordinate"] + direction[0]) in map_key.keys():
+                if ((map_key[(mob["y_coordinate"] + direction[1], mob["x_coordinate"] + direction[0])]
+                     == input_color(" M ", "BRIGHT_RED")) or
+                        map_key[(mob["y_coordinate"] + direction[1], mob["x_coordinate"] + direction[0])] == 3):
+                    continue
+            mobs.append({"name": "meteor", "x_coordinate": mob["x_coordinate"] + direction[0],
+                         "y_coordinate": mob["y_coordinate"] + direction[1], "alive": True,
+                         "symbol": input_color(" M ", "RED"),
+                         "ai": ["fall", "countdown", "shoot"], "time left": 49})
+            times = 0
 
 
 def shot(direction: str, character: dict, map_key: dict):
-    map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"], "   ")
-    if (direction[0] == "a"
-            and player.authenticate_place(character["x_coordinate"] - 1, character["y_coordinate"], map_key)):
-        character["x_coordinate"] -= 1
-    elif (direction[0] == "d"
-          and player.authenticate_place(character["x_coordinate"] + 1, character["y_coordinate"], map_key)):
-        character["x_coordinate"] += 1
-    elif (direction[0] == "s"
-          and player.authenticate_place(character["x_coordinate"], character["y_coordinate"] + 1, map_key)):
-        character["y_coordinate"] += 1
-    elif (direction[0] == "w"
-          and player.authenticate_place(character["x_coordinate"], character["y_coordinate"] - 1, map_key)):
-        character["y_coordinate"] -= 1
-        map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"], character["symbol"])
+    if not character["just_shot"]:
+        map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"], "   ")
+        if (direction[0] == "a"
+                and authenticate_shot(character["x_coordinate"] - 1, character["y_coordinate"], map_key)):
+            character["x_coordinate"] -= 1
+        elif (direction[0] == "d"
+              and authenticate_shot(character["x_coordinate"] + 1, character["y_coordinate"], map_key)):
+            character["x_coordinate"] += 1
+        elif (direction[0] == "s"
+              and authenticate_shot(character["x_coordinate"], character["y_coordinate"] + 1, map_key)):
+            character["y_coordinate"] += 1
+        elif (direction[0] == "w"
+              and authenticate_shot(character["x_coordinate"], character["y_coordinate"] - 1, map_key)):
+            character["y_coordinate"] -= 1
+        else:
+            character["alive"] = False
+    else:
+        character["just_shot"] = False
 
-    return character
-
+def authenticate_shot(x_coordinate, y_coordinate, map_key: dict):
+    if player.authenticate_place(x_coordinate, y_coordinate, map_key):
+        if (map_key[(y_coordinate, x_coordinate)] != 3 and
+                map_key[(y_coordinate, x_coordinate)] != input_color(" M ", "RED")):
+            return True
+    return False
 
 def main():
     """
