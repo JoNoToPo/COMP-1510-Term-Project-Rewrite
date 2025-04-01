@@ -92,13 +92,24 @@ def overwritten(map_key, mobs, character):
 
     :precondition: two dictionaries and a list of dictionaries
     :postconditon: a list of dictionaries
-    :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple as the key and any
-    values
+    :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple as the key and
+    an integer or string as the value
     :param mobs: a list of dictionaries containing mob stats which are at minimum, the key strings "alive", "name",
      "y_coordinate", "x_coordinate", and "symbol"
     :param character: the dictionary containing the player character's stats
     :return: each mob dictionary in the mobs list modified correctly to have the value corresponding to whether or not
     they have been overwritten
+
+    >>> map_test = {(0, 0): "anything"}
+    >>> mob_list = [{"name": "bullet", "x_coordinate": 0, "y_coordinate": 0, "alive": True, "symbol": "B"}]
+    >>> test_character = {"x_coordinate": 0, "y_coordinate": 0, "symbol": "C"}
+    >>> overwritten(map_test, mob_list, test_character)
+    >>> print(mob_list)
+    []
+    >>> mob_list = [{"name": "Time Machine", "x_coordinate": 0, "y_coordinate": 0, "alive": True, "symbol": "T"}]
+    >>> overwritten(map_test, mob_list, test_character)
+    >>> print(map_test)
+    {(0, 0): 'T'}
     """
     for mob in mobs:
         if map_key[(mob["y_coordinate"], mob["x_coordinate"])] != mob["symbol"]:
@@ -114,7 +125,25 @@ def happens_when_died(map_key, mob, mobs, character):
     the player dictionary
     :postcondition: either the position or character overwritten with the name of the mob or the mob being removed from
     the mob list
-    :param map_key:
+    :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple as the key and
+    an integer or string as the value
+    :param mob: a dictionary within mobs containing mob stats which are at minimum, the key strings "name",
+    "y_coordinate", "x_coordinate", and "symbol"
+    :param mobs:a list of dictionaries containing mob stats which are at minimum, the key strings "name",
+    "y_coordinate", "x_coordinate", and "symbol"
+    :param character: the dictionary containing the player character's stats
+    :return: the mob either being removed from the mobs list or overwrite the character's position in the map
+
+    >>> map_test = {(0, 0): "anything"}
+    >>> mob_list = [{"name": "bullet", "x_coordinate": 0, "y_coordinate": 0, "symbol": "B"}]
+    >>> test_character = {"x_coordinate": 0, "y_coordinate": 0, "symbol": "C"}
+    >>> happens_when_died(map_test, mob_list[0], mob_list, test_character)
+    >>> print(mob_list)
+    []
+    >>> mob_list = [{"name": "Time Machine", "x_coordinate": 0, "y_coordinate": 0, "symbol": "T"}]
+    >>> happens_when_died(map_test, mob_list[0], mob_list, test_character)
+    >>> print(map_test)
+    {(0, 0): 'T'}
     """
     if mob["name"] == "bullet" or mob["name"] == "meteor":
         mobs.remove(mob)
@@ -134,6 +163,9 @@ def happens_when_died(map_key, mob, mobs, character):
 
 
 def mob_ai(mobs, map_key, character):
+    """
+
+    """
     overwritten(map_key, mobs, character)
     for mob in mobs:
         if mob["alive"]:
@@ -192,6 +224,25 @@ def fall(mob, mobs, map_key):
 
 
 def shot(direction: str, character: dict, map_key: dict):
+    """
+    Moves a shot character in a given direction if it wasn't just shot, and it doesn't hit a barrier
+
+    :precondition: a string and two dictionaries
+    :postcondition: character dictionary modified
+    :param direction: a string of either a, d, s, or w
+    :param character: the dictionary of the character that was shot
+    :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple as the key and
+    an integer or string as the value
+    :return: True if the bullet can fly to that coordinate False if not
+
+    >>> test_bullet = {"name": "bullet", "x_coordinate": 0, "y_coordinate": 0, "alive": True, "symbol": "B", "just_shot": False}
+    >>> test_map = {(0, 0): "B"}
+    >>> shot("d", test_bullet, test_map)
+    >>> print(test_map)
+    {(0, 0): '   '}
+    >>> print(test_bullet["alive"])
+    False
+    """
     if not character["just_shot"]:
         map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"], "   ")
         if (direction[0] == "a"
@@ -212,6 +263,22 @@ def shot(direction: str, character: dict, map_key: dict):
         character["just_shot"] = False
 
 def authenticate_shot(x_coordinate, y_coordinate, map_key: dict):
+    """
+    Checks to see if the place the bullet is flying to is blocked.
+
+    :precondition: two integers and a dictionary
+    :postcondition: a boolean value
+    :param x_coordinate: an integer
+    :param y_coordinate: an integer
+    :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple as the key and
+    an integer or string as the value
+    :return: True if the bullet can fly to that coordinate False if not
+
+    >>> authenticate_shot(0, 0, {(0, 0): "anything_else"})
+    True
+    >>> authenticate_shot(0, 1, {(0, 0): "anything_else"})
+    False
+    """
     if player.authenticate_place(x_coordinate, y_coordinate, map_key):
         if (map_key[(y_coordinate, x_coordinate)] != 3 and
                 map_key[(y_coordinate, x_coordinate)] != input_color(" M ", "RED")):
