@@ -1,3 +1,5 @@
+from itertools import permutations, cycle
+
 import player
 import random
 from text import input_color
@@ -16,15 +18,28 @@ def room(y_length, x_length, x_offset, y_offset):
     :param x_offset: an integer defining how far offset the room is from the left in the x-axis
     :param y_offset: an integer defining how far offset the room is from the top in the y-axis
     :return: a dictionary containing the coordinates the room contains
+
+    >>> room(1, 1, 1, 1)
+    {(2, 2): '   '}
+
     """
     output = {}
-    for row in range(y_offset, y_length + y_offset):
+    for row in range(y_offset + 1, y_length + y_offset + 1):
         for column in range(x_offset + 1, x_length + x_offset + 1):
             output[(row, column)] = "   "
     return output
 
 
 def room_combiner(first_room, second_room):
+    """
+    Combines the two rooms into a single dictionary even if they overlap
+
+    :precondition: two dictionaries
+    :postcondition: one dictionary
+    :param first_room: a dictionary containing a tuple with two integers as the keys and a homogeneous value
+    :param second_room: a dictionary containing a tuple with two integers as the keys and a homogeneous value
+    :return: a dictionary containing
+    """
     output = {}
     for key in list(first_room.keys()) + list(second_room.keys()):
         if key in first_room.keys():
@@ -35,6 +50,19 @@ def room_combiner(first_room, second_room):
 
 
 def rewrite(map_key, x_coordinate, y_coordinate, content, area=1):
+    """
+    Rewrites the values of a given dictionary at an (x,y) coordinate
+
+    :precondition: a dictionary, two integers corresponding to the (x,y) coordinates,
+     and any type of content as a value
+    :postcondition: the values of the corresponding locations replaced by the value of "content"
+    :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple as the key and
+    an integer or string as the value
+    :param x_coordinate: an integer
+    :param y_coordinate: en integer
+    :param content: a string or integer
+    :param area: a positive integer
+    """
     for row in range(area):
         for column in range(area):
             if (player.authenticate_place(x_coordinate - column + int(area / 2), y_coordinate - row + int(area / 2),
@@ -46,7 +74,23 @@ def rewrite(map_key, x_coordinate, y_coordinate, content, area=1):
     return map_key
 
 
-def display_text_next_to_map(map_key, input_text, rows_down):
+def display_text_next_to_map(map_key, input_text, rows_down=0):
+    """
+    Breaks up input text for each '/' and places it at the end of each row of the map.
+
+    :precondition: a dictionary a string and an integer
+    :postcondition: a dictionary
+    :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple as the key and
+    an integer or string as the value
+    :param input_text: a string
+    :param rows_down: an integer
+    :return: the map key dictionary modified to have the input text at the end of each row
+
+    >>> display_text_next_to_map({}, "this/is/a/test")
+    {(0, 31): '   this', (1, 31): '   is', (2, 31): '   a', (3, 31): '   test'}
+    >>> display_text_next_to_map({}, "basecase")
+    {(0, 31): '   basecase'}
+    """
     line = "   "
     for letter in input_text:
         if letter != "/":
@@ -60,20 +104,21 @@ def display_text_next_to_map(map_key, input_text, rows_down):
 
 
 def map_art(map_key, character):
-    output = "|/|" * 31 + "\n"
-    for row in range(30):
+    output = ""
+    wall = ["   ", cycle(["/|/", "\\|\\"]), cycle(["_|_", "__|", "___", "|__"]), cycle(["\\\\/", "/\\\\"])]
+    for row in range(31):
         for column in range(32):
             if not player.authenticate_place(column, row, map_key):
                 if character["level"] == 4:
-                    output += input_color(random.choices(["|/|", "000"], [0.95, 0.05])[0], "WHITE", "WHITE")
+                    output += input_color(wall[0], "WHITE", "WHITE")
                 elif character["level"] == 3:
-                    output += input_color(random.choices(["|/|", "|||"], [0.95, 0.05])[0], "GREEN")
+                    output += input_color(next(wall[1]), "GREEN")
                 elif character["level"] == 2:
-                    output += input_color(random.choices(["]]]", "[[["], [0.95, 0.05])[0], "DARK_GRAY", "BLACK")
+                    output += input_color(next(wall[2]), "DARK_GRAY", "BLACK")
                 elif character["level"] == 1:
-                    output += input_color(random.choices(["0|0", "0|0"], [0.95, 0.05])[0], "BLUE", "DARK_GRAY")
+                    output += input_color(next(wall[3]), "BLUE", "DARK_GRAY")
                 else:
-                    output += random.choices(["000", "0|0"], [0.95, 0.05])[0]
+                    output += input_color("000", "WHITE", "WHITE")
             elif map_key[(row, column)] == 3:
                 for number in range(3):
                     output += input_color(
@@ -85,14 +130,12 @@ def map_art(map_key, character):
         output += "\n"
     return output
 
-def level_start_display(map_key):
+def level_start_display(input_text):
     output = ""
-    for row in range(30):
-        for column in range(31, 32):
-            if not player.authenticate_place(column, row, map_key):
-                output += ""
-            elif type(map_key[(row, column)]) == type(""):
-                output += map_key[(row, column)]
+    map_key = {}
+    display_text_next_to_map(map_key, input_text)
+    for row in range(len(map_key) - 1):
+        output += map_key[(row, 31)]
         output += "\n"
     return output
 
