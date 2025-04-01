@@ -8,20 +8,20 @@ from text import input_color
 
 def new_character():
     first_name = random.choice(["Chris", "Derek", "Peter", "Johnny", "Thomas"])
-    last_name = random.choice(["Thompson", "The Axe Morgan", "The Wise", "Jefferson"])
-    character_spread = {"name": first_name + " " + last_name, "level": 3, "x_coordinate": 0, "y_coordinate": 0,
+    last_name = random.choice(["Thompson", "\"The Axe\" Morgan", "The Wise", "Jefferson"])
+    character_spread = {"name": first_name + " " + last_name, "level": 0, "x_coordinate": 0, "y_coordinate": 0,
                         "alive": True, "symbol": input_color(" @ ", "GREEN")}
     return character_spread
 
 
 def parse(user_input, character: dict, map_key: dict, goal_achieved: bool):
-    if user_input in ["w", "a", "s", "d"]:
+    if user_input[0] in ["w", "a", "s", "d"]:
         move(user_input, character, map_key, goal_achieved)
     elif user_input.split()[0] == "help":
         return player_help(user_input)
     elif user_input[0] == "r":
         player_rewrite(user_input, character, map_key)
-    elif user_input.lower().strip() == "level text":
+    elif user_input == "level text":
         return text.level_text(character)
 
 
@@ -50,13 +50,12 @@ def authenticate_place(x_coordinate: int, y_coordinate: int, map_key: dict):
         return True
     return False
 
-
 def authenticate_move(x_coordinate: int, y_coordinate: int, map_key: dict, goal_achieved: bool):
     if authenticate_place(x_coordinate, y_coordinate, map_key):
         if map_key[(y_coordinate, x_coordinate)] == "   ":
             return True
         if goal_achieved:
-            if map_key[(y_coordinate, x_coordinate)] == input_color(" T ", "BRIGHT_BLUE", "DARK_GRAY"):
+            if map_key[(y_coordinate, x_coordinate)] == input_color(" T ", "DARK_GRAY", "BRIGHT_BLUE"):
                 return True
     return False
 
@@ -113,49 +112,73 @@ def how_died(map_key, character):
     if not place:
         return (f"\n{you_died}"
                 "\nYou somehow became a wall."
-                "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
+                "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
     elif place == "   " or place == " . ":
         return (f"\n{you_died}"
                 "\nYou are the floor now?"
-                "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
+                "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
     elif place == input_color(" • ", "BRIGHT_RED"):
         return (f"\n{you_died}"
                 "\nWhether by a bullet or a shard of rock, the result is the same."
                 "\nYou got shot."
-                "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
+                "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
     elif place == input_color(" H ", "RED"):
         return ("Hitler pulls out a knife and stabs you."
-                "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
+                "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
     elif place == 3:
         return (f"\n{you_died}"
+                "\n\nThrough the distortions and tears in reality, "
+                "\nyou see The man point his device at you and pulls the trigger"
+                "\n"
                 "\nYour consciousness fragments over different parts of history "
                 "\nand for a brief moment you feel like you understand everything. "
-                "\nBut just as quickly as that understanding comes, "
+                "\n\nBut just as quickly as that understanding comes, "
                 "\nYour mind breaks from the information overload and you drift into unconsciousness."
-                "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
+                "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
     elif place == "demolished by a meteor":
         return (f"\n{you_died}"
-                "\nThe last thing you see is the meteor crashing down onto the planet right above your head."
-                "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
+                "\n\nThe last thing you see is the meteor crashing down onto the planet right above your head."
+                "\nYou don't even feel the impact, as you are blotted out by a fireball that outshines the sun."
+                "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
     elif place == "Great-Grandfather":
         return (f"\n{you_died}"
-                f"\n\n{killed_freindly}"
-                "\noops you killed one of your Great-Grandfathers."
-                "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
+                f"\n\nUnderestimating the power of the rewrite device"
+                f"\nyou accidentally rewrite a random student"
+                f"\n{text.with_a_random_thing_from_history}"
+                f"\n{killed_freindly}"
+                f"\noops you killed one of your Great-Grandfathers."
+                f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
     elif place == "Time Machine":
         return (f"\n{you_died}"
-                f"\n\n{killed_freindly}"
-                f"\noops you destroyed your time machine."
-                "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
+                f"\n\nThrough the power of the rewrite device"
+                f"\nyour time machine is rewritten"
+                f"\n{text.with_a_random_thing_from_history}"
+                f"\n{killed_freindly}"
+                f"\n\noops your time machine was destroyed."
+                f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
     elif place == f"{"Great-" * 500}Grandfather":
         return (f"\n{you_died}"
-                f"\n\n{killed_freindly}"
-                f"\nooops you killed one of your {"Great-" * 500}Grandfather."
-                "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
+                f"\n\nUnderestimating the power of the rewrite device"
+                f"\nyou accidentally rewrite a caveman"
+                f"\n{text.with_a_random_thing_from_history}"
+                f"\n{killed_freindly}"
+                f"\nooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooops "
+                f"\nyou killed one of your \n{"Great-" * 500}Grandfathers."
+                f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
+    elif place == "Professor":
+        return (f"\n{you_died}"
+                f"\n\nUsing the device that HE GAVE YOU, you replace him"
+                f"\n{text.with_a_random_thing_from_history}"
+                f"\n{killed_freindly}"
+                f"\nWoah maybe this professor is more than he seems?"
+                f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
+
+
+
 
 killed_freindly = "You look at your hand as it becomes transparent. \nThe rewrite device in your hand clatters to the ground."
 you_died = (f",--.   ,--.                 ,------.  ,--.          ,--. "
-            f"\n \  `.'  /,---. ,--.,--.    |  .-.  \ `--' ,---.  ,-|  | "
-            f"\n  '.    /| .-. ||  ||  |    |  |  \  :,--.| .-. :' .-. | "
-            f"\n    |  | ' '-' ''  ''  '    |  '--'  /|  |\   --.\ `-' | "
+            f"\n \\  `.'  /,---. ,--.,--.    |  .-.  \\ `--' ,---.  ,-|  | "
+            f"\n  '.    /| .-. ||  ||  |    |  |  \\  :,--.| .-. :' .-. | "
+            f"\n    |  | ' '-' ''  ''  '    |  '--'  /|  |\\   --.\\ `-' | "
             f"\n    `--'  `---'  `----'     `-------' `--' `----' `---'  ")
