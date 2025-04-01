@@ -6,8 +6,8 @@ import player
 def room_radomizer(max_size, min_size):
     y_length = min_size + int(random.random() * (max_size - min_size + 1))
     x_length = min_size + int(random.random() * (max_size - min_size + 1))
-    x_offset = int(random.random() * (30 - x_length))
-    y_offset = int(random.random() * (30 - y_length))
+    x_offset = int(random.random() * (29 - x_length))
+    y_offset = int(random.random() * (29 - y_length))
     return map.room(y_length, x_length,
                     x_offset, y_offset)
 
