@@ -13,14 +13,16 @@ def room(y_length, x_length, x_offset, y_offset):
     :precondition: four positive integers
     :postcondition: a dictionary with keys representing rows the content of which are dictionaries the keys
     being the column and the content being 1
-    :param y_length: an integer defining the length of the room in the y-axis
-    :param x_length: an integer defining the length of the room in the x-axis
-    :param x_offset: an integer defining how far offset the room is from the left in the x-axis
-    :param y_offset: an integer defining how far offset the room is from the top in the y-axis
+    :param y_length: 0 < y_length < 30
+    :param x_length: 0 < y_length < 30
+    :param x_offset: 0 < y_length < 29
+    :param y_offset: 0 < y_length < 29
     :return: a dictionary containing the coordinates the room contains
 
-    >>> room(1, 1, 1, 1)
-    {(2, 2): '   '}
+    >>> room(1, 1, 0, 0)
+    {(1, 1): '   '}
+    >>> room(0, 0, 0, 0)
+    {}
 
     """
     output = {}
@@ -39,6 +41,11 @@ def room_combiner(first_room, second_room):
     :param first_room: a dictionary containing a tuple with two integers as the keys and a homogeneous value
     :param second_room: a dictionary containing a tuple with two integers as the keys and a homogeneous value
     :return: a dictionary containing
+
+    >>> room_combiner({(1, 1): '   '}, {(1, 2): '   '})
+    {(1, 1): '   ', (1, 2): '   '}
+    >>> room_combiner({(1, 1): '   '}, {(1, 1): '   '})
+    {(1, 1): '   '}
     """
     output = {}
     for key in list(first_room.keys()) + list(second_room.keys()):
