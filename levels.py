@@ -1,5 +1,4 @@
 import random
-import initialize
 import map
 import player
 from text import input_color
@@ -78,9 +77,9 @@ def check_level_goal(character, mobs):
             return False
     if character["level"] <= 2 and mobs[0]["alive"] == False:
         return True
-    if character["level"] == 3:
+    elif character["level"] == 3:
         return True
-    if character["level"] == 4 and mobs[0]["alive"] == False:
+    elif character["level"] == 4 and mobs[0]["alive"] == False:
         return True
     else:
         return False
@@ -147,12 +146,6 @@ def happens_when_died(map_key, mob, mobs, character):
     """
     if mob["name"] == "bullet" or mob["name"] == "meteor":
         mobs.remove(mob)
-    if mob["name"] == "Time Machine":
-        if map_key[(mob["y_coordinate"], mob["x_coordinate"])] == 3:
-            map_key[(character["y_coordinate"], character["x_coordinate"])] = mob["name"]
-        elif map_key[(mob["y_coordinate"], mob["x_coordinate"])] != character["symbol"]:
-            mob["alive"] = True
-            map_key[(mob["y_coordinate"], mob["x_coordinate"])] = mob["symbol"]
     elif (mob["name"] == "Great-Grandfather"
           or mob["name"] == "Professor"
           or mob["name"] == f"{"Great-" * 500}Grandfather"):
@@ -160,28 +153,33 @@ def happens_when_died(map_key, mob, mobs, character):
             map_key[(character["y_coordinate"], character["x_coordinate"])] = mob["name"]
         else:
             mobs.remove(mob)
+    elif mob["name"] == "Time Machine":
+        if map_key[(mob["y_coordinate"], mob["x_coordinate"])] == 3:
+            map_key[(character["y_coordinate"], character["x_coordinate"])] = mob["name"]
+        elif map_key[(mob["y_coordinate"], mob["x_coordinate"])] != character["symbol"]:
+            mob["alive"] = True
+            map_key[(mob["y_coordinate"], mob["x_coordinate"])] = mob["symbol"]
 
 
-def ai_parse(mob, mobs, map_key, character):
+def ai_parse(mob, mobs, ai, map_key, character):
     direction = random.choices([("w", 0, -1), ("a", -1, 0), ("s", 0, 1), ("d", 1, 0)])
-    for ai in mob["ai"]:
-        if ai == "move":
-            player.move(direction[0], mob, map_key)
-        if (ai == "shoot" and random.random() > .3
-                and player.authenticate_place(mob["x_coordinate"] + direction[0][1],
-                                              mob["y_coordinate"] + direction[0][2], map_key)):
-            mobs.append({"name": "bullet", "x_coordinate": mob["x_coordinate"] + direction[0][1],
-                         "y_coordinate": mob["y_coordinate"] + direction[0][2], "alive": True,
-                         "symbol": input_color(" • ", "BRIGHT_RED"),
-                         "ai": ["shot"], "direction": direction[0][0], "just_shot": True})
-        if ai == "shot":
-            shot(mob["direction"], mob, map_key)
-        if ai == "fall":
-            fall(mob, mobs, map_key)
-        if ai == "countdown":
-            countdown(mob, map_key, character)
-        if ai == "rewrite" and random.random() > .5:
-            player.player_rewrite(random.choice(["rw", "ra", "rs", "rd"]), mob, map_key)
+    if ai == "move":
+        player.move(direction[0], mob, map_key)
+    if (ai == "shoot" and random.random() > .3
+            and player.authenticate_place(mob["x_coordinate"] + direction[0][1],
+                                          mob["y_coordinate"] + direction[0][2], map_key)):
+        mobs.append({"name": "bullet", "x_coordinate": mob["x_coordinate"] + direction[0][1],
+                     "y_coordinate": mob["y_coordinate"] + direction[0][2], "alive": True,
+                     "symbol": input_color(" • ", "BRIGHT_RED"),
+                     "ai": ["shot"], "direction": direction[0][0], "just_shot": True})
+    if ai == "shot":
+        shot(mob["direction"], mob, map_key)
+    if ai == "fall":
+        fall(mob, mobs, map_key)
+    if ai == "countdown":
+        countdown(mob, map_key, character)
+    if ai == "rewrite" and random.random() > .5:
+        player.player_rewrite(random.choice(["rw", "ra", "rs", "rd"]), mob, map_key)
 
 
 def countdown(mob, map_key, character):
@@ -247,6 +245,7 @@ def shot(direction: str, character: dict, map_key: dict):
     else:
         character["just_shot"] = False
 
+
 def authenticate_shot(x_coordinate, y_coordinate, map_key: dict):
     """
     Checks to see if the place the bullet is flying to is blocked.
@@ -269,20 +268,3 @@ def authenticate_shot(x_coordinate, y_coordinate, map_key: dict):
                 map_key[(y_coordinate, x_coordinate)] != input_color(" M ", "RED")):
             return True
     return False
-
-def main():
-    """
-    Drive the program
-    """
-    character = {"level": 2}
-    mobs = append_mobs(character)
-    maper = {(0, 0): "anything", (0, 1): "anything", (1, 0): "anything", (1, 1): "anything", (1, 2): "anything",
-             (2, 1): "anything", }
-    initialize.initialize_mob(mobs[0], maper)
-    for mob in mobs:
-        map.rewrite(maper, mob, mob["x_coordinate"], mob["y_coordinate"])
-    mob_ai(mobs, maper)
-    print(mobs)
-
-if __name__ == "__main__":
-    main()

@@ -52,7 +52,8 @@ def game():
                 levels.overwritten(current_map, mobs, current_character)
                 for mob in mobs:
                     if mob["alive"]:
-                        levels.ai_parse(mob, mobs, current_map, current_character)
+                        for ai in mob["ai"]:
+                            levels.ai_parse(mob, mobs, ai, current_map, current_character)
                 for mob in mobs:
                     if mob["alive"]:
                         if not (mob["name"] == "bullet" and
