@@ -1,3 +1,6 @@
+import random
+
+
 def input_color(input_string, color, bg_color=""):
     if color == "BLACK":
         color = "\033[30"
@@ -66,7 +69,7 @@ def input_color(input_string, color, bg_color=""):
 
 def level_text(character):
     if character["level"] == 1:
-        return (f"{line} {title} {line} //You wake up in a laboratory. "
+        return (f"{line} {title} {line} //You \"{input_color(" @ ", "GREEN")}\" wake up in a laboratory. "
                 f"/You don't remember anything except this."
                 f"//Your name is {character["name"]} {start_text}")
     else:
@@ -95,18 +98,25 @@ level_ascii = ("/,--.                         ,--.     ,--."
                "/|  '--.\\   --. \\    , \\   --.|  |    ,'-'  | "
                "/`-----' `----'  `--'   `----'`--'    `----' /")
 
-start_text = ("/and you are going to rewrite History"
-              "//looking around you see a very simple room."
-              "/with no decorations just a man with wild hair, "
-              "/a training dummy and some kind of large glowing device."
-              "/\"Ah I see you've woken up. I'm Professor Hart. I'll be guiding you today..."
-              "/wrong choice of words.\" he awkwardly laughs scratches his head."
-              "/\"Take this device you'll need it for your mission.\""
-              "/he hands you a gun. \"It's not a gun! Here. Walk to the training dummy using wasd."
-              "/and type r then 'w', 'a', 's', or 'd' (in whichever direction the dummy is in)"
+start_text = (f"/and you are going to rewrite History"
+              f"//looking around you see a very simple room."
+              f"/with no decorations just a man with wild hair, \"{input_color(" P ", "YELLOW")}\""
+              f"/a training dummy \"{input_color(" D ", "RED")}\" and some kind of large glowing device."
+              f" \"{input_color(" T ", "DARK_GRAY", "BRIGHT_BLUE")}\""
+              f"/\"Ah I see you've woken up. I'm Professor Hart. \"{input_color(" P ", "YELLOW")}\" "
+              f"/I'll be guiding you today... wrong choice of words.\" "
+              f"/he awkwardly laughs scratches his head."
+              f"//\"Take this device, you'll need it for your mission.\""
+              f"/he hands you a gun. "
+              f"/\"It's not a gun! It's a rewriting device. "
+              f"/Walk to the training dummy \"{input_color(" D ", "RED")}\" using wasd."
+              "/once you reach the dummy, type r then 'w', 'a', 's', or 'd' to rewrite the dummy"
+              "/(in whichever direction the dummy is in)\""
               "/(eg. \"rw\" to rewrite up)."
-              "/////To learn how to play type \"help\" at any time,"
-              "/if you want to see the welcome text, type \"h welcome\"/")
+              "(If I am blocking your way, please don't kill me. "
+              "/ you can rewrite walls and rewrite rewritten tiles into floor tiles to get around me.)"
+              "//To learn how to play type \"help\" at any time,"
+              "/if you want to see the welcome text, type \"level text\"/")
 
 help_text = ("/             ,--.  ,--.       ,--.           "
              "/             |  '--'  | ,---. |  | ,---.     "
@@ -131,30 +141,37 @@ help_text = ("/             ,--.  ,--.       ,--.           "
              "/move to the time machine ' T ' and you will continue the story.")
 
 lvl_text = [("/"
-             "/You step through the door of the time machine into a nearly empty decidedly German university."
+             "/You step through the door of the time machine into a nearly empty but decidedly German university."
              "//The professor's voice crackles over the time machine's telecom."
              "/\"It's 1929. Your mission is to find and kill Hitler. "
              "/He's an adult. obviously it's wrong to kill a baby.\""
-             "/He's still an art student so this should be easy."
+             "/He's still trying to become an art student so this should be easy."
              "/oh and try not to kill anyone else. "
+             f"/{input_color("\"and your rewrite device is more powerful now so be careful", "BRIGHT_GREEN", "BLACK")}"
              "/there's almost a 100% chance you'd be related to them."
+
              f"//{input_color("\"Again rewrite a space once to make a wall.", "BRIGHT_GREEN", "BLACK")}"
              f"/{input_color("rewrite twice to make a floor.", "BRIGHT_GREEN", "BLACK")}"
+             f"//As you walk the halls you see"
+             f"/a very angry man \"{input_color(" H ", "RED")}\" yelling in german with a hitler moustache "
+             f"/brandishing a very real gun while shooting"
+             f" it in random directions \"{input_color(" • ", "BRIGHT_RED")}\""
              "//////To learn how to play type \"help\" at any time,"
-             "/if you want to see the welcome text, type \"h welcome\"/"),
+             "/if you want to see the welcome text, type \"level text\"/"),
             ("/"
              "/You stumble out of the time machine and are startled "
-             f"/by the lush trees all around you. "
+             f"/by the cavemen \"{input_color(" G ", "YELLOW")}\" and the lush trees all around you. "
              f"//The professor's voice crackles over the time machine's telecom."
              f"//\"That was a warmup. we're here to see how far we can go."
              f"/it's 39000000 B.C. we're about to bring the dinosaurs back."
-             f"//You look above your head and see a meteor hurtling down towards the ground"
-             f"/based on the trajectory you are estimating that it will "
-             f"/land where the \"{input_color(" M ", "RED")}\" is in one minute."
-             f"/you get a feeling that if you rewrite all of the \"{input_color(" M ", "RED")}\" "
+             f"//You look directly above head and see a massive meteor hurtling down towards the ground"
+             f"/with many mini bits breaking off and striking the ground before the main body. \"{input_color(" • ", "BRIGHT_RED")}\""
+             f"/based on the trajectory of the meteor you are estimating that it will "
+             f"/land where the \"{input_color(" M ", "RED")}\" is in less than one minute!"
+             f"//You get a feeling that if you rewrite all of the \"{input_color(" M ", "RED")}\" "
              f"/the meteor will be shot into another dimension."
              "//////To learn how to play type \"help\" at any time,"
-             "/if you want to see the welcome text, type \"h welcome\"/"
+             "/if you want to see the welcome text, type \"level text\"/"
              ),
             ("/"
              "/You walk out of the time machine and are immediately blinded by an immense white light."
@@ -163,14 +180,23 @@ lvl_text = [("/"
              "You say as your eyes slowly adjust to the world around you."
              "/A booming voice echoes above your head"
              "/\"You have meddled with forces beyond your imagining boy.\""
-             "/You lock your eyes onto an incredibly muscular old man "
-             "/\"I will destroy you before you break everything!\""
+             f"/You lock your eyes onto an incredibly muscular old man \"{input_color(" G ", "WHITE", "BRIGHT_RED")}\""
+             "/\"I will destroy you and your time machine before you break everything!\""
              "//////To learn how to play type \"help\" at any time,"
-             "/if you want to see the welcome text, type \"h welcome\"/"
+             "/if you want to see the level text, type \"level text\"/"
              )]
 
 colors = ["RED", "GREEN", "YELLOW", "BLUE", "MAGENTA", "CYAN", "BRIGHT_RED",
           "BRIGHT_GREEN", "BRIGHT_YELLOW", "BRIGHT_BLUE", "BRIGHT_MAGENTA", "BRIGHT_CYAN"]
+
+with_a_random_thing_from_history = (f"{random.choices(["with an assortment of greco-roman jewelery",
+                                                       "with a complete garbled mess of shapes and colors",
+                                                       "with a pile of cow turds and"
+                                                       " an Armenian shovel from the 17th century",
+                                                       "with a slightly tattered painting of Andrew Jackson",
+                                                       "with an assortment of baked goods "
+                                                       "from the Phoenician era"])[0]}"
+                                    f" which quickly shifts into something else.")
 
 end_txt = [f"{line} {title} {line} //{input_color("With a blast from your not-gun ", "BRIGHT_BLUE", "BLACK")}"
            f"/{input_color("the dummy is replaced with a strange quickly ", "BRIGHT_BLUE", "BLACK")}"
@@ -178,23 +204,32 @@ end_txt = [f"{line} {title} {line} //{input_color("With a blast from your not-gu
            f"/{input_color("as you stare into it your eyes start to hurt and you get a headache.", "BRIGHT_BLUE", "BLACK")}"
            f"/{input_color("The room seems to bend and shift and warp and reverse ", "BRIGHT_BLUE", "BLACK")}"
            f"/{input_color("over the crazy scar in reality.", "BRIGHT_BLUE", "BLACK")}"
-           f"//{input_color("\"I see you got the hang of it. Don't stare for too long.", "BRIGHT_BLUE", "BLACK")}"
-           f"/{input_color("As you go further back in time, you will accumulate more time manipulation spacial signifiers creating a hex field study stratosphere. These hex field study stratosphere will allow the area of your cardo babble hypodron to expand exponentially and cause a sonic reflux dip in the corival terisalinux. it works by using wormhole theory to link a space to every point of the fourth dimension of time. effectively creating a wall. using it again will shift that time link to an entirely different spacial dimension, and link a separate empty spacial dimension to that space. \"", "BRIGHT_BLUE", "BLACK")}"
+           f"//{input_color("\"Congratulations you rewrote whatever was there...", "BRIGHT_BLUE", "BLACK")}"
+           f"/{input_color("it would make sense if it was a dummy.", "BRIGHT_BLUE", "BLACK")}"
+           f"/{input_color("Oh, and don't stare for too long. You could lose your mind.", "BRIGHT_BLUE", "BLACK")}"
+           f"/{input_color("As you go further back in time, you will accumulate more time manipulation spacial signifiers"
+                           " creating a hex field study stratosphere. These hex field study stratospheres will"
+                           " allow the area of your cardo babble hypodron to expand exponentially and cause a"
+                           " sonic reflux dip in the corival terisalinux. it works by using wormhole theory to"
+                           " link a space to every point of the fourth dimension of time. effectively creating a wall."
+                           " Using it again will shift that time link to an entirely different spacial dimension, and"
+                           " link a separate empty spacial dimension to that space. \"", "BRIGHT_BLUE", "BLACK")}"
            f"/"
            f"/{input_color("As the professor babbles on and on you feel impatient.", "BRIGHT_BLUE", "BLACK")}"
            f"/"
            f"/{input_color("Sensing this he says: ", "BRIGHT_BLUE", "BLACK")}"
-           f"/{input_color("\"Sorry, in layman's terms, use that gun to rewrite a space to make a wall.", "BRIGHT_GREEN", "BLACK")}"
-           f"/{input_color("if you use it again on the same space it will turn the wall into a floor.", "BRIGHT_GREEN", "BLACK")}"
+           f"/{input_color("\"Sorry, in layman's terms, the rewrite device will get more powerful"
+                           " and rewrite more area as you progress.", "BRIGHT_GREEN", "BLACK")}"
+           f"/{input_color("if you use it once it will rewrite a space to make a wall.", "BRIGHT_GREEN", "BLACK")}"
+           f"/{input_color("and if you use it again on the same space it will turn the wall into a floor.", "BRIGHT_GREEN", "BLACK")}"
            f"/{input_color("as you go further back in time it will get more powerful.\"", "BRIGHT_BLUE", "BLACK")}"
            f"/{input_color("that big device", "BRIGHT_BLUE", "BLACK")}"
-           f"{input_color(" T ", "BRIGHT_BLUE", "DARK_GRAY")}"
+           f"{input_color(" T ", "DARK_GRAY", "BRIGHT_BLUE")}"
            f"{input_color(" in the room is a time machine. Enter it and you will start your first mission", "BRIGHT_BLUE", "BLACK")}"
            f"///////////",
            f"/{line} {level_ascii[0]} {line} //"
            f"/{input_color("With a blast from your Rewriter ", "BRIGHT_BLUE", "BLACK")}"
-           f"/{input_color("Hitler is replaced with an assortment of baked goods from the Phoenician era,", "BRIGHT_BLUE", "BLACK")}"
-           f"/{input_color("which quickly shifts into something else.", "BRIGHT_BLUE", "BLACK")}"
+           f"/{input_color(f"Hitler is replaced {with_a_random_thing_from_history},", "BRIGHT_BLUE", "BLACK")}"
            f"/"
            f"/{input_color("\"Good job, it looks like you did your mission.", "BRIGHT_BLUE", "BLACK")}"
            f"/{input_color("the device says here that you killed a man called", "BRIGHT_BLUE", "BLACK")}"
@@ -203,10 +238,11 @@ end_txt = [f"{line} {title} {line} //{input_color("With a blast from your not-gu
            f"/{input_color("anyways go back to the time machine for your next mission.\"", "BRIGHT_BLUE", "BLACK")}"
            f"////////////",
            f"/{line} {level_ascii[1]} {line} //"
-           f"/{input_color("The Meteors are stopped in their tracks.", "BRIGHT_BLUE", "BLACK")}"
+           f"/{input_color("After your preparation, the meteors fall into spaces replaced", "BRIGHT_BLUE", "BLACK")}"
+           f"/{input_color(f"{with_a_random_thing_from_history}", "BRIGHT_BLUE", "BLACK")}"
            f"/{input_color("you expect to hear something over the time machine's telecom like last time", "BRIGHT_BLUE", "BLACK")}"
            f"/{input_color("but you don't hear anything.", "BRIGHT_BLUE", "BLACK")}"
-           f"/{input_color("you have a bad feeling but there's nothing to do but enter the time machine", "BRIGHT_BLUE", "BLACK")}"
+           f"//{input_color("You have a bad feeling but there's nothing to do but enter the time machine", "BRIGHT_BLUE", "BLACK")}"
            f"/{input_color("and see what fate has in store for you.", "BRIGHT_BLUE", "BLACK")}"
            f"/{input_color("", "BRIGHT_BLUE", "BLACK")}"
            f"/{input_color("proceed to the time machine to continue.", "BRIGHT_BLUE", "BLACK")}"
@@ -216,14 +252,15 @@ end_txt = [f"{line} {title} {line} //{input_color("With a blast from your not-gu
            f"////////////",
            f"/{line} {level_ascii[2]} {line}"
            f"/{input_color("", "BRIGHT_BLUE", "BLACK")}"
-           
            f"/{input_color("As the world around you warps and strains at the tears in reality", "BRIGHT_BLUE", "BLACK")}"
-           f"/{input_color("made by the battle, The man Yells", "BRIGHT_BLUE", "BLACK")}"
+           f"/{input_color("created by the battle, The man Yells", "BRIGHT_BLUE", "BLACK")}"
            f"/{input_color("\"I am the GREATEST-GRANDFATHER, I CANNOT BE DEFEATED!\"", "BRIGHT_BLUE", "BLACK")}"
            f"/{input_color("Slowly the man fades away into nothingness and", "BRIGHT_BLUE", "BLACK")}"
-           f"/{input_color("closes his eyes in defeat \"you will regret this day...", "BRIGHT_BLUE", "BLACK")}"
+           f"/{input_color("closes his eyes in defeat. \"You will regret this day...", "BRIGHT_BLUE", "BLACK")}"
            f"/{input_color("I certainly did...\"", "BRIGHT_BLUE", "BLACK")}"
            f"/{input_color("", "BRIGHT_BLUE", "BLACK")}"
+           f"/{input_color("With that ominous message hanging in the air you can't "
+                           "think of anything to do except go back to your time machine", "BRIGHT_BLUE", "BLACK")}"
            f"////////////"
            ]
 
@@ -232,7 +269,17 @@ win = (f"\n\n\n\n\n\n,--.   ,--.                 ,--.   ,--.,--.         "
        f"\n  '.    /| .-. ||  ||  |    |  |.'.|  |,--.|      \\ "
        f"\n    |  | ' '-' ''  ''  '    |   ,'.   ||  ||  ||  | "
        f"\n    `--'  `---'  `----'     '--'   '--'`--'`--''--' "
-       f"\n\n\n\n\n\nYou enter the time machine and come to a new understanding of... something or other"
-       f"\nI'm sure there is something profound I can write here but you'll have to"
-       f"\njust imagine some kind of profound ending instead."
+       f"\n\n\n\n\n\nYou enter the time machine and realize"
+       f"{random.choice(["\n... Now that you think about it, you didn't need to rewrite history at all"
+                         "\nyou thought that you would make your mark on history but it turns out that "
+                         "\nyou just destroyed reality, and that really sucks."
+                         "\n... maybe in another timeline things could have been different..."
+                         "\n [You go the Depressed ending]",
+                         "\nWith this time machine and rewriting device "
+                         "\nyou can now reshape history however you would like"
+                         "\nThis is just the beginning and the world will be written in your image."
+                         "\n[You got the Playing God ending]",
+                         "\n... nothing. You try to think of a satisfying conclusion to all of this madness,"
+                         "\nbut nothing comes to mind. a bunch of random stuff happened and you have no clue why."
+                         "\n[You got the Confused ending]"])} "
        f"\n\n\n\n\n\nThank you Chris for playing the game and making a fun assignment, please give me a good grade lol")
