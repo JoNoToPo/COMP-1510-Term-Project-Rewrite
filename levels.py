@@ -10,7 +10,7 @@ hitler = {"name": "Hitler", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
 
 meteor = {"name": "meteor", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
           "symbol": input_color(" M ", "RED"),
-          "ai": ["fall", "countdown"], "time left": 50}
+          "ai": ["fall", "countdown"], "time left": 49}
 
 dummy = {"name": "Dummy", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
          "symbol": input_color(" D ", "RED"), "ai": ["stay"]}
@@ -162,21 +162,6 @@ def happens_when_died(map_key, mob, mobs, character):
             mobs.remove(mob)
 
 
-def mob_ai(mobs, map_key, character):
-    """
-
-    """
-    overwritten(map_key, mobs, character)
-    for mob in mobs:
-        if mob["alive"]:
-            ai_parse(mob, mobs, map_key, character)
-    for mob in mobs:
-        if mob["alive"]:
-            if not (mob["name"] == "bullet" and
-                    map_key[(mob["y_coordinate"], mob["x_coordinate"])] == input_color(" M ", "RED")):
-                map.rewrite(map_key, mob["x_coordinate"], mob["y_coordinate"], mob["symbol"])
-
-
 def ai_parse(mob, mobs, map_key, character):
     direction = random.choices([("w", 0, -1), ("a", -1, 0), ("s", 0, 1), ("d", 1, 0)])
     for ai in mob["ai"]:
@@ -206,11 +191,11 @@ def countdown(mob, map_key, character):
 
 
 def fall(mob, mobs, map_key):
-    if mob["time left"] == 48 or mob["time left"] == 50:
-        times = 20
-        while times > 0:
+    if mob["time left"] == 48:
+        placement_attempts = 0
+        while placement_attempts < 20:
             direction = random.choice([random.choices([0, 1], k=2), random.choices([0, -1], k=2)])
-            times -= 1
+            placement_attempts += 1
             if (mob["y_coordinate"] + direction[1], mob["x_coordinate"] + direction[0]) in map_key.keys():
                 if ((map_key[(mob["y_coordinate"] + direction[1], mob["x_coordinate"] + direction[0])]
                      == input_color(" M ", "BRIGHT_RED")) or
@@ -220,7 +205,7 @@ def fall(mob, mobs, map_key):
                          "y_coordinate": mob["y_coordinate"] + direction[1], "alive": True,
                          "symbol": input_color(" M ", "RED"),
                          "ai": ["fall", "countdown", "shoot"], "time left": 49})
-            times = 0
+            placement_attempts += 19
 
 
 def shot(direction: str, character: dict, map_key: dict):

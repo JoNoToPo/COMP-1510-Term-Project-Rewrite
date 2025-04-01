@@ -14,10 +14,11 @@ def game():
     achieved_goal = True
     current_character = player.new_character()
     time_machine = {"name": "Time Machine", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
-                    "symbol": input_color(" T ", "BRIGHT_BLUE", "DARK_GRAY")}
+                    "symbol": input_color(" T ", "DARK_GRAY", "BRIGHT_BLUE")}
     while True:
         if achieved_goal:
-            print("to continue to the next level please proceed to the time machine")
+            print(f"to continue to the next level please proceed to the time machine "
+                  f"\"{input_color(" T ", "DARK_GRAY", "BRIGHT_BLUE")}\"")
             if (current_character["y_coordinate"] == time_machine["y_coordinate"] and
                     current_character["x_coordinate"] == time_machine["x_coordinate"]):
                 current_character["level"] += 1
@@ -37,10 +38,10 @@ def game():
                     i.initialize_mob(mob, current_map, start_room)
                     map.rewrite(current_map, mob["x_coordinate"], mob["y_coordinate"], mob["symbol"])
                 level_text = t.level_text(current_character)
-                print(map.level_start_display(map.display_text_next_to_map({(0, 0): ""}, level_text, 0)))
+                print(map.level_start_display(level_text))
                 input("To play, please make any input:")
+                achieved_goal = False
                 print(map.map_art(map.display_text_next_to_map(current_map, level_text, 0), current_character))
-        achieved_goal = levels.check_level_goal(current_character, mobs)
         player_input = str(input("move with 'w', 'a', 's', or 'd'")).strip().lower()
         if player_input:
             action = player.parse(player_input, current_character, current_map, achieved_goal)
@@ -48,7 +49,15 @@ def game():
                 print(map.map_art(map.display_text_next_to_map(
                     current_map, action, 0), current_character))
             else:
-                levels.mob_ai(mobs, current_map, current_character)
+                levels.overwritten(current_map, mobs, current_character)
+                for mob in mobs:
+                    if mob["alive"]:
+                        levels.ai_parse(mob, mobs, current_map, current_character)
+                for mob in mobs:
+                    if mob["alive"]:
+                        if not (mob["name"] == "bullet" and
+                                current_map[(mob["y_coordinate"], mob["x_coordinate"])] == input_color(" M ", "RED")):
+                            map.rewrite(current_map, mob["x_coordinate"], mob["y_coordinate"], mob["symbol"])
                 levels.overwritten(current_map, [time_machine, current_character], current_character)
                 if current_character["alive"]:
                     print(map.map_art(map.display_text_next_to_map(
@@ -58,6 +67,7 @@ def game():
                     break
         else:
             print("Please make an Input")
+        achieved_goal = levels.check_level_goal(current_character, mobs)
         if achieved_goal:
             level_text = text.end_txt[current_character["level"] - 1]
 
