@@ -49,12 +49,12 @@ def game():
         player_input = str(input("move with 'w', 'a', 's', or 'd'")).strip().lower()
         action = 0
         if not player_input:
-            action = ("////////////////////"
+            action = ("///////////"
                       "Invalid Input,"
-                      "/To move type 'w', 'a', 's', or 'd' then press enter"
-                      "/To rewrite type 'rw', 'ra', 'rs', or 'rd then press enter'"
-                      "/to get help type 'help' then press enter"
-                      "////////////////////")
+                      "//To move type 'w', 'a', 's', or 'd' then press enter"
+                      "//To rewrite type 'rw', 'ra', 'rs', or 'rd then press enter'"
+                      "//to get help type 'help' then press enter"
+                      "///////////")
         elif player_input[0] in ["w", "a", "s", "d"]:
             player.move(player_input, current_character, current_map, achieved_goal)
         elif player_input.split()[0] == "help":
@@ -64,12 +64,12 @@ def game():
         elif player_input == "level text":
             action = text.level_text(current_character)
         else:
-            action = ("////////////////////"
+            action = ("///////////"
                       "Invalid Input,"
-                      "/To move type 'w', 'a', 's', or 'd' then press enter"
-                      "/To rewrite type 'rw', 'ra', 'rs', or 'rd then press enter'"
-                      "/to get help type 'help' then press enter"
-                      "////////////////////")
+                      "//To move type 'w', 'a', 's', or 'd' then press enter"
+                      "//To rewrite type 'rw', 'ra', 'rs', or 'rd then press enter'"
+                      "//to get help type 'help' then press enter"
+                      "///////////")
         if type(action) != type("string"):
             levels.overwritten(current_map, mobs, current_character)
             for mob in mobs:
