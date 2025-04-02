@@ -2,6 +2,16 @@ import random
 
 
 def input_color(input_string, color, bg_color=""):
+    """
+    Inserts text color and optionally a background color into a string.
+
+    :precondition: three strings
+    :postcondition: a string
+    :param input_string: a string
+    :param color: an all caps string defining and limited to the terminal text color options
+    :param bg_color: an all caps string limited to the terminal background color options
+    :return: a string with the correct text color and background color
+    """
     if color == "BLACK":
         color = "\033[30"
     elif color == "RED":
