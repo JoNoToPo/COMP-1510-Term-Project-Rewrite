@@ -48,7 +48,14 @@ def game():
                 print(map.map_art(map.display_text_next_to_map(current_map, level_text, 0), current_character))
         player_input = str(input("move with 'w', 'a', 's', or 'd'")).strip().lower()
         action = 0
-        if player_input[0] in ["w", "a", "s", "d"]:
+        if not player_input:
+            action = ("////////////////////"
+                      "Invalid Input,"
+                      "/To move type 'w', 'a', 's', or 'd' then press enter"
+                      "/To rewrite type 'rw', 'ra', 'rs', or 'rd then press enter'"
+                      "/to get help type 'help' then press enter"
+                      "////////////////////")
+        elif player_input[0] in ["w", "a", "s", "d"]:
             player.move(player_input, current_character, current_map, achieved_goal)
         elif player_input.split()[0] == "help":
             action = player.player_help(player_input)
