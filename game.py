@@ -22,6 +22,7 @@ def game():
             if (current_character["y_coordinate"] == time_machine["y_coordinate"] and
                     current_character["x_coordinate"] == time_machine["x_coordinate"]):
                 current_character["level"] += 1
+                current_character["area"] += 2
                 if current_character["level"] == 5:
                     print(text.win)
                     break

@@ -129,7 +129,7 @@ def map_art(map_key, character):
                 if character["level"] == 4:
                     output += input_color(wall[0], "WHITE", "WHITE")
                 elif character["level"] == 3:
-                    output += input_color(next(wall[1]), "GREEN", )
+                    output += input_color(next(wall[1]), "GREEN", "BLACK")
                 elif character["level"] == 2:
                     output += input_color(next(wall[2]), "DARK_GRAY", "BLACK")
                 elif character["level"] == 1:
