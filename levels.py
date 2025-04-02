@@ -73,16 +73,12 @@ def check_level_goal(character, mobs):
     False
     """
     for mob in mobs:
-        if mob["name"] == "meteor":
+        if (mob["name"] == "meteor"
+                or mob["name"] == "hitler"
+                or mob["name"] == "Dummy"
+                or mob["name"] == "GREATEST GRANDFATHER"):
             return False
-    if character["level"] <= 2 and mobs[0]["alive"] == False:
-        return True
-    elif character["level"] == 3:
-        return True
-    elif character["level"] == 4 and mobs[0]["alive"] == False:
-        return True
-    else:
-        return False
+    return True
 
 
 def overwritten(map_key, mobs, character):
@@ -144,7 +140,11 @@ def happens_when_died(map_key, mob, mobs, character):
     >>> print(map_test)
     {(0, 0): 'T'}
     """
-    if mob["name"] == "bullet" or mob["name"] == "meteor":
+    if (mob["name"] == "bullet"
+            or mob["name"] == "meteor"
+            or mob["name"] == "hitler"
+            or mob["name"] == "Dummy"
+            or mob["name"] == "GREATEST GRANDFATHER"):
         mobs.remove(mob)
     elif (mob["name"] == "Great-Grandfather"
           or mob["name"] == "Professor"
@@ -162,6 +162,9 @@ def happens_when_died(map_key, mob, mobs, character):
 
 
 def ai_parse(mob, mobs, ai, map_key, character):
+    """
+
+    """
     direction = random.choices([("w", 0, -1), ("a", -1, 0), ("s", 0, 1), ("d", 1, 0)])
     if ai == "move":
         player.move(direction[0], mob, map_key)
