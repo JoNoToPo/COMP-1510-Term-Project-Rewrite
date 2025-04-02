@@ -21,28 +21,10 @@ def new_character():
     return character_spread
 
 
-def parse(user_input: str, character: dict, map_key: dict, goal_achieved: bool):
-    """
-    Finds determines the action that the player input and executes the corresponding function
-
-    :precondition: a string, two dictionaries, and a boolean
-    :postcondition: either a string, or the map is changed
-    :param user_input:
-    :param character:
-    :param map_key:
-    :param goal_achieved:
-    """
-    if user_input[0] in ["w", "a", "s", "d"]:
-        move(user_input, character, map_key, goal_achieved)
-    elif user_input.split()[0] == "help":
-        return player_help(user_input)
-    elif user_input[0] == "r":
-        return player_rewrite(user_input, character, map_key)
-    elif user_input == "level text":
-        return text.level_text(character)
-
-
 def move(user_input: str, character: dict, map_key: dict, goal_achieved=True):
+    """
+
+    """
     map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"],
                 "   ")
     if user_input[0] == "a" and authenticate_move(character["x_coordinate"] - 1, character["y_coordinate"], map_key,
