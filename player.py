@@ -7,20 +7,37 @@ from text import input_color
 
 
 def new_character():
+    """
+    Initializes the player character and gives a random name.
+
+    :precondition: none
+    :postcondition: a dictionary
+    :return: a dictionary containing the player's stats and a randomized name
+    """
     first_name = random.choice(["Chris", "Derek", "Peter", "Johnny", "Thomas"])
     last_name = random.choice(["Thompson", "\"The Axe\" Morgan", "The Wise", "Jefferson"])
-    character_spread = {"name": first_name + " " + last_name, "level": 0, "x_coordinate": 0, "y_coordinate": 0,
-                        "alive": True, "symbol": input_color(" @ ", "GREEN")}
+    character_spread = {"name": first_name + " " + last_name, "level": 0, "area": -1, "x_coordinate": 0, "y_coordinate": 0,
+                        "alive": True, "symbol": input_color(" @ ", "GREEN", )}
     return character_spread
 
 
-def parse(user_input, character: dict, map_key: dict, goal_achieved: bool):
+def parse(user_input: str, character: dict, map_key: dict, goal_achieved: bool):
+    """
+    Finds determines the action that the player input and executes the corresponding function
+
+    :precondition: a string, two dictionaries, and a boolean
+    :postcondition: either a string, or the map is changed
+    :param user_input:
+    :param character:
+    :param map_key:
+    :param goal_achieved:
+    """
     if user_input[0] in ["w", "a", "s", "d"]:
         move(user_input, character, map_key, goal_achieved)
     elif user_input.split()[0] == "help":
         return player_help(user_input)
     elif user_input[0] == "r":
-        player_rewrite(user_input, character, map_key)
+        return player_rewrite(user_input, character, map_key)
     elif user_input == "level text":
         return text.level_text(character)
 
@@ -70,25 +87,28 @@ def player_help(user_input: str) -> str:
 
 
 def player_rewrite(user_input: str, character: dict, map_key: dict):
-    area = character["level"] * 2 - 1
-    try:
+    direction = None
+    if len(user_input) > 1:
         direction = user_input[1]
-    except IndexError:
-        direction = None
-    try:
+    if len(user_input.split()) > 1:
         direction = user_input.split()[1][0]
-    except IndexError:
-        pass
     if direction == "a":
-        map.rewrite(map_key, character["x_coordinate"] - (int(area / 2) + 1), character["y_coordinate"], 3, area)
+        map.rewrite(map_key, character["x_coordinate"] - (int(character["area"] / 2) + 1),
+                    character["y_coordinate"], 3, character["area"])
     elif direction == "d":
-        map.rewrite(map_key, character["x_coordinate"] + (int(area / 2) + 1), character["y_coordinate"], 3, area)
+        map.rewrite(map_key, character["x_coordinate"] + (int(character["area"] / 2) + 1),
+                    character["y_coordinate"], 3, character["area"])
     elif direction == "s":
-        map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"] + (int(area / 2) + 1), 3, area)
+        map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"] + (int(character["area"] / 2) + 1),
+                    3, character["area"])
     elif direction == "w":
-        map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"] - (int(area / 2) + 1), 3, area)
+        map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"] - (int(character["area"] / 2) + 1),
+                    3, character["area"])
     else:
-        print("After 'r' please specify the direction you want to rewrite, 'w', 'a', 's', or 'd'")
+        return ("/////////////to rewrite, After typing 'r' please specify the "
+                "/direction you want to rewrite, 'w', 'a', 's', or 'd'"
+                "//Examples:/to rewrite up type 'rw' then press enter/to rewrite left type 'ra' then press enter/"
+                "to rewrite down type 'rs' then press enter/to rewrite left type 'rd' then press enter//////////////////")
 
 
 def how_died(map_key, character):

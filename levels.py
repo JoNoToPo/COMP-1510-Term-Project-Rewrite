@@ -9,7 +9,7 @@ hitler = {"name": "Hitler", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
 
 meteor = {"name": "meteor", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
           "symbol": input_color(" M ", "RED"),
-          "ai": ["fall", "countdown"], "time left": 49}
+          "ai": ["fall", "fall", "countdown"], "time left": 49}
 
 dummy = {"name": "Dummy", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
          "symbol": input_color(" D ", "RED"), "ai": ["stay"]}
@@ -28,7 +28,7 @@ greater_grandfather = {"name": f"{"Great-" * 500}Grandfather", "x_coordinate": 0
 
 greatest_grandfather = {"name": "GREATEST GRANDFATHER", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                         "symbol": input_color(" G ", "WHITE", "BRIGHT_RED"),
-                        "ai": ["move", "rewrite"], "level": 4}
+                        "ai": ["move", "rewrite"], "area": 7}
 
 
 def append_mobs(character):
@@ -168,10 +168,7 @@ def ai_parse(mob, mobs, ai, map_key, character):
     if (ai == "shoot" and random.random() > .3
             and player.authenticate_place(mob["x_coordinate"] + direction[0][1],
                                           mob["y_coordinate"] + direction[0][2], map_key)):
-        mobs.append({"name": "bullet", "x_coordinate": mob["x_coordinate"] + direction[0][1],
-                     "y_coordinate": mob["y_coordinate"] + direction[0][2], "alive": True,
-                     "symbol": input_color(" • ", "BRIGHT_RED"),
-                     "ai": ["shot"], "direction": direction[0][0], "just_shot": True})
+        mobs.append(next(bullet_generator(mob, direction)))
     if ai == "shot":
         shot(mob["direction"], mob, map_key)
     if ai == "fall":
@@ -189,9 +186,12 @@ def countdown(mob, map_key, character):
 
 
 def fall(mob, mobs, map_key):
-    if mob["time left"] == 48:
+    """
+    Create duplicate meteors in the map
+    """
+    if mob["time left"] == 49:
         placement_attempts = 0
-        while placement_attempts < 20:
+        while placement_attempts < 5:
             direction = random.choice([random.choices([0, 1], k=2), random.choices([0, -1], k=2)])
             placement_attempts += 1
             if (mob["y_coordinate"] + direction[1], mob["x_coordinate"] + direction[0]) in map_key.keys():
@@ -202,9 +202,19 @@ def fall(mob, mobs, map_key):
             mobs.append({"name": "meteor", "x_coordinate": mob["x_coordinate"] + direction[0],
                          "y_coordinate": mob["y_coordinate"] + direction[1], "alive": True,
                          "symbol": input_color(" M ", "RED"),
-                         "ai": ["fall", "countdown", "shoot"], "time left": 49})
-            placement_attempts += 19
+                         "ai": ["fall", "countdown", "shoot"], "time left": 50})
+            placement_attempts = 5
 
+def bullet(mob, direction):
+    number = 0
+    while True:
+        yield {"name": "bullet", "x_coordinate": mob["x_coordinate"] + direction[0][1],
+               "y_coordinate": mob["y_coordinate"] + direction[0][2], "alive": True,
+               "symbol": input_color(" • ", "BRIGHT_RED"), "id": number,
+               "ai": ["shot"], "direction": direction[0][0], "just_shot": True}
+        number += 1
+
+bullet_generator = bullet
 
 def shot(direction: str, character: dict, map_key: dict):
     """
