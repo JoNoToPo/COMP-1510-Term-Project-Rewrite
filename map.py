@@ -111,6 +111,16 @@ def display_text_next_to_map(map_key, input_text, rows_down=0):
 
 
 def map_art(map_key, character):
+    """
+    Produces askii art of the map based on the value of each position in the map dictionary
+
+    :precondition: two dictionaries
+    :postcondition: a string
+    :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple as the key and
+    an integer or string as the value
+    :param character: the dictionary containing the player character's stats
+    :return: a string with everything in the map and the level text displayed in the correct places
+    """
     output = ""
     wall = ["   ", cycle(["/|/", "\\|\\"]), cycle(["_|_", "__|", "___", "|__"]), cycle(["\\\\/", "/\\\\"])]
     for row in range(31):
@@ -119,7 +129,7 @@ def map_art(map_key, character):
                 if character["level"] == 4:
                     output += input_color(wall[0], "WHITE", "WHITE")
                 elif character["level"] == 3:
-                    output += input_color(next(wall[1]), "GREEN")
+                    output += input_color(next(wall[1]), "GREEN", )
                 elif character["level"] == 2:
                     output += input_color(next(wall[2]), "DARK_GRAY", "BLACK")
                 elif character["level"] == 1:
