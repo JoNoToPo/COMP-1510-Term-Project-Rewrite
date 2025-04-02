@@ -56,13 +56,12 @@ def append_mobs(character):
         return []
 
 
-def check_level_goal(character, mobs):
+def check_level_goal(mobs):
     """
     Finds if the goal of a level has been completed.
 
     :precondition: two dictionaries
     :postconditon: a boolean value
-    :param character: the player character dictionary with at least one key named 'level' with an integer value
     :param mobs: a list containing dictionaries each containing a key called 'alive' with a boolean value and a
     key called 'name' with a string value
     :return: the correct boolean value pertaining to whether the level goal has been achieved or not
@@ -74,7 +73,7 @@ def check_level_goal(character, mobs):
     """
     for mob in mobs:
         if (mob["name"] == "meteor"
-                or mob["name"] == "hitler"
+                or mob["name"] == "Hitler"
                 or mob["name"] == "Dummy"
                 or mob["name"] == "GREATEST GRANDFATHER"):
             return False
@@ -142,7 +141,7 @@ def happens_when_died(map_key, mob, mobs, character):
     """
     if (mob["name"] == "bullet"
             or mob["name"] == "meteor"
-            or mob["name"] == "hitler"
+            or mob["name"] == "Hitler"
             or mob["name"] == "Dummy"
             or mob["name"] == "GREATEST GRANDFATHER"):
         mobs.remove(mob)

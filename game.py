@@ -82,6 +82,9 @@ def game():
                             current_map[(mob["y_coordinate"], mob["x_coordinate"])] == input_color(" M ", "RED")):
                         map.rewrite(current_map, mob["x_coordinate"], mob["y_coordinate"], mob["symbol"])
             levels.overwritten(current_map, [time_machine, current_character], current_character)
+            achieved_goal = levels.check_level_goal(mobs)
+            if achieved_goal:
+                level_text = text.end_txt[current_character["level"] - 1]
             if current_character["alive"]:
                 print(map.map_art(map.display_text_next_to_map(
                     current_map, level_text, 0), current_character))
@@ -91,9 +94,6 @@ def game():
         else:
             print(map.map_art(map.display_text_next_to_map(
                 current_map, action, 0), current_character))
-        achieved_goal = levels.check_level_goal(current_character, mobs)
-        if achieved_goal:
-            level_text = text.end_txt[current_character["level"] - 1]
 
 
 def main():
