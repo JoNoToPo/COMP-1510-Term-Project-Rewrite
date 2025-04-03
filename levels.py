@@ -6,9 +6,10 @@ from text import input_color
 def greater_grandfather():
     number = 0
     while True:
+        ai = random.choice(["move", "stay"])
         yield {"name": f"{"Great-" * 500}Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                "symbol": input_color(" G ", "YELLOW"),
-               "ai": ["move"], "id": number}
+               "ai": [ai], "id": number}
         number += 1
 
 
@@ -43,8 +44,8 @@ def append_mobs(character):
     elif character["level"] == 3:
         mob_list = [{"name": "meteor", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                      "symbol": input_color(" M ", "RED"),
-                     "ai": ["fall", "fall", "countdown"], "time left": 49}]
-        for number in range(4):
+                     "ai": ["fall", "countdown"], "time left": 50}]
+        for _ in range(random.randrange(4, 8)):
             mob_list.append(next(greater_grandfather()))
         return mob_list
     elif character["level"] == 4:
@@ -169,9 +170,9 @@ def fall(mob, mobs, map_key):
     """
     Create duplicate meteors in the map
     """
-    if mob["time left"] == 49:
+    if mob["time left"] == 50:
         placement_attempt = 0
-        while placement_attempt < 10:
+        while placement_attempt < 20:
             place = [random.choice(range(-3, 3)), random.choice(range(-3, 3))]
             placement_attempt += 1
             if (mob["y_coordinate"] + place[1], mob["x_coordinate"] + place[0]) in map_key.keys():
