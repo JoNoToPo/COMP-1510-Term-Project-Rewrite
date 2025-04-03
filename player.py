@@ -83,7 +83,7 @@ def player_rewrite(user_input: str, character: dict, map_key: dict):
                 "to rewrite down type 'rs' then press enter/to rewrite left type 'rd' then press enter//////////////////")
 
 
-def how_died(map_key, character):
+def how_died(map_key: dict, character: dict):
     """
     Finds how the character.
 

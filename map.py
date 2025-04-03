@@ -5,7 +5,7 @@ import random
 from text import input_color
 
 
-def room(y_length, x_length, x_offset, y_offset):
+def room(y_length: int, x_length: int, x_offset: int, y_offset: int):
     """
     Defines the location of a room as a dictionary for the map.
 
@@ -31,7 +31,7 @@ def room(y_length, x_length, x_offset, y_offset):
     return output
 
 
-def room_combiner(first_room, second_room):
+def room_combiner(first_room: dict, second_room: dict):
     """
     Combines the two rooms into a single dictionary even if they overlap
 
@@ -55,7 +55,7 @@ def room_combiner(first_room, second_room):
     return output
 
 
-def rewrite(map_key, x_coordinate, y_coordinate, content, area=1):
+def rewrite(map_key: dict, x_coordinate: int, y_coordinate: int, content, area=1):
     """
     Rewrites the values of a given dictionary at an (x,y) coordinate
 
@@ -80,7 +80,7 @@ def rewrite(map_key, x_coordinate, y_coordinate, content, area=1):
     return map_key
 
 
-def display_text_next_to_map(map_key, input_text, rows_down=0):
+def display_text_next_to_map(map_key: dict, input_text: str, rows_down=0):
     """
     Breaks up input text for each '/' and places it at the end of each row of the map.
 
@@ -109,7 +109,7 @@ def display_text_next_to_map(map_key, input_text, rows_down=0):
     return map_key
 
 
-def map_art(map_key, character):
+def map_art(map_key: dict, character: dict):
     """
     Produces ascii art of the map based on the value of each position in the map dictionary
 
@@ -149,7 +149,7 @@ def map_art(map_key, character):
     return output
 
 
-def level_start_display(input_text):
+def level_start_display(input_text: str):
     """
     Displays level text without the map
 

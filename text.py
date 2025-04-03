@@ -1,7 +1,7 @@
 import random
 
 
-def input_color(input_string, color, bg_color=""):
+def input_color(input_string: str, color: str, bg_color=""):
     """
     Inserts text color and optionally a background color into a string.
 
@@ -77,7 +77,7 @@ def input_color(input_string, color, bg_color=""):
     return f"{color}{bg_color}{input_string}\033[0m"
 
 
-def level_text(character):
+def level_text(character: dict):
     """
     Returns the level text given the character's level
 
@@ -182,7 +182,7 @@ def level_text(character):
             f" {lvl_text[character["level"] - 1]}")
 
 
-def end_txt(character):
+def end_txt(character: dict):
     line = "-" * 53
     level_ascii = ("/,------.        ,--.   ,--.       ,--.  ,--."
                    "/|  .--. ' ,---. |  |   |  |,--.--.`--',-'  '-. ,---.  "

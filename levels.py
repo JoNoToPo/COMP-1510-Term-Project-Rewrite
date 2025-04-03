@@ -56,7 +56,7 @@ def append_mobs(character):
         return []
 
 
-def check_level_goal(mobs):
+def check_level_goal(mobs: list):
     """
     Finds if the goal of a level has been completed.
 
@@ -80,7 +80,7 @@ def check_level_goal(mobs):
     return True
 
 
-def overwritten(map_key, mobs, character):
+def overwritten(map_key: dict, mobs: list, character: dict):
     """
     Checks if a mob has been overwritten.
 
@@ -111,7 +111,7 @@ def overwritten(map_key, mobs, character):
             happens_when_died(map_key, mob, mobs, character)
 
 
-def happens_when_died(map_key, mob, mobs, character):
+def happens_when_died(map_key: dict, mob: dict, mobs: list, character: dict):
     """
     Either kills the player or removes the mob depending on which mob died.
 
@@ -160,13 +160,13 @@ def happens_when_died(map_key, mob, mobs, character):
             map_key[(mob["y_coordinate"], mob["x_coordinate"])] = mob["symbol"]
 
 
-def countdown(mob, map_key, character):
+def countdown(mob: dict, map_key: dict, character: dict):
     mob["time left"] -= 1
     if mob["time left"] == 0:
         map_key[(character["y_coordinate"], character["x_coordinate"])] = "demolished by a meteor"
 
 
-def fall(mob, mobs, map_key):
+def fall(mob: dict, mobs: list, map_key: dict):
     """
     Create duplicate meteors in the map
     """
@@ -186,7 +186,7 @@ def fall(mob, mobs, map_key):
                          "ai": ["countdown", "shoot"], "time left": 50})
             map.rewrite(map_key, mobs[-1]["x_coordinate"], mobs[-1]["y_coordinate"], mobs[-1]["symbol"])
 
-def bullet(mob, direction):
+def bullet(mob: dict, direction):
     number = 0
     while True:
         yield {"name": "bullet", "x_coordinate": mob["x_coordinate"] + direction[0][1],
@@ -235,7 +235,7 @@ def shot(direction: str, character: dict, map_key: dict):
         character["just_shot"] = False
 
 
-def authenticate_shot(x_coordinate, y_coordinate, map_key: dict):
+def authenticate_shot(x_coordinate: int, y_coordinate: int, map_key: dict):
     """
     Checks to see if the place the bullet is flying to is blocked.
 

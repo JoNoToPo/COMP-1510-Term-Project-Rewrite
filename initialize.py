@@ -3,7 +3,17 @@ import map
 import player
 
 
-def room_randomizer(max_size, min_size):
+def room_randomizer(max_size: int, min_size: int):
+    """
+    Randomizes the size and placement of a room.
+
+    :precondition: two integers
+    :postcondition: a dictionary
+    :param max_size: an integer indicating the maximum size the room can be 1 < max_size < 29
+    :param min_size: an integer indicating the minimum size the room can be 1 < min_size < 29
+    :return: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
+    '   ' as the value
+    """
     y_length = min_size + int(random.random() * (max_size - min_size + 1))
     x_length = min_size + int(random.random() * (max_size - min_size + 1))
     x_offset = int(random.random() * (29 - x_length))
@@ -12,7 +22,20 @@ def room_randomizer(max_size, min_size):
                     x_offset, y_offset)
 
 
-def room_connector(first_room, second_room):
+def room_connector(first_room: dict, second_room: dict):
+    """
+    Connects two rooms with a hallway
+
+    :precondition: two dictionaries of non-zero length containing two integer coordinates in a tuple for each key and
+    '   ' as the value
+    :postcondition: one dictionary
+    :param first_room: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
+    '   ' as the value
+    :param second_room: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
+    '   ' as the value
+    :return: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
+    '   ' as the value
+    """
     random_place_first_room = random.choice(list(first_room.keys()))
     y_start = random_place_first_room[0]
     x_start = random_place_first_room[1]
@@ -36,14 +59,23 @@ def room_connector(first_room, second_room):
     return map.room_combiner(first_room, map.room_combiner(second_room, map.room_combiner(first_hall, second_hall)))
 
 
-def starting_map(starting_room, max_room_size, min_room_size, number_of_rooms):
+def starting_map(starting_room: dict, max_room_size: int, min_room_size: int, number_of_rooms: int):
+    """
+    Randomizes the map for a floor
+
+    :precondition: a dictionary and three integers
+    :postcondition:
+    """
     while number_of_rooms != 1:
         starting_room = room_connector(starting_room, room_randomizer(max_room_size, min_room_size))
         number_of_rooms -= 1
     return starting_room
 
 
-def initialize_mob(mob, map_key, start_room):
+def initialize_mob(mob: dict, map_key: dict, start_room: dict):
+    """
+
+    """
     placed = False
     while not placed:
         place = random.choice(list(map_key.keys()))
