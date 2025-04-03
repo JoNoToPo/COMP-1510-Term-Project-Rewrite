@@ -16,6 +16,7 @@ def game():
     current_character = player.new_character()
     time_machine = {"name": "Time Machine", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                     "symbol": input_color(" T ", "DARK_GRAY", "BRIGHT_BLUE")}
+    time_in_level = 0
     current_map = {}
     mobs = []
     level_text = ""
@@ -63,9 +64,12 @@ def game():
                 level_text = t.level_text(current_character)
                 print(map.level_start_display(level_text))
                 input("To play, please make any input:")
+                time_in_level = 0
                 achieved_goal = False
                 print(map.map_art(map.display_text_next_to_map(current_map, level_text, 0), current_character))
-        player_input = str(input("move with 'w', 'a', 's', or 'd'")).strip().lower()
+        player_input = str(
+            input(f"{time_in_level} seconds spent in level.\nMove with 'w', 'a', 's', or 'd'")).strip().lower()
+        time_in_level += 1
         action = 0
         if not player_input:
             action = ("///////////"
@@ -132,7 +136,10 @@ def game():
                     if ai == "fall":
                         levels.fall(mob, mobs, current_map)
                     if ai == "countdown":
-                        levels.countdown(mob, current_map, current_character)
+                        mob["time left"] -= 1
+                        if mob["time left"] == 0:
+                            current_map[(current_character["y_coordinate"],
+                                         current_character["x_coordinate"])] = "demolished by a meteor"
                     if ai == "rewrite" and random.random() > .5:
                         player.player_rewrite(random.choice(["rw", "ra", "rs", "rd"]), mob, current_map)
             achieved_goal = levels.check_level_goal(mobs)

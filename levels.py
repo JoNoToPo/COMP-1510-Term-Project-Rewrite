@@ -169,12 +169,6 @@ def happens_when_died(map_key: dict, mob: dict, mobs: list, character: dict):
             map_key[(mob["y_coordinate"], mob["x_coordinate"])] = mob["symbol"]
 
 
-def countdown(mob: dict, map_key: dict, character: dict):
-    mob["time left"] -= 1
-    if mob["time left"] == 0:
-        map_key[(character["y_coordinate"], character["x_coordinate"])] = "demolished by a meteor"
-
-
 def fall(mob: dict, mobs: list, map_key: dict):
     """
     Create duplicate meteors in the map
