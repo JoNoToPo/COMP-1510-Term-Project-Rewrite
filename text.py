@@ -128,7 +128,8 @@ def level_text(character: dict) -> str:
                  f"/he hands you a gun. "
                  f"/\"It's not a gun! It's a rewriting device. "
                  f"/Walk to the training dummy \"{input_color(" D ", "RED")}\" using wasd."
-                 "/once you reach the dummy, type r then 'w', 'a', 's', or 'd' to rewrite the dummy"
+                 "/once you reach the dummy, type r "
+                 "/then 'w', or 'a', or 's', or 'd' to rewrite the dummy"
                  "/(in whichever direction the dummy is in)\""
                  "/(eg. type \"rw\" then press enter to rewrite up)."
                  "(If I am blocking your way, please don't kill me. "
@@ -162,7 +163,7 @@ def level_text(character: dict) -> str:
                  f"//You look directly above head and see a massive meteor \"{input_color(" M ", "RED")}\" hurtling down towards the ground"
                  f"/with many mini bits breaking off and striking the ground before the main body. \"{input_color(" • ", "BRIGHT_RED")}\""
                  f"/based on the trajectory of the meteor you are estimating that it will "
-                 f"/land where the \"{input_color(" M ", "RED")}\" is in less than one minute!"
+                 f"/land where the \"{input_color(" M ", "RED")}\" is in roughly 50 seconds!"
                  f"//You get a feeling that if you rewrite all of the \"{input_color(" M ", "RED")}\" "
                  f"/the meteor will be shot into another dimension."
                  "//////To learn how to play type \"help\" at any time,"
@@ -185,6 +186,14 @@ def level_text(character: dict) -> str:
 
 
 def end_txt(character: dict) -> str:
+    """
+    Text that is displayed after each level goal is complete
+
+    :precondition: a dictionary
+    :postcondition: a string
+    :param character: a dictionary with at minimum a key string 'level' with a positive integer value less than five
+    :return: a string containing the correct end text of the level
+    """
     line = "-" * 53
     level_ascii = ("/,------.        ,--.   ,--.       ,--.  ,--."
                    "/|  .--. ' ,---. |  |   |  |,--.--.`--',-'  '-. ,---.  "
