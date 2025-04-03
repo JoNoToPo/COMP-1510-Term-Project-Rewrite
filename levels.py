@@ -2,6 +2,7 @@ import random
 import map
 import player
 from text import input_color
+from itertools import cycle
 
 
 def greater_grandfather():
@@ -42,7 +43,7 @@ def append_mobs(character):
     elif character["level"] == 2:
         return [{"name": "Hitler", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                  "symbol": input_color(" H ", "RED"),
-                 "ai": ["move", "shoot"]},
+                 "ai": ["move", "cycle"]},
                 {"name": "Great-Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                  "symbol": input_color(" G ", "YELLOW"),
                  "ai": ["move"], "id": 0},
@@ -62,6 +63,10 @@ def append_mobs(character):
                  "ai": ["move", "rewrite"], "area": 7}]
     else:
         return []
+
+
+def cycle(mob):
+    mob["ai"] = random.choice([["move", "cycle"], ["shoot", "cycle"]])
 
 
 def check_level_goal(mobs: list):
@@ -213,10 +218,10 @@ def bullet(mob: dict, direction: tuple):
     """
     number = 0
     while True:
-        yield {"name": "bullet", "x_coordinate": mob["x_coordinate"] + direction[0][1],
-               "y_coordinate": mob["y_coordinate"] + direction[0][2], "alive": True,
+        yield {"name": "bullet", "x_coordinate": mob["x_coordinate"] + direction[1],
+               "y_coordinate": mob["y_coordinate"] + direction[2], "alive": True,
                "symbol": input_color(" • ", "BRIGHT_RED"), "id": number,
-               "ai": ["shot"], "direction": direction[0][0], "just_shot": True}
+               "ai": ["shot"], "direction": direction[0], "just_shot": True}
         number += 1
 
 
@@ -278,7 +283,8 @@ def authenticate_shot(x_coordinate: int, y_coordinate: int, map_key: dict):
     False
     """
     if (y_coordinate, x_coordinate) in map_key.keys():
-        if (map_key[(y_coordinate, x_coordinate)] != 3 and
-                map_key[(y_coordinate, x_coordinate)] != input_color(" M ", "RED")):
+        if (map_key[(y_coordinate, x_coordinate)] != 3
+                and map_key[(y_coordinate, x_coordinate)] != input_color(" M ", "RED")
+                and map_key[(y_coordinate, x_coordinate)] != input_color(" H ", "RED")):
             return True
     return False

@@ -44,7 +44,7 @@ def room_connector(first_room: dict, second_room: dict):
     x_end = random_place_second_room[1]
     if y_start < y_end:
         if x_start < x_end:
-            first_hall = map.room(y_end - y_start, 1, x_start, y_start)
+            first_hall = map.room(y_end - y_start + 1, 1, x_start, y_start)
             second_hall = map.room(1, x_end - x_start, x_start, y_end)
         else:
             first_hall = map.room(y_end - y_start, 1, x_start, y_start)
@@ -54,7 +54,7 @@ def room_connector(first_room: dict, second_room: dict):
             first_hall = map.room(y_start - y_end, 1, x_start, y_end)
             second_hall = map.room(1, x_start - x_end + 1, x_end, y_end)
         else:
-            first_hall = map.room(y_start - y_end, 1, x_start, y_end)
+            first_hall = map.room(y_start - y_end + 1, 1, x_start, y_end)
             second_hall = map.room(1, x_end - x_start, x_start, y_end)
     return map.room_combiner(first_room, map.room_combiner(second_room, map.room_combiner(first_hall, second_hall)))
 

@@ -72,7 +72,8 @@ def rewrite(map_key: dict, x_coordinate: int, y_coordinate: int, content, area=1
     for row in range(area):
         for column in range(area):
             if ((y_coordinate - row + int(area / 2), x_coordinate - column + int(area / 2)) in map_key.keys()
-                    and map_key[(y_coordinate - row + int(area / 2), x_coordinate - column + int(area / 2))] == 3):
+                    and map_key[(y_coordinate - row + int(area / 2), x_coordinate - column + int(area / 2))] == 3
+                    and 30 > y_coordinate > 0 and 30 > x_coordinate > 0):
                 map_key[(y_coordinate - row + int(area / 2), x_coordinate - column + int(area / 2))] = "   "
             else:
                 map_key[(y_coordinate - row + int(area / 2), x_coordinate - column + int(area / 2))] = content
@@ -92,18 +93,18 @@ def display_text_next_to_map(map_key: dict, input_text: str, rows_down=0):
     :return: the map key dictionary modified to have the input text at the end of each row
 
     >>> display_text_next_to_map({}, "this/is/a/test")
-    {(0, 31): '   this', (1, 31): '   is', (2, 31): '   a', (3, 31): '   test'}
+    {(0, 31): '  this', (1, 31): '   is', (2, 31): '  a', (3, 31): '  test'}
     >>> display_text_next_to_map({}, "basecase")
-    {(0, 31): '   basecase'}
+    {(0, 31): '  basecase'}
     """
-    line = "   "
+    line = "  "
     for letter in input_text:
         if letter != "/":
             line += letter
         else:
             map_key[(rows_down, 31)] = line
             rows_down += 1
-            line = "   "
+            line = "  "
     map_key[(rows_down, 31)] = line
     return map_key
 

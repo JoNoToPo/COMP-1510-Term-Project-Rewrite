@@ -114,16 +114,20 @@ def game():
             levels.overwritten(current_map, mobs, current_character)
             for mob in mobs:
                 for ai in mob["ai"]:
-                    direction = random.choices([("w", 0, -1), ("a", -1, 0), ("s", 0, 1), ("d", 1, 0)])
+                    direction = random.choice([("w", 0, -1), ("a", -1, 0), ("s", 0, 1), ("d", 1, 0)])
+                    if ai == "cycle":
+                        levels.cycle(mob)
                     if ai == "move":
                         player.move(direction[0], mob, current_map)
                     if (ai == "shoot" and random.random() > .3
-                            and levels.authenticate_shot(mob["x_coordinate"] + direction[0][1],
-                                                         mob["y_coordinate"] + direction[0][2], current_map)):
+                            and levels.authenticate_shot(mob["x_coordinate"] + direction[1],
+                                                         mob["y_coordinate"] + direction[2], current_map)):
                         mobs.append(next(bullet_generator(mob, direction)))
                     if ai == "shot":
                         levels.shot(mob["direction"], mob, current_map)
-                        if mob["alive"]:
+                        if (mob["alive"]
+                                and levels.authenticate_shot(mob["x_coordinate"] - 1, mob["y_coordinate"],
+                                                             current_map)):
                             map.rewrite(current_map, mob["x_coordinate"], mob["y_coordinate"], mob["symbol"])
                     if ai == "fall":
                         levels.fall(mob, mobs, current_map)

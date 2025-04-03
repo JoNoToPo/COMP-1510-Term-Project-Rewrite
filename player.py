@@ -82,7 +82,7 @@ def player_rewrite(user_input: str, character: dict, map_key: dict):
 
 def how_died(map_key: dict, character: dict):
     """
-    Finds how the character.
+    Finds how the character died.
 
     :precondition: two dictionaries
     :postcondition: a string
@@ -91,11 +91,6 @@ def how_died(map_key: dict, character: dict):
     :param character: a dictionary containing at least two keys called Y-coordinate and X-coordinate corresponding to
     the location of the character
     :return: a string corresponding to what killed the chaacter
-
-    >>> print(how_died({(0, 0): input_color(' • ', 'BRIGHT_RED')}, {"x_coordinate": 0, "y_coordinate": 0}))
-    Whether by a bullet or a shard of rock, the result is the same.
-    You got shot.
-    Game Over
     """
     place = map_key[(character["y_coordinate"], character["x_coordinate"])]
     you_died = (f",--.   ,--.                 ,------.  ,--.          ,--. "
