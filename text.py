@@ -78,6 +78,14 @@ def input_color(input_string, color, bg_color=""):
 
 
 def level_text(character):
+    """
+    Returns the level text given the character's level
+
+    :precondition: a dictionary
+    :postcondition: a string
+    :param character: a dictionary with at minimum the keys 'level' and 'name'
+    :return: a string containing the level text
+    """
     line = "-" * 53
     level_ascii = ("/,------.        ,--.   ,--.       ,--.  ,--."
                    "/|  .--. ' ,---. |  |   |  |,--.--.`--',-'  '-. ,---.  "
@@ -128,7 +136,7 @@ def level_text(character):
                 ("/"
                  "/You step through the door of the time machine into a nearly empty but decidedly German university."
                  "//The professor's voice crackles over the time machine's telecom."
-                 "/\"It's 1929. Your mission is to find and kill Hitler. "
+                 f"/\"It's 1929. {character["name"]} Your mission is to find and kill Hitler. "
                  "/He's an adult. obviously it's wrong to kill a baby.\""
                  "/He's still trying to become an art student so this should be easy."
                  "/oh and try not to kill anyone else. "
@@ -174,7 +182,7 @@ def level_text(character):
             f" {lvl_text[character["level"] - 1]}")
 
 
-def end_txt(order):
+def end_txt(character):
     line = "-" * 53
     level_ascii = ("/,------.        ,--.   ,--.       ,--.  ,--."
                    "/|  .--. ' ,---. |  |   |  |,--.--.`--',-'  '-. ,---.  "
@@ -248,7 +256,7 @@ def end_txt(order):
               f"/{input_color(f"{with_a_random_thing_from_history}", "BRIGHT_BLUE", "BLACK")}"
               f"/{input_color("you expect to hear something over the time machine's telecom like last time", "BRIGHT_BLUE", "BLACK")}"
               f"/{input_color("but you don't hear anything.", "BRIGHT_BLUE", "BLACK")}"
-              f"//{input_color("You have a bad feeling but there's nothing to do but enter the time machine", "BRIGHT_BLUE", "BLACK")}"
+              f"//{input_color("You have a bad feeling, but there's nothing to do but enter the time machine", "BRIGHT_BLUE", "BLACK")}"
               f"/{input_color("and see what fate has in store for you.", "BRIGHT_BLUE", "BLACK")}"
               f"/{input_color("", "BRIGHT_BLUE", "BLACK")}"
               f"/{input_color("proceed to the time machine to continue.", "BRIGHT_BLUE", "BLACK")}"
@@ -269,4 +277,4 @@ def end_txt(order):
               f"/{input_color("think of anything to do except go back to your time machine", "BRIGHT_BLUE", "BLACK")}"
               f"////////////"
               ]
-    return output[order]
+    return output[character["level"] - 1]
