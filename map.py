@@ -71,9 +71,8 @@ def rewrite(map_key: dict, x_coordinate: int, y_coordinate: int, content, area=1
     """
     for row in range(area):
         for column in range(area):
-            if (player.authenticate_place(x_coordinate - column + int(area / 2), y_coordinate - row + int(area / 2),
-                                          map_key) and map_key[
-                (y_coordinate - row + int(area / 2), x_coordinate - column + int(area / 2))] == 3):
+            if ((y_coordinate - row + int(area / 2), x_coordinate - column + int(area / 2)) in map_key.keys()
+                    and map_key[(y_coordinate - row + int(area / 2), x_coordinate - column + int(area / 2))] == 3):
                 map_key[(y_coordinate - row + int(area / 2), x_coordinate - column + int(area / 2))] = "   "
             else:
                 map_key[(y_coordinate - row + int(area / 2), x_coordinate - column + int(area / 2))] = content
@@ -126,7 +125,7 @@ def map_art(map_key: dict, character: dict):
               "BRIGHT_GREEN", "BRIGHT_YELLOW", "BRIGHT_BLUE", "BRIGHT_MAGENTA", "BRIGHT_CYAN"]
     for row in range(31):
         for column in range(32):
-            if not player.authenticate_place(column, row, map_key):
+            if not (row, column) in map_key.keys():
                 if character["level"] == 4:
                     output += input_color(wall[0], "WHITE", "WHITE")
                 elif character["level"] == 3:

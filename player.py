@@ -45,14 +45,8 @@ def move(user_input: str, character: dict, map_key: dict, goal_achieved=True):
     return character
 
 
-def authenticate_place(x_coordinate: int, y_coordinate: int, map_key: dict):
-    if (y_coordinate, x_coordinate) in map_key.keys():
-        return True
-    return False
-
-
 def authenticate_move(x_coordinate: int, y_coordinate: int, map_key: dict, goal_achieved: bool):
-    if authenticate_place(x_coordinate, y_coordinate, map_key):
+    if (y_coordinate, x_coordinate) in map_key.keys():
         if map_key[(y_coordinate, x_coordinate)] == "   ":
             return True
         if goal_achieved:

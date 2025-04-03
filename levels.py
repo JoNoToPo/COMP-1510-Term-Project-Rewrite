@@ -277,7 +277,7 @@ def authenticate_shot(x_coordinate: int, y_coordinate: int, map_key: dict):
     >>> authenticate_shot(0, 1, {(0, 0): "anything_else"})
     False
     """
-    if player.authenticate_place(x_coordinate, y_coordinate, map_key):
+    if (y_coordinate, x_coordinate) in map_key.keys():
         if (map_key[(y_coordinate, x_coordinate)] != 3 and
                 map_key[(y_coordinate, x_coordinate)] != input_color(" M ", "RED")):
             return True

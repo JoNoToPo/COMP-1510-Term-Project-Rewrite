@@ -49,7 +49,6 @@ def game():
                                             "\n[You got the Confused ending]"])} "
                           f"\n\n\n\n\n\nThank you Chris for playing the game and making a fun assignment, please give me a good grade lol")
                     break
-                mobs = levels.append_mobs(current_character)
                 start_room = i.room_randomizer(8 + current_character["level"], 4 + current_character["level"])
                 i.initialize_mob(time_machine, start_room, {(0, 0): 1})
                 current_character["y_coordinate"] = time_machine["y_coordinate"]
@@ -57,6 +56,7 @@ def game():
                 current_map = i.starting_map(start_room, 8, 4, current_character["level"] + 1)
                 map.rewrite(current_map, current_character["x_coordinate"], current_character["y_coordinate"],
                             current_character["symbol"])
+                mobs = levels.append_mobs(current_character)
                 for mob in mobs:
                     i.initialize_mob(mob, current_map, start_room)
                     map.rewrite(current_map, mob["x_coordinate"], mob["y_coordinate"], mob["symbol"])
