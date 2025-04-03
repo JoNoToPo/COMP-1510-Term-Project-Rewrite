@@ -16,8 +16,8 @@ def new_character():
     """
     first_name = random.choice(["Chris", "Derek", "Peter", "Johnny", "Thomas"])
     last_name = random.choice(["Thompson", "\"The Axe\" Morgan", "The Wise", "Jefferson"])
-    character_spread = {"name": first_name + " " + last_name, "level": 0, "area": -1, "x_coordinate": 0, "y_coordinate": 0,
-                        "alive": True, "symbol": input_color(" @ ", "GREEN", )}
+    character_spread = {"name": first_name + " " + last_name, "level": 2, "area": -1, "x_coordinate": 0,
+                        "y_coordinate": 0, "alive": True, "symbol": input_color(" @ ", "GREEN", )}
     return character_spread
 
 
@@ -48,6 +48,7 @@ def authenticate_place(x_coordinate: int, y_coordinate: int, map_key: dict):
     if (y_coordinate, x_coordinate) in map_key.keys():
         return True
     return False
+
 
 def authenticate_move(x_coordinate: int, y_coordinate: int, map_key: dict, goal_achieved: bool):
     if authenticate_place(x_coordinate, y_coordinate, map_key):
@@ -111,6 +112,12 @@ def how_died(map_key, character):
     Game Over
     """
     place = map_key[(character["y_coordinate"], character["x_coordinate"])]
+    you_died = (f",--.   ,--.                 ,------.  ,--.          ,--. "
+                f"\n \\  `.'  /,---. ,--.,--.    |  .-.  \\ `--' ,---.  ,-|  | "
+                f"\n  '.    /| .-. ||  ||  |    |  |  \\  :,--.| .-. :' .-. | "
+                f"\n    |  | ' '-' ''  ''  '    |  '--'  /|  |\\   --.\\ `-' | "
+                f"\n    `--'  `---'  `----'     `-------' `--' `----' `---'  ")
+    killed_friendly = "You look at your hand as it becomes transparent. \nThe rewrite device in your hand clatters to the ground."
     if not place:
         return (f"\n{you_died}"
                 "\nYou somehow became a wall."
@@ -147,7 +154,7 @@ def how_died(map_key, character):
                 f"\n\nUnderestimating the power of the rewrite device"
                 f"\nyou accidentally rewrite a random student"
                 f"\n{text.with_a_random_thing_from_history}"
-                f"\n{killed_freindly}"
+                f"\n{killed_friendly}"
                 f"\noops you killed one of your Great-Grandfathers."
                 f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
     elif place == "Time Machine":
@@ -155,7 +162,7 @@ def how_died(map_key, character):
                 f"\n\nThrough the power of the rewrite device"
                 f"\nyour time machine is rewritten"
                 f"\n{text.with_a_random_thing_from_history}"
-                f"\n{killed_freindly}"
+                f"\n{killed_friendly}"
                 f"\n\noops your time machine was destroyed."
                 f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
     elif place == f"{"Great-" * 500}Grandfather":
@@ -163,7 +170,7 @@ def how_died(map_key, character):
                 f"\n\nUnderestimating the power of the rewrite device"
                 f"\nyou accidentally rewrite a caveman"
                 f"\n{text.with_a_random_thing_from_history}"
-                f"\n{killed_freindly}"
+                f"\n{killed_friendly}"
                 f"\nooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooops "
                 f"\nyou killed one of your \n{"Great-" * 500}Grandfathers."
                 f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
@@ -171,16 +178,6 @@ def how_died(map_key, character):
         return (f"\n{you_died}"
                 f"\n\nUsing the device that HE GAVE YOU, you replace him"
                 f"\n{text.with_a_random_thing_from_history}"
-                f"\n{killed_freindly}"
+                f"\n{killed_friendly}"
                 f"\nWoah maybe this professor is more than he seems?"
                 f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
-
-
-
-
-killed_freindly = "You look at your hand as it becomes transparent. \nThe rewrite device in your hand clatters to the ground."
-you_died = (f",--.   ,--.                 ,------.  ,--.          ,--. "
-            f"\n \\  `.'  /,---. ,--.,--.    |  .-.  \\ `--' ,---.  ,-|  | "
-            f"\n  '.    /| .-. ||  ||  |    |  |  \\  :,--.| .-. :' .-. | "
-            f"\n    |  | ' '-' ''  ''  '    |  '--'  /|  |\\   --.\\ `-' | "
-            f"\n    `--'  `---'  `----'     `-------' `--' `----' `---'  ")
