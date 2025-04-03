@@ -86,7 +86,7 @@ def overwritten(map_key, mobs, character):
 
     :precondition: two dictionaries and a list of dictionaries
     :postconditon: a list of dictionaries
-    :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple as the key and
+    :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
     an integer or string as the value
     :param mobs: a list of dictionaries containing mob stats which are at minimum, the key strings "alive", "name",
      "y_coordinate", "x_coordinate", and "symbol"
@@ -119,7 +119,7 @@ def happens_when_died(map_key, mob, mobs, character):
     the player dictionary
     :postcondition: either the position or character overwritten with the name of the mob or the mob being removed from
     the mob list
-    :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple as the key and
+    :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
     an integer or string as the value
     :param mob: a dictionary within mobs containing mob stats which are at minimum, the key strings "name",
     "y_coordinate", "x_coordinate", and "symbol"
@@ -203,7 +203,7 @@ def shot(direction: str, character: dict, map_key: dict):
     :postcondition: character dictionary modified
     :param direction: a string of either a, d, s, or w
     :param character: the dictionary of the character that was shot
-    :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple as the key and
+    :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
     an integer or string as the value
     :return: True if the bullet can fly to that coordinate False if not
 
@@ -243,7 +243,7 @@ def authenticate_shot(x_coordinate, y_coordinate, map_key: dict):
     :postcondition: a boolean value
     :param x_coordinate: an integer
     :param y_coordinate: an integer
-    :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple as the key and
+    :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
     an integer or string as the value
     :return: True if the bullet can fly to that coordinate False if not
 

@@ -29,11 +29,29 @@ def game():
                 current_character["level"] += 1
                 current_character["area"] += 2
                 if current_character["level"] == 5:
-                    print(text.win)
+                    print(f"\n\n\n\n\n\n,--.   ,--.                 ,--.   ,--.,--.         "
+                          f"\n \\  `.'  /,---. ,--.,--.    |  |   |  |`--',--,--,  "
+                          f"\n  '.    /| .-. ||  ||  |    |  |.'.|  |,--.|      \\ "
+                          f"\n    |  | ' '-' ''  ''  '    |   ,'.   ||  ||  ||  | "
+                          f"\n    `--'  `---'  `----'     '--'   '--'`--'`--''--' "
+                          f"\n\n\n\n\n\n\n\n\n\nYou enter the time machine and realize"
+                          f"{random.choice(["\n... Now that you think about it, you didn't need to rewrite history at all"
+                                            "\nyou thought that you would make your mark on history but it turns out that "
+                                            "\nyou just destroyed reality, and that really sucks."
+                                            "\n... maybe in another timeline things could have been different..."
+                                            "\n [You go the Depressed ending]",
+                                            "\nWith this time machine and rewriting device "
+                                            "\nyou can now reshape history however you would like"
+                                            "\nThis is just the beginning and the world will be written in your image."
+                                            "\n[You got the Playing God ending]",
+                                            "\n... nothing. You try to think of a satisfying conclusion to all of this madness,"
+                                            "\nbut nothing comes to mind. a bunch of random stuff happened and you have no clue why."
+                                            "\n[You got the Confused ending]"])} "
+                          f"\n\n\n\n\n\nThank you Chris for playing the game and making a fun assignment, please give me a good grade lol")
                     break
                 mobs = levels.append_mobs(current_character)
-                start_room = i.room_radomizer(8 + current_character["level"], 4 + current_character["level"])
-                time_machine = i.initialize_mob(time_machine, start_room, {(0, 0): 1})
+                start_room = i.room_randomizer(8 + current_character["level"], 4 + current_character["level"])
+                i.initialize_mob(time_machine, start_room, {(0, 0): 1})
                 i.initialize_mob(current_character, start_room, {(0, 0): 1})
                 current_map = i.starting_map(start_room, 8, 4, current_character["level"] + 1)
                 map.rewrite(current_map, time_machine["x_coordinate"], time_machine["y_coordinate"],
@@ -57,10 +75,31 @@ def game():
                       "//To rewrite type 'rw', 'ra', 'rs', or 'rd then press enter'"
                       "//to get help type 'help' then press enter"
                       "///////////")
+        elif player_input.split()[0] == "help":
+            action = (f"{"-" * 53}"
+                      "/             ,--.  ,--.       ,--.           "
+                      "/             |  '--'  | ,---. |  | ,---.     "
+                      "/             |  .--.  || .-. :|  || .-. |    "
+                      "/             |  |  |  |\\   --.|  || '-' '    "
+                      "/             `--'  `--' `----'`--'|  |-'     "
+                      "/----------------------------------`--'---------------/"
+                      "/Welcome to Rewrite!"
+                      "/To move use 'w' to move up, 'a' to move left "
+                      "/'s' to move down and 'd' to move right then press enter."
+                      "//To rewrite type 'rw', 'ra', 'rs', or 'rd then press enter'"
+                      "/for a more complete guide on rewriting simply type 'r' and enter"
+                      "//Once anything is rewritten it will display as a corrupted tile."
+                      "/corrupted tiles change your perception of reality, and act as barriers."
+                      "/however the space surrounding remains the same even if it looks different."
+                      "/if you rewrite a corrupted tile, "
+                      "/it is erased from existence leaving "
+                      "/nothing but floor behind."
+                      "/Be careful what you rewrite. You could end up "
+                      "/erasing yourself from existence if you are not careful."
+                      "/after you are finished with the goal in a level,"
+                      "/move to the time machine ' T ' and you will continue the story.")
         elif player_input[0] in ["w", "a", "s", "d"]:
             player.move(player_input, current_character, current_map, achieved_goal)
-        elif player_input.split()[0] == "help":
-            action = player.player_help(player_input)
         elif player_input[0] == "r":
             action = player.player_rewrite(player_input, current_character, current_map)
         elif player_input == "level text":
@@ -95,7 +134,7 @@ def game():
                         player.player_rewrite(random.choice(["rw", "ra", "rs", "rd"]), mob, current_map)
             achieved_goal = levels.check_level_goal(mobs)
             if achieved_goal:
-                level_text = text.end_txt[current_character["level"] - 1]
+                level_text = text.end_txt(current_character["level"] - 1)
             levels.overwritten(current_map, [time_machine, current_character], current_character)
             if current_character["alive"]:
                 print(map.map_art(map.display_text_next_to_map(

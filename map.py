@@ -1,9 +1,8 @@
-from itertools import permutations, cycle
+from itertools import cycle
 
 import player
 import random
 from text import input_color
-import text
 
 
 def room(y_length, x_length, x_offset, y_offset):
@@ -63,7 +62,7 @@ def rewrite(map_key, x_coordinate, y_coordinate, content, area=1):
     :precondition: a dictionary, two integers corresponding to the (x,y) coordinates,
      and any type of content as a value
     :postcondition: the values of the corresponding locations replaced by the value of "content"
-    :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple as the key and
+    :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
     an integer or string as the value
     :param x_coordinate: an integer
     :param y_coordinate: en integer
@@ -87,7 +86,7 @@ def display_text_next_to_map(map_key, input_text, rows_down=0):
 
     :precondition: a dictionary a string and an integer
     :postcondition: a dictionary
-    :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple as the key and
+    :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
     an integer or string as the value
     :param input_text: a string
     :param rows_down: an integer
@@ -112,17 +111,19 @@ def display_text_next_to_map(map_key, input_text, rows_down=0):
 
 def map_art(map_key, character):
     """
-    Produces askii art of the map based on the value of each position in the map dictionary
+    Produces ascii art of the map based on the value of each position in the map dictionary
 
     :precondition: two dictionaries
     :postcondition: a string
-    :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple as the key and
+    :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
     an integer or string as the value
     :param character: the dictionary containing the player character's stats
     :return: a string with everything in the map and the level text displayed in the correct places
     """
     output = ""
     wall = ["   ", cycle(["/|/", "\\|\\"]), cycle(["_|_", "__|", "___", "|__"]), cycle(["\\\\/", "/\\\\"])]
+    colors = ["RED", "GREEN", "YELLOW", "BLUE", "MAGENTA", "CYAN", "BRIGHT_RED",
+              "BRIGHT_GREEN", "BRIGHT_YELLOW", "BRIGHT_BLUE", "BRIGHT_MAGENTA", "BRIGHT_CYAN"]
     for row in range(31):
         for column in range(32):
             if not player.authenticate_place(column, row, map_key):
@@ -140,12 +141,13 @@ def map_art(map_key, character):
                 for number in range(3):
                     output += input_color(
                         chr(random.randint(48, 5000)),
-                        random.choice(text.colors),
-                        random.choice(text.colors))
+                        random.choice(colors),
+                        random.choice(colors))
             elif type(map_key[(row, column)]) == type(""):
                 output += map_key[(row, column)]
         output += "\n"
     return output
+
 
 def level_start_display(input_text):
     """
@@ -186,7 +188,7 @@ def main():
     combined_rooms = room_combiner(room1, room_combiner(room2, room_combiner(room3, room4)))
     rewrite(combined_rooms, 3, 5, 2, 1)
     display_text_next_to_map(combined_rooms, "This is neat!", 10)
-    print(map_art(combined_rooms))
+    print(map_art(combined_rooms, {"level": 1}))
 
 
 if __name__ == "__main__":

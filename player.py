@@ -1,7 +1,6 @@
 import map
 import random
 import text
-import text as t
 from text import input_color
 
 
@@ -57,15 +56,6 @@ def authenticate_move(x_coordinate: int, y_coordinate: int, map_key: dict, goal_
             if map_key[(y_coordinate, x_coordinate)] == input_color(" T ", "DARK_GRAY", "BRIGHT_BLUE"):
                 return True
     return False
-
-
-def player_help(user_input: str) -> str:
-    output = ""
-    if user_input == "help":
-        output = t.line + t.help_text
-    if user_input == "help" + "w" or "a" or "s" or "d":
-        output = t.line + t.help_text
-    return output
 
 
 def player_rewrite(user_input: str, character: dict, map_key: dict):
