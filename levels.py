@@ -3,32 +3,13 @@ import map
 import player
 from text import input_color
 
-hitler = {"name": "Hitler", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
-          "symbol": input_color(" H ", "RED"),
-          "ai": ["move", "shoot"]}
-
-prime_meteor = {"name": "meteor", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
-                "symbol": input_color(" M ", "RED"),
-                "ai": ["fall", "fall", "countdown"], "time left": 49}
-
-dummy = {"name": "Dummy", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
-         "symbol": input_color(" D ", "RED"), "ai": ["stay"]}
-
-professor = {"name": "Professor", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
-             "symbol": input_color(" P ", "YELLOW"),
-             "ai": ["stay"]}
-
-great_grandfather = {"name": "Great-Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
-                     "symbol": input_color(" G ", "YELLOW"),
-                     "ai": ["stay"]}
-
-greater_grandfather = {"name": f"{"Great-" * 500}Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
-                       "symbol": input_color(" G ", "YELLOW"),
-                       "ai": ["stay"]}
-
-greatest_grandfather = {"name": "GREATEST GRANDFATHER", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
-                        "symbol": input_color(" G ", "WHITE", "BRIGHT_RED"),
-                        "ai": ["move", "rewrite"], "area": 7}
+def greater_grandfather():
+    number = 0
+    while True:
+        yield {"name": f"{"Great-" * 500}Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
+               "symbol": input_color(" G ", "YELLOW"),
+               "ai": ["move"], "id": number}
+        number += 1
 
 
 def append_mobs(character):
@@ -44,14 +25,32 @@ def append_mobs(character):
     []
     """
     if character["level"] == 1:
-        return [dummy, professor]
+        return [{"name": "Dummy", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
+                 "symbol": input_color(" D ", "RED"), "ai": ["stay"]},
+                {"name": "Professor", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
+                 "symbol": input_color(" P ", "YELLOW"),
+                 "ai": ["move"]}]
     elif character["level"] == 2:
-        return [hitler, great_grandfather, great_grandfather]
+        return [{"name": "Hitler", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
+                 "symbol": input_color(" H ", "RED"),
+                 "ai": ["move", "shoot"]},
+                {"name": "Great-Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
+                 "symbol": input_color(" G ", "YELLOW"),
+                 "ai": ["move"], "id": 0},
+                {"name": "Great-Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
+                 "symbol": input_color(" G ", "YELLOW"),
+                 "ai": ["move"], "id": 1}]
     elif character["level"] == 3:
-        return [greater_grandfather, greater_grandfather, greater_grandfather, greater_grandfather, greater_grandfather,
-                prime_meteor]
+        mob_list = [{"name": "meteor", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
+                     "symbol": input_color(" M ", "RED"),
+                     "ai": ["fall", "fall", "countdown"], "time left": 49}]
+        for number in range(4):
+            mob_list.append(next(greater_grandfather()))
+        return mob_list
     elif character["level"] == 4:
-        return [greatest_grandfather]
+        return [{"name": "GREATEST GRANDFATHER", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
+                 "symbol": input_color(" G ", "WHITE", "BRIGHT_RED"),
+                 "ai": ["move", "rewrite"], "area": 7}]
     else:
         return []
 
