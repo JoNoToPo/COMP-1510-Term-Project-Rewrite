@@ -64,7 +64,11 @@ def starting_map(starting_room: dict, max_room_size: int, min_room_size: int, nu
     Randomizes the map for a floor
 
     :precondition: a dictionary and three integers
-    :postcondition:
+    :postcondition: a dictionary
+    :param starting_room: a dictionary containing the coordinates of one rectangular room
+    :param max_room_size: an integer indicating the maximum size the room can be 1 < max_size < 29
+    :param min_room_size: an integer indicating the minimum size the room can be 1 < min_size < 29
+    :param number_of_rooms: a positive non-zero integer indicating the amount of rooms that will be generated
     """
     while number_of_rooms != 1:
         starting_room = room_connector(starting_room, room_randomizer(max_room_size, min_room_size))
@@ -74,7 +78,13 @@ def starting_map(starting_room: dict, max_room_size: int, min_room_size: int, nu
 
 def initialize_mob(mob: dict, map_key: dict, start_room: dict):
     """
+    Places a mob where there are no other mobs.
 
+    :precondition: three dictionaries
+    :postcondition: a dictionary
+    :param mob: the mob dictionary with at minimum the keys y_coordinate and x_coordinate
+    :param map_key: the map within which the mob is being placed
+    :param start_room: the coordinates within which the mob is not allowed to be placed
     """
     placed = False
     while not placed:

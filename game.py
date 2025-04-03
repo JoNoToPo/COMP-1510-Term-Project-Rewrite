@@ -52,10 +52,9 @@ def game():
                 mobs = levels.append_mobs(current_character)
                 start_room = i.room_randomizer(8 + current_character["level"], 4 + current_character["level"])
                 i.initialize_mob(time_machine, start_room, {(0, 0): 1})
-                i.initialize_mob(current_character, start_room, {(0, 0): 1})
+                current_character["y_coordinate"] = time_machine["y_coordinate"]
+                current_character["x_coordinate"] = time_machine["x_coordinate"]
                 current_map = i.starting_map(start_room, 8, 4, current_character["level"] + 1)
-                map.rewrite(current_map, time_machine["x_coordinate"], time_machine["y_coordinate"],
-                            time_machine["symbol"])
                 map.rewrite(current_map, current_character["x_coordinate"], current_character["y_coordinate"],
                             current_character["symbol"])
                 for mob in mobs:
