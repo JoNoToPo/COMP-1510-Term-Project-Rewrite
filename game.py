@@ -5,6 +5,7 @@ import text
 import text as t
 import levels
 from text import input_color
+import random
 
 
 def game():
@@ -18,6 +19,7 @@ def game():
     current_map = {}
     mobs = []
     level_text = ""
+    bullet_generator = levels.bullet
     while True:
         if achieved_goal:
             print(f"to continue to the next level please proceed to the time machine "
@@ -64,27 +66,37 @@ def game():
         elif player_input == "level text":
             action = text.level_text(current_character)
         else:
-            action = ("///////////"
+            action = ("//////////"
                       "Invalid Input,"
                       "//To move type 'w', 'a', 's', or 'd' then press enter"
                       "//To rewrite type 'rw', 'ra', 'rs', or 'rd then press enter'"
                       "//to get help type 'help' then press enter"
-                      "///////////")
+                      "//////////")
         if type(action) != type("string"):
             levels.overwritten(current_map, mobs, current_character)
             for mob in mobs:
-                if mob["alive"]:
-                    for ai in mob["ai"]:
-                        levels.ai_parse(mob, mobs, ai, current_map, current_character)
-            for mob in mobs:
-                if mob["alive"]:
-                    if not (mob["name"] == "bullet" and
-                            current_map[(mob["y_coordinate"], mob["x_coordinate"])] == input_color(" M ", "RED")):
-                        map.rewrite(current_map, mob["x_coordinate"], mob["y_coordinate"], mob["symbol"])
-            levels.overwritten(current_map, [time_machine, current_character], current_character)
+                for ai in mob["ai"]:
+                    direction = random.choices([("w", 0, -1), ("a", -1, 0), ("s", 0, 1), ("d", 1, 0)])
+                    if ai == "move":
+                        player.move(direction[0], mob, current_map)
+                    if (ai == "shoot" and random.random() > .3
+                            and levels.authenticate_shot(mob["x_coordinate"] + direction[0][1],
+                                                         mob["y_coordinate"] + direction[0][2], current_map)):
+                        mobs.append(next(bullet_generator(mob, direction)))
+                    if ai == "shot":
+                        levels.shot(mob["direction"], mob, current_map)
+                        if mob["alive"]:
+                            map.rewrite(current_map, mob["x_coordinate"], mob["y_coordinate"], mob["symbol"])
+                    if ai == "fall":
+                        levels.fall(mob, mobs, current_map)
+                    if ai == "countdown":
+                        levels.countdown(mob, current_map, current_character)
+                    if ai == "rewrite" and random.random() > .5:
+                        player.player_rewrite(random.choice(["rw", "ra", "rs", "rd"]), mob, current_map)
             achieved_goal = levels.check_level_goal(mobs)
             if achieved_goal:
                 level_text = text.end_txt[current_character["level"] - 1]
+            levels.overwritten(current_map, [time_machine, current_character], current_character)
             if current_character["alive"]:
                 print(map.map_art(map.display_text_next_to_map(
                     current_map, level_text, 0), current_character))
