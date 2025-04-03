@@ -134,7 +134,7 @@ def game():
                         player.player_rewrite(random.choice(["rw", "ra", "rs", "rd"]), mob, current_map)
             achieved_goal = levels.check_level_goal(mobs)
             if achieved_goal:
-                level_text = text.end_txt(current_character["level"] - 1)
+                level_text = text.end_txt(current_character)
             levels.overwritten(current_map, [time_machine, current_character], current_character)
             if current_character["alive"]:
                 print(map.map_art(map.display_text_next_to_map(
