@@ -1,6 +1,5 @@
 import map
 import random
-
 import text
 import text as t
 from text import input_color
