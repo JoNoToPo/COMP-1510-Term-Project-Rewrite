@@ -1,8 +1,6 @@
 import random
 import map
-import player
 from text import input_color
-from itertools import cycle
 
 
 def greater_grandfather():
