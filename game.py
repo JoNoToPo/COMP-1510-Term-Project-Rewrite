@@ -20,7 +20,7 @@ def game():
     current_map = {}
     mobs = []
     level_text = ""
-    bullet_generator = levels.bullet
+    amount_of_bullets = 0
     while True:
         if achieved_goal:
             print(f"to continue to the next level please proceed to the time machine "
@@ -126,7 +126,11 @@ def game():
                     if (ai == "shoot" and random.random() > .3
                             and levels.authenticate_shot(mob["x_coordinate"] + direction[1],
                                                          mob["y_coordinate"] + direction[2], current_map)):
-                        mobs.append(next(bullet_generator(mob, direction)))
+                        mobs.append({"name": "bullet", "x_coordinate": mob["x_coordinate"] + direction[1],
+                                     "y_coordinate": mob["y_coordinate"] + direction[2], "alive": True,
+                                     "symbol": input_color(" • ", "BRIGHT_RED"), "id": amount_of_bullets,
+                                     "ai": ["shot"], "direction": direction[0], "just_shot": True})
+                        amount_of_bullets += 1
                     if ai == "shot":
                         levels.shot(mob["direction"], mob, current_map)
                         if (mob["alive"]

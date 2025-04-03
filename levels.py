@@ -3,23 +3,6 @@ import map
 from text import input_color
 
 
-def greater_grandfather():
-    """
-    Generates a greater grandfather with a unique id that will either stay in place or move randomly.
-
-    :precondition: none
-    :postcondition: a dictionary
-    :return: a dictionary with a random AI and unique id
-    """
-    number = 0
-    while True:
-        ai = random.choice(["move", "stay"])
-        yield {"name": f"{"Great-" * 500}Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
-               "symbol": input_color(" G ", "YELLOW"),
-               "ai": [ai], "id": number}
-        number += 1
-
-
 def append_mobs(character):
     """
     Creates a list of mobs based on what level the player is.
@@ -52,8 +35,12 @@ def append_mobs(character):
         mob_list = [{"name": "meteor", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                      "symbol": input_color(" M ", "RED"),
                      "ai": ["fall", "countdown"], "time left": 50}]
-        for _ in range(random.randrange(4, 8)):
-            mob_list.append(next(greater_grandfather()))
+        for number in range(random.randrange(4, 8)):
+            ai = random.choice(["move", "stay"])
+            mob_list.append(
+                {"name": f"{"Great-" * 500}Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
+                 "symbol": input_color(" G ", "YELLOW"),
+                 "ai": [ai], "id": number})
         return mob_list
     elif character["level"] == 4:
         return [{"name": "GREATEST GRANDFATHER", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
@@ -193,24 +180,6 @@ def fall(mob: dict, mobs: list, map_key: dict):
                          "symbol": input_color(" M ", "RED"), "id": placement_attempt,
                          "ai": ["countdown", "shoot"], "time left": 50})
             map.rewrite(map_key, mobs[-1]["x_coordinate"], mobs[-1]["y_coordinate"], mobs[-1]["symbol"])
-
-
-def bullet(mob: dict, direction: tuple):
-    """
-    Generates a bullet next to the mob that fired it that will move in one direction
-
-    :precondition: a dictionary and a list
-    :postcondition: a dictionary
-    :param mob: the mob dictionary that fired the bullet with at minimum the 'x_coordinate' and 'y_coordinate' keys
-    :param direction: one of these four tuples ("w", 0, -1), ("a", -1, 0), ("s", 0, 1), ("d", 1, 0)
-    """
-    number = 0
-    while True:
-        yield {"name": "bullet", "x_coordinate": mob["x_coordinate"] + direction[1],
-               "y_coordinate": mob["y_coordinate"] + direction[2], "alive": True,
-               "symbol": input_color(" • ", "BRIGHT_RED"), "id": number,
-               "ai": ["shot"], "direction": direction[0], "just_shot": True}
-        number += 1
 
 
 def shot(direction: str, character: dict, map_key: dict):
