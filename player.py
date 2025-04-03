@@ -1,6 +1,5 @@
 import map
 import random
-import text
 from text import input_color
 
 
@@ -21,7 +20,11 @@ def new_character():
 
 def move(user_input: str, character: dict, map_key: dict, goal_achieved=True):
     """
+    Moves the character based on the input string
 
+    :precondition: a string a single letter string consisting of 'w', 'a', 's', or 'd'
+    :postcondition: a dictionary
+    :param :
     """
     map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"],
                 "   ")
@@ -106,7 +109,16 @@ def how_died(map_key: dict, character: dict):
                 f"\n  '.    /| .-. ||  ||  |    |  |  \\  :,--.| .-. :' .-. | "
                 f"\n    |  | ' '-' ''  ''  '    |  '--'  /|  |\\   --.\\ `-' | "
                 f"\n    `--'  `---'  `----'     `-------' `--' `----' `---'  ")
-    killed_friendly = "You look at your hand as it becomes transparent. \nThe rewrite device in your hand clatters to the ground."
+    killed_friendly = ("You look at your hand as it becomes transparent."
+                       " \nThe rewrite device in your hand clatters to the ground.")
+    with_a_random_thing_from_history = (f"{random.choices(["with an assortment of greco-roman jewelery",
+                                                           "with a complete garbled mess of shapes and colors",
+                                                           "with a pile of cow turds and"
+                                                           " an Armenian shovel from the 17th century",
+                                                           "with a slightly tattered painting of Andrew Jackson",
+                                                           "with an assortment of baked goods "
+                                                           "from the Phoenician era"])[0]}"
+                                        f" which quickly shifts into something else.")
     if not place:
         return (f"\n{you_died}"
                 "\nYou somehow became a wall."
@@ -142,7 +154,7 @@ def how_died(map_key: dict, character: dict):
         return (f"\n{you_died}"
                 f"\n\nUnderestimating the power of the rewrite device"
                 f"\nyou accidentally rewrite a random student"
-                f"\n{text.with_a_random_thing_from_history}"
+                f"\n{with_a_random_thing_from_history}"
                 f"\n{killed_friendly}"
                 f"\noops you killed one of your Great-Grandfathers."
                 f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
@@ -150,7 +162,7 @@ def how_died(map_key: dict, character: dict):
         return (f"\n{you_died}"
                 f"\n\nThrough the power of the rewrite device"
                 f"\nyour time machine is rewritten"
-                f"\n{text.with_a_random_thing_from_history}"
+                f"\n{with_a_random_thing_from_history}"
                 f"\n{killed_friendly}"
                 f"\n\noops your time machine was destroyed."
                 f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
@@ -158,7 +170,7 @@ def how_died(map_key: dict, character: dict):
         return (f"\n{you_died}"
                 f"\n\nUnderestimating the power of the rewrite device"
                 f"\nyou accidentally rewrite a caveman"
-                f"\n{text.with_a_random_thing_from_history}"
+                f"\n{with_a_random_thing_from_history}"
                 f"\n{killed_friendly}"
                 f"\nooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooops "
                 f"\nyou killed one of your \n{"Great-" * 500}Grandfathers."
@@ -166,7 +178,7 @@ def how_died(map_key: dict, character: dict):
     elif place == "Professor":
         return (f"\n{you_died}"
                 f"\n\nUsing the device that HE GAVE YOU, you replace him"
-                f"\n{text.with_a_random_thing_from_history}"
+                f"\n{with_a_random_thing_from_history}"
                 f"\n{killed_friendly}"
                 f"\nWoah maybe this professor is more than he seems?"
                 f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")

@@ -121,7 +121,7 @@ def map_art(map_key: dict, character: dict):
     :return: a string with everything in the map and the level text displayed in the correct places
     """
     output = ""
-    wall = ["   ", cycle(["/|/", "\\|\\"]), cycle(["_|_", "__|", "___", "|__"]), cycle(["\\\\/", "/\\\\"])]
+    wall = ["   ", cycle(["/|/", "\\|\\"]), cycle(["_|_", "__|", "___", "|__"]), "   "]
     colors = ["RED", "GREEN", "YELLOW", "BLUE", "MAGENTA", "CYAN", "BRIGHT_RED",
               "BRIGHT_GREEN", "BRIGHT_YELLOW", "BRIGHT_BLUE", "BRIGHT_MAGENTA", "BRIGHT_CYAN"]
     for row in range(31):
@@ -134,7 +134,7 @@ def map_art(map_key: dict, character: dict):
                 elif character["level"] == 2:
                     output += input_color(next(wall[2]), "DARK_GRAY", "BLACK")
                 elif character["level"] == 1:
-                    output += input_color(next(wall[3]), "BLUE", "DARK_GRAY")
+                    output += input_color(wall[3], "BLUE", "DARK_GRAY")
                 else:
                     output += input_color("000", "WHITE", "WHITE")
             elif map_key[(row, column)] == 3:
