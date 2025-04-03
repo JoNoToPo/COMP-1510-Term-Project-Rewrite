@@ -3,7 +3,7 @@ import map
 import player
 
 
-def room_radomizer(max_size, min_size):
+def room_randomizer(max_size, min_size):
     y_length = min_size + int(random.random() * (max_size - min_size + 1))
     x_length = min_size + int(random.random() * (max_size - min_size + 1))
     x_offset = int(random.random() * (29 - x_length))
@@ -27,18 +27,18 @@ def room_connector(first_room, second_room):
             first_hall = map.room(y_end - y_start, 1, x_start, y_start)
             second_hall = map.room(1, x_start - x_end + 1, x_end, y_end)
     else:
-        if x_start < x_end:
-            first_hall = map.room(y_start - y_end, 1, x_start, y_end)
-            second_hall = map.room(1, x_end - x_start, x_start, y_end)
-        else:
+        if x_start > x_end:
             first_hall = map.room(y_start - y_end, 1, x_start, y_end)
             second_hall = map.room(1, x_start - x_end + 1, x_end, y_end)
+        else:
+            first_hall = map.room(y_start - y_end, 1, x_start, y_end)
+            second_hall = map.room(1, x_end - x_start, x_start, y_end)
     return map.room_combiner(first_room, map.room_combiner(second_room, map.room_combiner(first_hall, second_hall)))
 
 
 def starting_map(starting_room, max_room_size, min_room_size, number_of_rooms):
     while number_of_rooms != 1:
-        starting_room = room_connector(starting_room, room_radomizer(max_room_size, min_room_size))
+        starting_room = room_connector(starting_room, room_randomizer(max_room_size, min_room_size))
         number_of_rooms -= 1
     return starting_room
 
@@ -59,12 +59,12 @@ def main():
     """
     Drive the program
     """
-    starting_room = room_radomizer(7, 3)
-    room2 = room_radomizer(7, 3)
-    room3 = room_radomizer(7, 3)
-    room4 = room_radomizer(7, 3)
+    starting_room = room_randomizer(7, 3)
+    room2 = room_randomizer(7, 3)
+    room3 = room_randomizer(7, 3)
+    room4 = room_randomizer(7, 3)
     start_map = room_connector(room_connector(starting_room, room2), room_connector(room3, room4))
-    print(map.map_art(start_map))
+    print(map.map_art(start_map, {"level": 1}))
 
 
 if __name__ == "__main__":
