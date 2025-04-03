@@ -6,7 +6,7 @@ from text import input_color
 
 
 class Test(TestCase):
-    def test_append_mobs_level_0(self):
+    def test_append_mobs_level_lower_than_zero_greater_than_4(self):
         actual = append_mobs({"level": 0})
         expected = []
         self.assertEqual(actual, expected)
@@ -31,6 +31,13 @@ class Test(TestCase):
                     {"name": "Great-Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                      "symbol": input_color(" G ", "YELLOW"),
                      "ai": ["move"], "id": 1}]
+        self.assertEqual(actual, expected)
+
+    def test_append_mobs_level_4(self):
+        actual = append_mobs({"level": 4})
+        expected = [{"name": "GREATEST GRANDFATHER", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
+                     "symbol": input_color(" G ", "WHITE", "BRIGHT_RED"),
+                     "ai": ["move", "rewrite"], "area": 7}]
         self.assertEqual(actual, expected)
 
     @patch('random.randrange', side_effect=[4])
