@@ -3,7 +3,15 @@ import map
 import player
 from text import input_color
 
+
 def greater_grandfather():
+    """
+    Generates a greater grandfather that will either stay in place or move randomly.
+
+    :precondition: none
+    :postcondition: a dictionary
+    :return: a dictionary with a random AI and unique id
+    """
     number = 0
     while True:
         ai = random.choice(["move", "stay"])
@@ -169,6 +177,13 @@ def countdown(mob: dict, map_key: dict, character: dict):
 def fall(mob: dict, mobs: list, map_key: dict):
     """
     Create duplicate meteors in the map
+
+    :precondition: two dictionaries and a list of dictionaries
+    :postcondition: some number of meteors appended to the mob list in locations surrounding the first mob
+    :param mob: the meteor dictionary
+    :param mobs: a list of mob dictionaries
+    :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
+    an integer or string as the value
     """
     if mob["time left"] == 50:
         placement_attempt = 0
@@ -186,7 +201,16 @@ def fall(mob: dict, mobs: list, map_key: dict):
                          "ai": ["countdown", "shoot"], "time left": 50})
             map.rewrite(map_key, mobs[-1]["x_coordinate"], mobs[-1]["y_coordinate"], mobs[-1]["symbol"])
 
-def bullet(mob: dict, direction):
+
+def bullet(mob: dict, direction: tuple):
+    """
+    Generates a bullet next to the mob that fired it that will move in one direction
+
+    :precondition: a dictionary and a list
+    :postcondition: a dictionary
+    :param mob: the mob dictionary that fired the bullet with at minimum the 'x_coordinate' and 'y_coordinate' keys
+    :param direction: one of these four tuples ("w", 0, -1), ("a", -1, 0), ("s", 0, 1), ("d", 1, 0)
+    """
     number = 0
     while True:
         yield {"name": "bullet", "x_coordinate": mob["x_coordinate"] + direction[0][1],
@@ -194,6 +218,7 @@ def bullet(mob: dict, direction):
                "symbol": input_color(" • ", "BRIGHT_RED"), "id": number,
                "ai": ["shot"], "direction": direction[0][0], "just_shot": True}
         number += 1
+
 
 def shot(direction: str, character: dict, map_key: dict):
     """
