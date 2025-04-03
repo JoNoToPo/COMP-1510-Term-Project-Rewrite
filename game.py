@@ -116,7 +116,7 @@ def game():
                 for ai in mob["ai"]:
                     direction = random.choice([("w", 0, -1), ("a", -1, 0), ("s", 0, 1), ("d", 1, 0)])
                     if ai == "cycle":
-                        levels.cycle(mob)
+                        mob["ai"] = random.choice([["move", "cycle"], ["shoot", "cycle"]])
                     if ai == "move":
                         player.move(direction[0], mob, current_map)
                     if (ai == "shoot" and random.random() > .3

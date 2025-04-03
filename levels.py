@@ -7,7 +7,7 @@ from itertools import cycle
 
 def greater_grandfather():
     """
-    Generates a greater grandfather that will either stay in place or move randomly.
+    Generates a greater grandfather with a unique id that will either stay in place or move randomly.
 
     :precondition: none
     :postcondition: a dictionary
@@ -63,10 +63,6 @@ def append_mobs(character):
                  "ai": ["move", "rewrite"], "area": 7}]
     else:
         return []
-
-
-def cycle(mob):
-    mob["ai"] = random.choice([["move", "cycle"], ["shoot", "cycle"]])
 
 
 def check_level_goal(mobs: list):
