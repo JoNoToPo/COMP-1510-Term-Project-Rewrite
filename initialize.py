@@ -35,6 +35,11 @@ def room_connector(first_room: dict, second_room: dict):
     '   ' as the value
     :return: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
     '   ' as the value
+    >>> room_connector({(1, 1): "   "}, {(3, 3): "   "})
+    {(1, 1): '   ', (3, 3): '   ', (2, 1): '   ', (3, 1): '   ', (3, 2): '   '}
+
+    >>> room_connector({(1, 3): "   "}, {(3, 1): "   "})
+    {(1, 3): '   ', (3, 1): '   ', (2, 3): '   ', (3, 2): '   ', (3, 3): '   '}
     """
     random_place_first_room = random.choice(list(first_room.keys()))
     y_start = random_place_first_room[0] - 1
@@ -61,7 +66,7 @@ def room_connector(first_room: dict, second_room: dict):
 
 def starting_map(starting_room: dict, max_room_size: int, min_room_size: int, number_of_rooms: int):
     """
-    Randomizes the map for a floor
+    Randomizes the initial ascii map for a floor
 
     :precondition: a dictionary and three integers
     :postcondition: a dictionary
