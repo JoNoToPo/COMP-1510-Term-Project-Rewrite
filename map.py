@@ -117,6 +117,34 @@ def display_text_next_to_map(map_key: dict, input_text: str, rows_down=0):
     return map_key
 
 
+def level_start_display(input_text: str):
+    """
+    Displays level text without the map
+
+    :precondtion: a non-empty string
+    :postcondition: a string
+    :param input_text: a string
+    :return: a printable string
+
+    >>> print(level_start_display("this/is/a/test"))
+       this
+       is
+       a
+       test
+    <BLANKLINE>
+    >>> print(level_start_display("m"))
+       m
+    <BLANKLINE>
+    """
+    output = ""
+    map_key = {}
+    display_text_next_to_map(map_key, input_text)
+    for row in range(len(map_key)):
+        output += map_key[(row, 31)]
+        output += "\n"
+    return output
+
+
 def map_art(map_key: dict, character: dict):
     """
     Produces ascii art of the map based on the value of each position in the map dictionary
@@ -153,34 +181,6 @@ def map_art(map_key: dict, character: dict):
                         random.choice(colors))
             elif type(map_key[(row, column)]) == type(""):
                 output += map_key[(row, column)]
-        output += "\n"
-    return output
-
-
-def level_start_display(input_text: str):
-    """
-    Displays level text without the map
-
-    :precondtion: a non-empty string
-    :postcondition: a string
-    :param input_text: a string
-    :return: a printable string
-
-    >>> print(level_start_display("this/is/a/test"))
-       this
-       is
-       a
-       test
-    <BLANKLINE>
-    >>> print(level_start_display("m"))
-       m
-    <BLANKLINE>
-    """
-    output = ""
-    map_key = {}
-    display_text_next_to_map(map_key, input_text)
-    for row in range(len(map_key)):
-        output += map_key[(row, 31)]
         output += "\n"
     return output
 
