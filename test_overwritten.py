@@ -33,6 +33,25 @@ class Test(TestCase):
                     character)
         expected = []
         self.assertEqual(mobs, expected)
+    def test_overwritten_meteor_many(self):
+        mobs = [{"alive": True, "name": "meteor", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D ", "id": 1},
+                {"alive": True, "name": "meteor", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D ", "id": 2},
+                {"alive": True, "name": "meteor", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D ", "id": 3},
+                {"alive": True, "name": "meteor", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D ", "id": 4},
+                {"alive": True, "name": "meteor", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D ", "id": 5},
+                {"alive": True, "name": "meteor", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D ", "id": 6},
+                {"alive": True, "name": "meteor", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D ", "id": 7},
+                {"alive": True, "name": "meteor", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D ", "id": 8},
+                {"alive": True, "name": "meteor", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D ", "id": 9},
+                {"alive": True, "name": "meteor", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D ", "id": 10},
+                {"alive": True, "name": "meteor", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D ", "id": 11}]
+        map_key = {(0, 0): "something"}
+        character = {"y_coordinate": 0, "x_coordinate": 0}
+        overwritten(map_key,
+                    mobs,
+                    character)
+        expected = []
+        self.assertEqual(mobs, expected)
 
     def test_overwritten_bullet(self):
         mobs = [{"alive": True, "name": "bullet", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D "}]
@@ -150,6 +169,18 @@ class Test(TestCase):
                     mobs,
                     character)
         expected = [{"alive": False, "name": "Time Machine", "y_coordinate": 0, "x_coordinate": 0,
+                     "symbol": " D "}]
+        self.assertEqual(mobs, expected)
+
+    def test_overwritten_character(self):
+        map_key = {(0, 0): "character symbol"}
+        character = {"alive": True, "name": "player", "y_coordinate": 0, "x_coordinate": 0,
+                     "symbol": " D "}
+        mobs = [character]
+        overwritten(map_key,
+                    mobs,
+                    character)
+        expected = [{"alive": False, "name": "player", "y_coordinate": 0, "x_coordinate": 0,
                      "symbol": " D "}]
         self.assertEqual(mobs, expected)
 
