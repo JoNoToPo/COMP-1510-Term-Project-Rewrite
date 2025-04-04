@@ -184,6 +184,3 @@ class Test(TestCase):
         expected = [{"alive": False, "name": "player", "y_coordinate": 0, "x_coordinate": 0,
                      "symbol": " D "}]
         self.assertEqual(mobs, expected)
-
-
-

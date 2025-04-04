@@ -75,7 +75,7 @@ def rewrite(map_key: dict, x_coordinate: int, y_coordinate: int, content, area=1
                     and map_key[(y_coordinate - row + int(area / 2), x_coordinate - column + int(area / 2))] == 3
                     and 30 > y_coordinate > 0 and 30 > x_coordinate > 0):
                 map_key[(y_coordinate - row + int(area / 2), x_coordinate - column + int(area / 2))] = "   "
-            else:
+            elif 30 > y_coordinate > 0 and 30 > x_coordinate > 0:
                 map_key[(y_coordinate - row + int(area / 2), x_coordinate - column + int(area / 2))] = content
     return map_key
 
