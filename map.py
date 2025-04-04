@@ -98,7 +98,7 @@ def display_text_next_to_map(map_key: dict, input_text: str, rows_down=0):
     an integer or string as the value
     :param input_text: a string
     :param rows_down: an integer
-    :return: the map key dictionary modified to have the input text at the end of each row
+    :return: the map key dictionary modified to have the input text broken up by every '/' at the end of each row
 
     >>> display_text_next_to_map({}, "this/is/a/test")
     {(0, 31): '  this', (1, 31): '   is', (2, 31): '  a', (3, 31): '  test'}
