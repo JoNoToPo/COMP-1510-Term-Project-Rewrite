@@ -68,10 +68,18 @@ def rewrite(map_key: dict, x_coordinate: int, y_coordinate: int, content, area=1
     :param y_coordinate: en integer
     :param content: a string or integer
     :param area: a positive integer
+
+    >>> test_map = {}
+    >>> print(rewrite(test_map, 1, 1, 3))
+    {(1, 1): 3}
+    >>> test_map = {(1, 1): 3}
+    >>> print(rewrite(test_map, 1, 1, 3))
+    {(1, 1): '   '}
     """
     for row in range(area):
         for column in range(area):
             if ((y_coordinate - row + int(area / 2), x_coordinate - column + int(area / 2)) in map_key.keys()
+                    and content == 3
                     and map_key[(y_coordinate - row + int(area / 2), x_coordinate - column + int(area / 2))] == 3
                     and 30 > y_coordinate > 0 and 30 > x_coordinate > 0):
                 map_key[(y_coordinate - row + int(area / 2), x_coordinate - column + int(area / 2))] = "   "
