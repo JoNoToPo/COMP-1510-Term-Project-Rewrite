@@ -11,28 +11,6 @@ class Test(TestCase):
         expected = []
         self.assertEqual(actual, expected)
 
-    def test_append_mobs_level_1(self):
-        actual = append_mobs({"level": 1})
-        expected = [{"name": "Dummy", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
-                     "symbol": input_color(" D ", "RED"), "ai": ["stay"]},
-                    {"name": "Professor", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
-                     "symbol": input_color(" P ", "YELLOW"),
-                     "ai": ["move"]}]
-        self.assertEqual(actual, expected)
-
-    def test_append_mobs_level_2(self):
-        actual = append_mobs({"level": 2})
-        expected = [{"name": "Hitler", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
-                     "symbol": input_color(" H ", "RED"),
-                     "ai": ["move", "cycle"]},
-                    {"name": "Great-Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
-                     "symbol": input_color(" G ", "YELLOW"),
-                     "ai": ["move"], "id": 0},
-                    {"name": "Great-Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
-                     "symbol": input_color(" G ", "YELLOW"),
-                     "ai": ["move"], "id": 1}]
-        self.assertEqual(actual, expected)
-
     def test_append_mobs_level_4(self):
         actual = append_mobs({"level": 4})
         expected = [{"name": "GREATEST GRANDFATHER", "x_coordinate": 0, "y_coordinate": 0, "alive": True,

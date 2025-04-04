@@ -101,7 +101,7 @@ def overwritten(map_key: dict, mobs: list, character: dict):
     {(0, 0): 'T'}
     """
     current_mob = 0
-    while current_mob < len(mobs) and mobs[current_mob]["alive"] == True:
+    while current_mob < len(mobs) and (mobs[current_mob]["alive"] == True or mobs[current_mob]["name"] == "bullet"):
         if (map_key[(mobs[current_mob]["y_coordinate"], mobs[current_mob]["x_coordinate"])]
                 != mobs[current_mob]["symbol"]):
             happens_when_died(map_key, mobs[current_mob], mobs, character)
@@ -143,6 +143,7 @@ def happens_when_died(map_key: dict, mob: dict, mobs: list, character: dict):
             or mob["name"] == "Hitler"
             or mob["name"] == "Dummy"
             or mob["name"] == "GREATEST GRANDFATHER"):
+        mob["alive"] = False
         mobs.remove(mob)
     elif (mob["name"] == "Great-Grandfather"
           or mob["name"] == "Professor"
@@ -150,6 +151,7 @@ def happens_when_died(map_key: dict, mob: dict, mobs: list, character: dict):
         if map_key[(mob["y_coordinate"], mob["x_coordinate"])] == 3:
             map_key[(character["y_coordinate"], character["x_coordinate"])] = mob["name"]
         else:
+            mob["alive"] = False
             mobs.remove(mob)
     elif mob["name"] == "Time Machine":
         if map_key[(mob["y_coordinate"], mob["x_coordinate"])] == 3:
@@ -189,7 +191,7 @@ def fall(mob: dict, mobs: list, map_key: dict):
             map.rewrite(map_key, mobs[-1]["x_coordinate"], mobs[-1]["y_coordinate"], mobs[-1]["symbol"])
 
 
-def shot(direction: str, character: dict, map_key: dict):
+def shot(direction: str, character: dict, map_key: dict, mobs):
     """
     Moves a shot character in a given direction if it wasn't just shot, and it doesn't hit a barrier
 
