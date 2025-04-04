@@ -13,9 +13,9 @@ def room(y_length: int, x_length: int, x_offset: int, y_offset: int):
     :postcondition: a dictionary with keys representing rows the content of which are dictionaries the keys
     being the column and the content being 1
     :param y_length: 0 < y_length < 30
-    :param x_length: 0 < y_length < 30
-    :param x_offset: 0 < y_length < 29
-    :param y_offset: 0 < y_length < 29
+    :param x_length: 0 < x_length < 30
+    :param x_offset: 0 < x_offset < 29
+    :param y_offset: 0 < y_offset < 29
     :return: a dictionary containing the coordinates the room contains
 
     >>> room(1, 1, 0, 0)
