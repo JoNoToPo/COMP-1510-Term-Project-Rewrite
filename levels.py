@@ -179,9 +179,8 @@ def fall(mob: dict, mobs: list, map_key: dict):
             place = [random.randrange(-3, 3), random.randrange(-3, 3)]
             placement_attempt += 1
             if (mob["y_coordinate"] + place[1], mob["x_coordinate"] + place[0]) in map_key.keys():
-                if ((map_key[(mob["y_coordinate"] + place[1], mob["x_coordinate"] + place[0])]
-                     == input_color(" M ", "BRIGHT_RED")) or
-                        map_key[(mob["y_coordinate"] + place[1], mob["x_coordinate"] + place[0])] == 3):
+                if (map_key[(mob["y_coordinate"] + place[1], mob["x_coordinate"] + place[0])]
+                        == input_color(" M ", "BRIGHT_RED")):
                     continue
             mobs.append({"name": "meteor", "x_coordinate": mob["x_coordinate"] + place[0],
                          "y_coordinate": mob["y_coordinate"] + place[1], "alive": True,
@@ -244,7 +243,7 @@ def authenticate_shot(x_coordinate: int, y_coordinate: int, map_key: dict):
 
     >>> authenticate_shot(0, 0, {(0, 0): "anything_else"})
     True
-    >>> authenticate_shot(0, 1, {(0, 0): "anything_else"})
+    >>> authenticate_shot(0, 0, {})
     False
     """
     if (y_coordinate, x_coordinate) in map_key.keys():
