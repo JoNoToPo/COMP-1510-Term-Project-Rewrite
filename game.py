@@ -30,12 +30,15 @@ def game():
                 current_character["level"] += 1
                 current_character["area"] += 2
                 if current_character["level"] == 5:
-                    print(f"\n\n\n\n\n\n,--.   ,--.                 ,--.   ,--.,--.         "
+                    print(f"\n\n\n\n\n"
+                          f"{"-" * 53}"
+                          f"\n,--.   ,--.                 ,--.   ,--.,--.         "
                           f"\n \\  `.'  /,---. ,--.,--.    |  |   |  |`--',--,--,  "
                           f"\n  '.    /| .-. ||  ||  |    |  |.'.|  |,--.|      \\ "
                           f"\n    |  | ' '-' ''  ''  '    |   ,'.   ||  ||  ||  | "
                           f"\n    `--'  `---'  `----'     '--'   '--'`--'`--''--' "
-                          f"\n\n\n\n\n\n\n\n\n\nYou enter the time machine and realize"
+                          f"\n{"-" * 53}"
+                          f"\n\nYou enter the time machine and realize"
                           f"{random.choice(["\n... Now that you think about it, you didn't need to rewrite history at all"
                                             "\nyou thought that you would make your mark on history but it turns out that "
                                             "\nyou just destroyed reality, and that really sucks."
@@ -48,7 +51,7 @@ def game():
                                             "\n... nothing. You try to think of a satisfying conclusion to all of this madness,"
                                             "\nbut nothing comes to mind. a bunch of random stuff happened and you have no clue why."
                                             "\n[You got the Confused ending]"])} "
-                          f"\n\n\n\n\n\nThank you Chris for playing the game and making a fun assignment, please give me a good grade lol")
+                          f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThank you Chris for playing the game and making a fun assignment, please give me a good grade lol")
                     break
                 start_room = i.room_randomizer(8 + current_character["level"], 4 + current_character["level"])
                 i.initialize_mob(time_machine, start_room, {(0, 0): 1})
@@ -150,6 +153,7 @@ def game():
             if achieved_goal:
                 level_text = text.end_txt(current_character)
             levels.overwritten(current_map, [time_machine, current_character], current_character)
+            time_machine["alive"] = True
             if current_character["alive"]:
                 print(map.map_art(map.display_text_next_to_map(
                     current_map, level_text, 0), current_character))

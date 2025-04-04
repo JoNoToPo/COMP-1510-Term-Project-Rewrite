@@ -102,7 +102,8 @@ def overwritten(map_key: dict, mobs: list, character: dict):
     """
     current_mob = 0
     while current_mob < len(mobs) and (mobs[current_mob]["alive"] == True or mobs[current_mob]["name"] == "bullet"):
-        if (map_key[(mobs[current_mob]["y_coordinate"], mobs[current_mob]["x_coordinate"])]
+        if ((mobs[current_mob]["y_coordinate"], mobs[current_mob]["x_coordinate"]) not in map_key.keys()
+                or map_key[(mobs[current_mob]["y_coordinate"], mobs[current_mob]["x_coordinate"])]
                 != mobs[current_mob]["symbol"]):
             happens_when_died(map_key, mobs[current_mob], mobs, character)
         else:
@@ -191,7 +192,7 @@ def fall(mob: dict, mobs: list, map_key: dict):
             map.rewrite(map_key, mobs[-1]["x_coordinate"], mobs[-1]["y_coordinate"], mobs[-1]["symbol"])
 
 
-def shot(direction: str, character: dict, map_key: dict, mobs):
+def shot(direction: str, character: dict, map_key: dict):
     """
     Moves a shot character in a given direction if it wasn't just shot, and it doesn't hit a barrier
 
