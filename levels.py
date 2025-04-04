@@ -100,10 +100,13 @@ def overwritten(map_key: dict, mobs: list, character: dict):
     >>> print(map_test)
     {(0, 0): 'T'}
     """
-    for mob in mobs:
-        if map_key[(mob["y_coordinate"], mob["x_coordinate"])] != mob["symbol"]:
-            mob["alive"] = False
-            happens_when_died(map_key, mob, mobs, character)
+    current_mob = 0
+    while current_mob < len(mobs) and mobs[current_mob]["alive"] == True:
+        if (map_key[(mobs[current_mob]["y_coordinate"], mobs[current_mob]["x_coordinate"])]
+                != mobs[current_mob]["symbol"]):
+            happens_when_died(map_key, mobs[current_mob], mobs, character)
+        else:
+            current_mob += 1
 
 
 def happens_when_died(map_key: dict, mob: dict, mobs: list, character: dict):
@@ -152,8 +155,11 @@ def happens_when_died(map_key: dict, mob: dict, mobs: list, character: dict):
         if map_key[(mob["y_coordinate"], mob["x_coordinate"])] == 3:
             map_key[(character["y_coordinate"], character["x_coordinate"])] = mob["name"]
         elif map_key[(mob["y_coordinate"], mob["x_coordinate"])] != character["symbol"]:
-            mob["alive"] = True
             map_key[(mob["y_coordinate"], mob["x_coordinate"])] = mob["symbol"]
+        else:
+            mob["alive"] = False
+    else:
+        mob["alive"] = False
 
 
 def fall(mob: dict, mobs: list, map_key: dict):
@@ -170,7 +176,7 @@ def fall(mob: dict, mobs: list, map_key: dict):
     if mob["time left"] == 50:
         placement_attempt = 0
         while placement_attempt < 20:
-            place = [random.choice(range(-3, 3)), random.choice(range(-3, 3))]
+            place = [random.randrange(-3, 3), random.randrange(-3, 3)]
             placement_attempt += 1
             if (mob["y_coordinate"] + place[1], mob["x_coordinate"] + place[0]) in map_key.keys():
                 if ((map_key[(mob["y_coordinate"] + place[1], mob["x_coordinate"] + place[0])]

@@ -33,6 +33,7 @@ class Test(TestCase):
                     character)
         expected = []
         self.assertEqual(mobs, expected)
+
     def test_overwritten_meteor_many(self):
         mobs = [{"alive": True, "name": "meteor", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D ", "id": 1},
                 {"alive": True, "name": "meteor", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D ", "id": 2},
@@ -141,11 +142,11 @@ class Test(TestCase):
         mobs = [{"alive": True, "name": "Time Machine", "y_coordinate": 0, "x_coordinate": 0,
                  "symbol": " D "}]
         map_key = {(0, 0): 3}
-        character = {"y_coordinate": 0, "x_coordinate": 0}
+        character = {"y_coordinate": 0, "x_coordinate": 0, "symbol": "whatever"}
         overwritten(map_key,
                     mobs,
                     character)
-        expected = {(0, 0): "Time Machine"}
+        expected = {(0, 0): " D "}
         self.assertEqual(map_key, expected)
 
     def test_overwritten_Time_Machine_revive(self):
