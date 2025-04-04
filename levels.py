@@ -84,7 +84,8 @@ def overwritten(map_key: dict, mobs: list, character: dict):
     an integer or string as the value
     :param mobs: a list of dictionaries containing mob stats which are at minimum, the key strings "alive", "name",
      "y_coordinate", "x_coordinate", and "symbol"
-    :param character: the dictionary containing the player character's stats
+    :param character: a dictionary containing at minimum the key strings "y_coordinate", "x_coordinate" with integer values
+    and "symbol" with a string value
     :return: each mob dictionary in the mobs list modified correctly to have the value corresponding to whether or not
     they have been overwritten
 
@@ -119,7 +120,8 @@ def happens_when_died(map_key: dict, mob: dict, mobs: list, character: dict):
     "y_coordinate", "x_coordinate", and "symbol"
     :param mobs:a list of dictionaries containing mob stats which are at minimum, the key strings "name",
     "y_coordinate", "x_coordinate", and "symbol"
-    :param character: the dictionary containing the player character's stats
+    :param character: a dictionary containing at minimum the key strings "y_coordinate", "x_coordinate" with integer values
+    and "symbol" with a string value
     :return: the mob either being removed from the mobs list or overwrite the character's position in the map
 
     >>> map_test = {(0, 0): "anything"}
