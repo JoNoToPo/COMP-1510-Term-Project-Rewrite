@@ -112,9 +112,13 @@ def how_died(map_key: dict, character: dict):
         return (f"\n{you_died}"
                 "\nYou somehow became a wall."
                 "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
-    elif place == "   " or place == " . ":
+    elif place == "   ":
         return (f"\n{you_died}"
-                "\nYou are the floor now?"
+                "\nYou find a way to walk outside of the boundaries of this world "
+                "\nyou see a large man staring at you through a screen the size of the world and"
+                "\nis this heaven? have I met God?"
+                "\nslowly the world shrinks away and you realize that you've been falling this entire time."
+                "\nThen suddenly you hit a metal floor while moving at terminal velocity"
                 "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nGame Over")
     elif place == input_color(" • ", "BRIGHT_RED"):
         return (f"\n{you_died}"
