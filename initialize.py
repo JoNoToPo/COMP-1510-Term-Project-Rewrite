@@ -37,14 +37,14 @@ def room_connector(first_room: dict, second_room: dict):
     '   ' as the value
     """
     random_place_first_room = random.choice(list(first_room.keys()))
-    y_start = random_place_first_room[0]
-    x_start = random_place_first_room[1]
+    y_start = random_place_first_room[0] - 1
+    x_start = random_place_first_room[1] - 1
     random_place_second_room = random.choice(list(second_room.keys()))
-    y_end = random_place_second_room[0]
-    x_end = random_place_second_room[1]
+    y_end = random_place_second_room[0] - 1
+    x_end = random_place_second_room[1] - 1
     if y_start < y_end:
         if x_start < x_end:
-            first_hall = map.room(y_end - y_start + 1, 1, x_start, y_start)
+            first_hall = map.room(y_end - y_start, 1, x_start, y_start)
             second_hall = map.room(1, x_end - x_start, x_start, y_end)
         else:
             first_hall = map.room(y_end - y_start, 1, x_start, y_start)
@@ -52,9 +52,9 @@ def room_connector(first_room: dict, second_room: dict):
     else:
         if x_start > x_end:
             first_hall = map.room(y_start - y_end, 1, x_start, y_end)
-            second_hall = map.room(1, x_start - x_end + 1, x_end, y_end)
+            second_hall = map.room(1, x_start - x_end, x_end, y_end)
         else:
-            first_hall = map.room(y_start - y_end + 1, 1, x_start, y_end)
+            first_hall = map.room(y_start - y_end, 1, x_start, y_end)
             second_hall = map.room(1, x_end - x_start, x_start, y_end)
     return map.room_combiner(first_room, map.room_combiner(second_room, map.room_combiner(first_hall, second_hall)))
 
@@ -101,11 +101,13 @@ def main():
     """
     Drive the program
     """
-    starting_room = room_randomizer(7, 3)
-    room2 = room_randomizer(7, 3)
-    room3 = room_randomizer(7, 3)
-    room4 = room_randomizer(7, 3)
-    start_map = room_connector(room_connector(starting_room, room2), room_connector(room3, room4))
+    # starting_room = room_randomizer(1, 1)
+    # room2 = room_randomizer(1, 1)
+    # room3 = room_randomizer(1, 1)
+    # room4 = room_randomizer(1, 1)
+    starting_room = map.room(2, 2, 5, 20)
+    room2 = map.room(2, 2, 1, 25)
+    start_map = room_connector(starting_room, room2)
     print(map.map_art(start_map, {"level": 1}))
 
 

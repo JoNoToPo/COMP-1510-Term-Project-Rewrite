@@ -1,6 +1,4 @@
 from itertools import cycle
-
-import player
 import random
 from text import input_color
 
