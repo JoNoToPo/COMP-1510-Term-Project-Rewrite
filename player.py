@@ -9,7 +9,7 @@ def new_character():
 
     :precondition: none
     :postcondition: a dictionary
-    :return: a dictionary containing the player's stats and a randomized name
+    :return: player's dictionary of starting stats and a randomized name
     """
     first_name = random.choice(["Chris", "Derek", "Peter", "Johnny", "Thomas"])
     last_name = random.choice(["Thompson", "\"The Axe\" Morgan", "The Wise", "Jefferson"])
@@ -22,14 +22,15 @@ def move(user_input: str, character: dict, map_key: dict, goal_achieved=True):
     """
     Moves the character based on the input string.
 
-    :precondition: a string two dictionaries and optionally a boolean
-    :postcondition: a string or a dictionary
+
     :param user_input: a string consisting of one of the following 'w', 'a', 's', or 'd'
     :param character: a dictionary consisting of at least the key strings 'x_coordinate' and 'y_coordinate' with
     positive integer values, and 'symbol' with a string value of length three
     :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
     an integer or string as the value
     :param goal_achieved: a boolean
+    :precondition: a string two dictionaries and optionally a boolean
+    :postcondition: a string or a dictionary
     :return: the character's position correctly being moved in the map and correctly
      updating the value of their coordinate pair if they can move in that direction
 
@@ -74,13 +75,14 @@ def authenticate_move(x_coordinate: int, y_coordinate: int, map_key: dict, goal_
     Authenticates if a move is allowed based on the position being a floor tile or the time machine once the goal
     has been achieved.
 
-    :precondition: two integers a dictionary and a boolean
-    :postcondition: a boolean value
     :param x_coordinate: 0 < x_coordinate < 30
     :param y_coordinate: 0 < x_coordinate < 30
     :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
     an integer or string as the value
     :param goal_achieved: a boolean
+    :precondition: two integers a dictionary and a boolean
+    :postcondition: a boolean value
+    :return: the correct boolean value depending on if the spot can be entered
 
     >>> authenticate_move(1, 1, {}, True)
     False
@@ -100,13 +102,13 @@ def player_rewrite(direction: str, character: dict, map_key: dict):
     """
     Rewrites an area of the map next to the character according to the direction.
 
-    :precondition: a string and two dictionaries
-    :postcondition: a string or a dictionary
     :param direction: a string
     :param character: a dictionary containing at minimum the key strings 'x_coordinate', 'y_coordinate' and 'area' with
     positive integer values
     :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
     an integer or string as the value
+    :precondition: a string and two dictionaries
+    :postcondition: a string or a dictionary
     :return: the map modified to be rewritten with corrupted tiles
 
     >>> test_map = {}
@@ -144,13 +146,13 @@ def how_died(map_key: dict, character: dict):
     """
     Gives a description of how the character died and ascii art.
 
-    :precondition: two dictionaries
-    :postcondition: a string
     :param map_key: a dictionary containing tuples of the room coordinates as the keys and a string of the contents
     as the value
     :param character: a dictionary containing at least two keys called Y-coordinate and X-coordinate corresponding to
     the location of the character
-    :return: a string corresponding to what killed the character
+    :precondition: two dictionaries
+    :postcondition: a string
+    :return: the correct string corresponding to what killed the character
     """
     place = map_key[(character["y_coordinate"], character["x_coordinate"])]
     you_died = (f",--.   ,--.                 ,------.  ,--.          ,--. "
