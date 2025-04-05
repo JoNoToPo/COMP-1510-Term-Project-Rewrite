@@ -175,7 +175,7 @@ def fall(mob: dict, mobs: list, map_key: dict):
     if mob["time left"] == 25:
         for meteor_id in range(20):
             place = [random.randrange(-3, 3), random.randrange(-3, 3)]
-            if (mob["y_coordinate"] + place[1], mob["x_coordinate"] + place[0]) not in map_key.keys():
+            if 30 < mob["y_coordinate"] + place[1] < 0 or 30 < mob["x_coordinate"] + place[0] < 0:
                 continue
             mobs.append({"name": "meteor", "x_coordinate": mob["x_coordinate"] + place[0],
                          "y_coordinate": mob["y_coordinate"] + place[1], "alive": True,
