@@ -38,7 +38,6 @@ def move(user_input: str, character: dict, map_key: dict, goal_achieved=True):
     {'x_coordinate': 2, 'y_coordinate': 1, 'symbol': ' D '}
     >>> test_map
     {(1, 1): '   ', (1, 2): ' D '}
-
     >>> test_map = {(1, 1): ' D '}
     >>> move('d', {'x_coordinate': 1, 'y_coordinate': 1, 'symbol': ' D '}, test_map)
     {'x_coordinate': 1, 'y_coordinate': 1, 'symbol': ' D '}
@@ -64,7 +63,24 @@ def move(user_input: str, character: dict, map_key: dict, goal_achieved=True):
     return character
 
 
-def authenticate_move(x_coordinate: int, y_coordinate: int, map_key: dict, goal_achieved: bool):
+def authenticate_move(x_coordinate: int, y_coordinate: int, map_key: dict, goal_achieved: bool) -> bool:
+    """
+    Authenticates if a move is allowed based on the position being a floor tile or the time machine once the goal
+    has been achieved
+
+    :precondition: two integers a dictionary and a boolean
+    :postcondition: a boolean value
+    :param x_coordinate: 0 < x_coordinate < 30
+    :param y_coordinate: 0 < x_coordinate < 30
+    :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
+    an integer or string as the value
+    :param goal_achieved: a boolean
+
+    >>> authenticate_move(1, 1, {}, True)
+    False
+    >>> authenticate_move(1, 1, {(1, 1): "   "}, True)
+    True
+    """
     if (y_coordinate, x_coordinate) in map_key.keys():
         if map_key[(y_coordinate, x_coordinate)] == "   ":
             return True
