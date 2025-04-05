@@ -44,12 +44,7 @@ def room_combiner(first_room: dict, second_room: dict):
     >>> room_combiner({(1, 1): '   '}, {(1, 1): '   '})
     {(1, 1): '   '}
     """
-    output = {}
-    for key in list(first_room.keys()) + list(second_room.keys()):
-        if key in first_room.keys():
-            output[key] = first_room[key]
-        else:
-            output[key] = second_room[key]
+    output = {key: "   " for key in list(first_room.keys()) + list(second_room.keys())}
     return output
 
 
