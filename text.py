@@ -11,9 +11,14 @@ def input_color(input_string: str, color: str, bg_color="") -> str:
     :param color: an all caps string defining and limited to the terminal text color options
     :param bg_color: an all caps string limited to the terminal background color options
     :return: a string with the correct text color and background color
+
+    >>> print(input_color("string", "RED"))
+    \033[31mstring\033[0m
+    >>> print(input_color("string", "YELLOW", "BLACK"))
+    \033[33m\033[40mstring\033[0m
     """
     if color == "BLACK":
-        color = "\033[30"
+        color = "\033[30m"
     elif color == "RED":
         color = '\033[31m'
     elif color == "GREEN":
@@ -79,7 +84,7 @@ def input_color(input_string: str, color: str, bg_color="") -> str:
 
 def level_text(character: dict) -> str:
     """
-    Returns the level text given the character's level
+    Ascii art and text given the character's level
 
     :precondition: a dictionary
     :postcondition: a string
@@ -187,7 +192,7 @@ def level_text(character: dict) -> str:
 
 def end_txt(character: dict) -> str:
     """
-    Text that is displayed after each level goal is complete
+    Ascii art and text that is displayed after each level goal is complete.
 
     :precondition: a dictionary
     :postcondition: a string
