@@ -7,13 +7,13 @@ def room(y_length: int, x_length: int, x_offset: int, y_offset: int):
     """
     Defines the location of a room as a dictionary for the map.
 
-    :precondition: four positive integers
-    :postcondition: a dictionary with keys representing rows the content of which are dictionaries the keys
-    being the column and the content being 1
     :param y_length: 0 < y_length < 30
     :param x_length: 0 < x_length < 30
     :param x_offset: 0 < x_offset < 29
     :param y_offset: 0 < y_offset < 29
+    :precondition: four positive integers
+    :postcondition: a dictionary with keys representing rows the content of which are dictionaries the keys
+    being the column and the content being 1
     :return: a dictionary containing the coordinates the room contains
 
     >>> room(1, 1, 0, 0)
@@ -33,10 +33,10 @@ def room_combiner(first_room: dict, second_room: dict):
     """
     Combines the two rooms into a single dictionary even if they overlap
 
-    :precondition: two dictionaries
-    :postcondition: one dictionary
     :param first_room: a dictionary containing a tuple with two integers as the keys and a homogeneous value
     :param second_room: a dictionary containing a tuple with two integers as the keys and a homogeneous value
+    :precondition: two dictionaries
+    :postcondition: one dictionary
     :return: a dictionary containing
 
     >>> room_combiner({(1, 1): '   '}, {(1, 2): '   '})
@@ -57,15 +57,16 @@ def rewrite(map_key: dict, x_coordinate: int, y_coordinate: int, content, area=1
     """
     Rewrites the values of a given dictionary at an (x,y) coordinate
 
-    :precondition: a dictionary, two integers corresponding to the (x,y) coordinates,
-     and any type of content as a value
-    :postcondition: the values of the corresponding locations replaced by the value of "content"
     :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
     an integer or string as the value
     :param x_coordinate: an integer
     :param y_coordinate: en integer
     :param content: a string or integer
     :param area: a positive integer
+    :precondition: a dictionary, two integers corresponding to the (x,y) coordinates,
+     and any type of content as a value
+    :postcondition: a dictioanry
+    :return: the values of the corresponding locations replaced by the value of "content"
 
     >>> test_map = {}
     >>> print(rewrite(test_map, 1, 1, 3))
@@ -90,12 +91,12 @@ def display_text_next_to_map(map_key: dict, input_text: str, rows_down=0):
     """
     Breaks up input text for each '/' and places it at the end of each row of the map.
 
-    :precondition: a dictionary a string and an integer
-    :postcondition: a dictionary
     :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
     an integer or string as the value
     :param input_text: a string
     :param rows_down: an integer
+    :precondition: a dictionary a string and an integer
+    :postcondition: a dictionary
     :return: the map key dictionary modified to have the input text broken up by every '/' at the end of each row
 
     >>> display_text_next_to_map({}, "this/is/a/test")
@@ -119,10 +120,10 @@ def level_start_display(input_text: str):
     """
     Displays level text without the map
 
+    :param input_text: a string
     :precondtion: a non-empty string
     :postcondition: a string
-    :param input_text: a string
-    :return: a printable string
+    :return: the string modified to have a new line and two spaces after each /
 
     >>> print(level_start_display("this/is/a/test"))
       this
@@ -147,12 +148,13 @@ def map_art(map_key: dict, character: dict):
     """
     Produces ascii art of the map based on the value of each position in the map dictionary
 
-    :precondition: two dictionaries
-    :postcondition: a string
     :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
     an integer or string as the value
     :param character: the dictionary containing the player character's stats
-    :return: a string with everything in the map and the level text displayed in the correct places
+    :precondition: two dictionaries
+    :postcondition: a string
+    :return: ascii art contained in a string with everything in the map and the level text displayed in the
+    correct places
     """
     output = ""
     wall = ["   ", cycle(["/|/", "\\|\\"]), cycle(["_|_", "__|", "___", "|__"]), "   "]
