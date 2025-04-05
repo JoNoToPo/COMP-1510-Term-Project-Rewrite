@@ -22,9 +22,28 @@ def move(user_input: str, character: dict, map_key: dict, goal_achieved=True):
     """
     Moves the character based on the input string
 
-    :precondition: a string a single letter string consisting of 'w', 'a', 's', or 'd'
+    :precondition: a string two dictionaries and optionally a boolean
     :postcondition: a dictionary
-    :param :
+    :param user_input: a string consisting of one of the following 'w', 'a', 's', or 'd'
+    :param character: a dictionary consisting of at least the key strings 'x_coordinate' and 'y_coordinate' with
+    integer values, and 'symbol' with a string value of length three
+    :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
+    an integer or string as the value
+    :param goal_achieved: a boolean
+    :return: the character's position correctly being moved in the map and correctly
+     updating the value of their coordinate pair if they can move in that direction
+
+    >>> test_map = {(1, 1): ' D ', (1, 2): '   '}
+    >>> move('d', {'x_coordinate': 1, 'y_coordinate': 1, 'symbol': ' D '}, test_map)
+    {'x_coordinate': 2, 'y_coordinate': 1, 'symbol': ' D '}
+    >>> test_map
+    {(1, 1): '   ', (1, 2): ' D '}
+
+    >>> test_map = {(1, 1): ' D '}
+    >>> move('d', {'x_coordinate': 1, 'y_coordinate': 1, 'symbol': ' D '}, test_map)
+    {'x_coordinate': 1, 'y_coordinate': 1, 'symbol': ' D '}
+    >>> test_map
+    {(1, 1): ' D '}
     """
     map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"],
                 "   ")
