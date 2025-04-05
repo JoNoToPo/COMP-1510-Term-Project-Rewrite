@@ -146,7 +146,7 @@ class Test(TestCase):
         overwritten(map_key,
                     mobs,
                     character)
-        expected = {(0, 0): " D "}
+        expected = {(0, 0): "Time Machine"}
         self.assertEqual(map_key, expected)
 
     def test_overwritten_Time_Machine_revive(self):
@@ -157,7 +157,7 @@ class Test(TestCase):
         overwritten(map_key,
                     mobs,
                     character)
-        expected = [{"alive": True, "name": "Time Machine", "y_coordinate": 0, "x_coordinate": 0,
+        expected = [{"alive": False, "name": "Time Machine", "y_coordinate": 0, "x_coordinate": 0,
                      "symbol": " D "}]
         self.assertEqual(mobs, expected)
 
