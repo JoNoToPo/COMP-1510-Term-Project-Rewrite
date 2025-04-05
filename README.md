@@ -13,12 +13,10 @@
 |         Random module used         |    map.py, 179    |
 |     Nicely formatted f-strings     |   text.py, 187    |
 
-
 # Screen view
 
 Please view the game with a full screen such that the top of the screen shows the top line of the title and the right
 edge of the screen still shows the text.
-
 
 # An excuse for the messy GitHub pushes
 
