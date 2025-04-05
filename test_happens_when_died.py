@@ -4,40 +4,44 @@ from levels import happens_when_died
 
 class Test(TestCase):
     def test_happens_when_died_dummy(self):
-        mobs = [{"alive": True, "name": "Dummy", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D "}]
+        mob ={"alive": True, "name": "Dummy", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D "}
+        mobs = [mob]
         map_key = {(0, 0): "something"}
         character = {"y_coordinate": 0, "x_coordinate": 0}
         happens_when_died(map_key,
-                          {"alive": True, "name": "Dummy", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D "},
+                          mob,
                           mobs,
                           character)
         expected = []
         self.assertEqual(mobs, expected)
 
     def test_happens_when_died_hitler(self):
-        mobs = [{"alive": True, "name": "Hitler", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D "}]
+        mob = {"alive": True, "name": "Hitler", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D "}
+        mobs = [mob]
         map_key = {(0, 0): "something"}
         character = {"y_coordinate": 0, "x_coordinate": 0}
         happens_when_died(map_key,
-                          {"alive": True, "name": "Hitler", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D "},
+                          mob,
                           mobs,
                           character)
         expected = []
         self.assertEqual(mobs, expected)
 
     def test_happens_when_died_meteor(self):
-        mobs = [{"alive": True, "name": "meteor", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D "}]
+        mob = {"alive": True, "name": "meteor", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D "}
+        mobs = [mob]
         map_key = {(0, 0): "something"}
         character = {"y_coordinate": 0, "x_coordinate": 0}
         happens_when_died(map_key,
-                          {"alive": True, "name": "meteor", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D "},
+                          mob,
                           mobs,
                           character)
         expected = []
         self.assertEqual(mobs, expected)
 
     def test_happens_when_died_meteor_many(self):
-        mobs = [{"alive": True, "name": "meteor", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D ", "id": 1},
+        mob = {"alive": True, "name": "meteor", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D ", "id": 1}
+        mobs = [mob,
                 {"alive": True, "name": "meteor", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D ", "id": 2},
                 {"alive": True, "name": "meteor", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D ", "id": 3},
                 {"alive": True, "name": "meteor", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D ", "id": 4},
@@ -50,8 +54,7 @@ class Test(TestCase):
         map_key = {(0, 0): "something"}
         character = {"y_coordinate": 0, "x_coordinate": 0}
         happens_when_died(map_key,
-                          {"alive": True, "name": "meteor", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D ",
-                           "id": 1},
+                          mob,
                           mobs,
                           character)
         expected = [{"alive": True, "name": "meteor", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D ", "id": 2},
@@ -66,61 +69,62 @@ class Test(TestCase):
         self.assertEqual(mobs, expected)
 
     def test_happens_when_died_bullet(self):
-        mobs = [{"alive": True, "name": "bullet", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D "}]
+        mob = {"alive": True, "name": "bullet", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D "}
+        mobs = [mob]
         map_key = {(0, 0): "something"}
         character = {"y_coordinate": 0, "x_coordinate": 0}
         happens_when_died(map_key,
-                          {"alive": True, "name": "bullet", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D "},
+                          mob,
                           mobs,
                           character)
         expected = []
         self.assertEqual(mobs, expected)
 
     def test_happens_when_died_GREATEST_GRANDFATHER(self):
-        mobs = [{"alive": True, "name": "GREATEST GRANDFATHER", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D "}]
+        mob = {"alive": True, "name": "GREATEST GRANDFATHER", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D "}
+        mobs = [mob]
         map_key = {(0, 0): "something"}
         character = {"y_coordinate": 0, "x_coordinate": 0}
         happens_when_died(map_key,
-                          {"alive": True, "name": "GREATEST GRANDFATHER", "y_coordinate": 0, "x_coordinate": 0,
-                           "symbol": " D "},
+                          mob,
                           mobs,
                           character)
         expected = []
         self.assertEqual(mobs, expected)
 
     def test_happens_when_died_great_grandfather_not_murdered(self):
-        mobs = [{"alive": True, "name": "Great-Grandfather", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D "}]
+        mob = {"alive": True, "name": "Great-Grandfather", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D "}
+        mobs = [mob]
         map_key = {(0, 0): "anything other than 3"}
         character = {"y_coordinate": 0, "x_coordinate": 0}
         happens_when_died(map_key,
-                          {"alive": True, "name": "Great-Grandfather", "y_coordinate": 0, "x_coordinate": 0,
-                           "symbol": " D "},
+                          mob,
                           mobs,
                           character)
         expected = []
         self.assertEqual(mobs, expected)
 
     def test_happens_when_died_greater_grandfather_not_murdered(self):
-        mobs = [{"alive": True, "name": f"{"Great-" * 500}Grandfather", "y_coordinate": 0, "x_coordinate": 0,
-                 "symbol": " D "}]
+        mob = {"alive": True, "name": f"{"Great-" * 500}Grandfather", "y_coordinate": 0, "x_coordinate": 0,
+               "symbol": " D "}
+        mobs = [mob]
         map_key = {(0, 0): "anything other than 3"}
         character = {"y_coordinate": 0, "x_coordinate": 0}
         happens_when_died(map_key,
-                          {"alive": True, "name": f"{"Great-" * 500}Grandfather", "y_coordinate": 0, "x_coordinate": 0,
-                           "symbol": " D "},
+                          mob,
                           mobs,
                           character)
         expected = []
         self.assertEqual(mobs, expected)
 
     def test_happens_when_died_Professor_not_murdered(self):
-        mobs = [{"alive": True, "name": "Professor", "y_coordinate": 0, "x_coordinate": 0,
-                 "symbol": " D "}]
+        mob = {"alive": True, "name": "Professor", "y_coordinate": 0, "x_coordinate": 0,
+               "symbol": " D "}
+        mobs = [mob]
         map_key = {(0, 0): "anything other than 3"}
         character = {"y_coordinate": 0, "x_coordinate": 0}
         happens_when_died(map_key,
-                          {"alive": True, "name": "Professor", "y_coordinate": 0, "x_coordinate": 0,
-                           "symbol": " D "},
+                          mob,
                           mobs,
                           character)
         expected = []
