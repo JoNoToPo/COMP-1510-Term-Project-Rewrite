@@ -27,6 +27,14 @@ class Test(TestCase):
         self.assertEqual(action, expected_action)
         self.assertEqual(test_map3, expected_map)
 
+    def test_move_w_floor(self):
+        test_map = {(2, 1): ' D ', (1, 1): '   '}
+        action = move('w', {'x_coordinate': 1, 'y_coordinate': 2, 'symbol': ' D '}, test_map)
+        expected_action = {'x_coordinate': 1, 'y_coordinate': 1, 'symbol': ' D '}
+        expected_map = {(2, 1): '   ', (1, 1): ' D '}
+        self.assertEqual(action, expected_action)
+        self.assertEqual(test_map, expected_map)
+
     def test_move_w_wall(self):
         test_map = {(2, 1): ' D '}
         action = move('w', {'x_coordinate': 1, 'y_coordinate': 2, 'symbol': ' D '}, test_map)
@@ -38,14 +46,6 @@ class Test(TestCase):
                            "/to move right type d and enter"
                            "//////////////////")
         expected_map = {(2, 1): ' D '}
-        self.assertEqual(action, expected_action)
-        self.assertEqual(test_map, expected_map)
-
-    def test_move_w_time_machine(self):
-        test_map = {(2, 1): ' D ', (1, 1): input_color(" T ", "DARK_GRAY", "BRIGHT_BLUE")}
-        action = move('w', {'x_coordinate': 1, 'y_coordinate': 2, 'symbol': ' D '}, test_map)
-        expected_action = {'x_coordinate': 1, 'y_coordinate': 1, 'symbol': ' D '}
-        expected_map = {(2, 1): '   ', (1, 1): ' D '}
         self.assertEqual(action, expected_action)
         self.assertEqual(test_map, expected_map)
 
