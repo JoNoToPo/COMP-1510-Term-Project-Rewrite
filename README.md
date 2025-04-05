@@ -4,9 +4,9 @@
 
 |            Requirements            | File, line number |
 |:----------------------------------:|:-----------------:|
-|         List comprehension         |   game.py, 123    | to skip mobs that aren't going to do anything anyways
+|         List comprehension         |    map.py, 47     | to skip mobs that aren't going to do anything anyways
 |   Selection using if statements    |    map.py, 80     |
-|   Repetition using the for loop    |                   |
+|   Repetition using the for loop    |    map.py, 103    |
 | Membership operator used correctly |  levels.py, 105   |
 |   Range function used correctly    |    map.py, 26     |
 |      Itertools function used       |    map.py, 160    |
