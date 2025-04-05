@@ -139,12 +139,12 @@ def happens_when_died(map_key: dict, mob: dict, mobs: list, character: dict):
     >>> print(map_test)
     {(0, 0): 'T'}
     """
+    mob["alive"] = False
     if (mob["name"] == "bullet"
             or mob["name"] == "meteor"
             or mob["name"] == "Hitler"
             or mob["name"] == "Dummy"
             or mob["name"] == "GREATEST GRANDFATHER"):
-        mob["alive"] = False
         mobs.remove(mob)
     elif (mob["name"] == "Great-Grandfather"
           or mob["name"] == "Professor"
@@ -152,17 +152,12 @@ def happens_when_died(map_key: dict, mob: dict, mobs: list, character: dict):
         if map_key[(mob["y_coordinate"], mob["x_coordinate"])] == 3:
             map_key[(character["y_coordinate"], character["x_coordinate"])] = mob["name"]
         else:
-            mob["alive"] = False
             mobs.remove(mob)
     elif mob["name"] == "Time Machine":
         if map_key[(mob["y_coordinate"], mob["x_coordinate"])] == 3:
             map_key[(character["y_coordinate"], character["x_coordinate"])] = mob["name"]
         elif map_key[(mob["y_coordinate"], mob["x_coordinate"])] != character["symbol"]:
             map_key[(mob["y_coordinate"], mob["x_coordinate"])] = mob["symbol"]
-        else:
-            mob["alive"] = False
-    else:
-        mob["alive"] = False
 
 
 def fall(mob: dict, mobs: list, map_key: dict):
