@@ -17,9 +17,9 @@ def game():
     time_machine = {"name": "Time Machine", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                     "symbol": input_color(" T ", "DARK_GRAY", "BRIGHT_BLUE")}
     time_in_level = 0
-    current_map = {}
-    mobs = []
-    level_text = ""
+    # current_map = {}
+    # mobs = []
+    # level_text = ""
     amount_of_bullets = 0
     while True:
         if achieved_goal:
@@ -121,35 +121,33 @@ def game():
         if type(action) != type("string"):
             levels.overwritten(current_map, mobs, current_character)
             for mob in mobs:
-                for ai in mob["ai"]:
-                    direction = random.choice([("w", 0, -1), ("a", -1, 0), ("s", 0, 1), ("d", 1, 0)])
-                    if ai == "cycle":
-                        mob["ai"] = random.choice([["move", "cycle"], ["shoot", "cycle"]])
-                    if ai == "move":
-                        player.move(direction[0], mob, current_map)
-                    if (ai == "shoot" and random.random() > .3
-                            and levels.authenticate_shot(mob["x_coordinate"] + direction[1],
-                                                         mob["y_coordinate"] + direction[2], current_map)):
-                        mobs.append({"name": "bullet", "x_coordinate": mob["x_coordinate"] + direction[1],
-                                     "y_coordinate": mob["y_coordinate"] + direction[2], "alive": True,
-                                     "symbol": input_color(" • ", "BRIGHT_RED"), "id": amount_of_bullets,
-                                     "ai": ["shot"], "direction": direction[0], "just_shot": True})
-                        amount_of_bullets += 1
-                    if ai == "shot":
-                        levels.shot(mob["direction"], mob, current_map)
-                        if (mob["alive"]
-                                and levels.authenticate_shot(mob["x_coordinate"] - 1, mob["y_coordinate"],
-                                                             current_map)):
-                            map.rewrite(current_map, mob["x_coordinate"], mob["y_coordinate"], mob["symbol"])
-                    if ai == "fall":
-                        levels.fall(mob, mobs, current_map)
-                    if ai == "countdown":
-                        mob["time left"] -= 1
-                        if mob["time left"] == 0:
-                            current_map[(current_character["y_coordinate"],
-                                         current_character["x_coordinate"])] = "demolished by a meteor"
-                    if ai == "rewrite" and random.random() > .5:
-                        player.player_rewrite(random.choice(["rw", "ra", "rs", "rd"]), mob, current_map)
+                direction = random.choice([("w", 0, -1), ("a", -1, 0), ("s", 0, 1), ("d", 1, 0)])
+                if mob["ai"][0] == "move":
+                    player.move(direction[0], mob, current_map)
+                if (mob["ai"][0] == "shoot" and levels.authenticate_shot(mob["x_coordinate"] + direction[1],
+                                                                         mob["y_coordinate"] + direction[2],
+                                                                         current_map)):
+                    mobs.append({"name": "bullet", "x_coordinate": mob["x_coordinate"] + direction[1],
+                                 "y_coordinate": mob["y_coordinate"] + direction[2], "alive": True,
+                                 "symbol": input_color(" • ", "BRIGHT_RED"), "id": amount_of_bullets,
+                                 "ai": ["shot"], "direction": direction[0], "just_shot": True})
+                    amount_of_bullets += 1
+                if mob["ai"][0] == "shot":
+                    levels.shot(mob["direction"], mob, current_map)
+                    if (mob["alive"] and levels.authenticate_shot(mob["x_coordinate"] - 1, mob["y_coordinate"],
+                                                                  current_map)):
+                        map.rewrite(current_map, mob["x_coordinate"], mob["y_coordinate"], mob["symbol"])
+                if mob["ai"][0] == "fall":
+                    levels.fall(mob, mobs, current_map)
+                if mob["ai"][0] == "countdown":
+                    mob["time left"] -= 1
+                    if mob["time left"] < 1:
+                        current_map[(current_character["y_coordinate"],
+                                     current_character["x_coordinate"])] = "demolished by a meteor"
+                if mob["ai"][0] == "rewrite":
+                    player.player_rewrite(random.choice(["rw", "ra", "rs", "rd"]), mob, current_map)
+                if len(mob["ai"]) > 1:
+                    mob["ai"] = [mob["ai"][1], mob["ai"][0]]
             achieved_goal = levels.check_level_goal(mobs)
             if achieved_goal:
                 level_text = text.end_txt(current_character)

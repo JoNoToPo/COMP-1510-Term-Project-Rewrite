@@ -24,7 +24,7 @@ def append_mobs(character):
     elif character["level"] == 2:
         return [{"name": "Hitler", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                  "symbol": input_color(" H ", "RED"),
-                 "ai": ["move", "cycle"]},
+                 "ai": ["shoot", "move"]},
                 {"name": "Great-Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                  "symbol": input_color(" G ", "YELLOW"),
                  "ai": ["move"], "id": 0},
@@ -34,7 +34,7 @@ def append_mobs(character):
     elif character["level"] == 3:
         mob_list = [{"name": "meteor", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                      "symbol": input_color(" M ", "RED"),
-                     "ai": ["fall", "countdown"], "time left": 50}]
+                     "ai": ["fall", "countdown"], "time left": 25}]
         for number in range(random.randrange(4, 8)):
             ai = random.choice(["move", "stay"])
             mob_list.append(
@@ -172,7 +172,7 @@ def fall(mob: dict, mobs: list, map_key: dict):
     :postcondition: a list of dictionaries
     :return: 20 meteors appended to the mob list in locations surrounding the first mob
     """
-    if mob["time left"] == 50:
+    if mob["time left"] == 25:
         placement_attempt = 0
         while placement_attempt < 20:
             place = [random.randrange(-3, 3), random.randrange(-3, 3)]
@@ -184,7 +184,7 @@ def fall(mob: dict, mobs: list, map_key: dict):
             mobs.append({"name": "meteor", "x_coordinate": mob["x_coordinate"] + place[0],
                          "y_coordinate": mob["y_coordinate"] + place[1], "alive": True,
                          "symbol": input_color(" M ", "RED"), "id": placement_attempt,
-                         "ai": ["countdown", "shoot"], "time left": 50})
+                         "ai": ["countdown", "shoot"], "time left": 25})
             map.rewrite(map_key, mobs[-1]["x_coordinate"], mobs[-1]["y_coordinate"], mobs[-1]["symbol"])
 
 
