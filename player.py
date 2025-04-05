@@ -26,7 +26,7 @@ def move(user_input: str, character: dict, map_key: dict, goal_achieved=True):
     :postcondition: a string or a dictionary
     :param user_input: a string consisting of one of the following 'w', 'a', 's', or 'd'
     :param character: a dictionary consisting of at least the key strings 'x_coordinate' and 'y_coordinate' with
-    integer values, and 'symbol' with a string value of length three
+    positive integer values, and 'symbol' with a string value of length three
     :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
     an integer or string as the value
     :param goal_achieved: a boolean
@@ -34,15 +34,11 @@ def move(user_input: str, character: dict, map_key: dict, goal_achieved=True):
      updating the value of their coordinate pair if they can move in that direction
 
     >>> test_map = {(1, 1): ' D ', (1, 2): '   '}
-    >>> move('d', {'x_coordinate': 1, 'y_coordinate': 1, 'symbol': ' D '}, test_map)
+    >>> test_character = {'x_coordinate': 1, 'y_coordinate': 1, 'symbol': ' D '}
+    >>> move('d', test_character, test_map)
     {'x_coordinate': 2, 'y_coordinate': 1, 'symbol': ' D '}
     >>> test_map
     {(1, 1): '   ', (1, 2): ' D '}
-    >>> test_map = {(1, 1): ' D '}
-    >>> move('d', {'x_coordinate': 1, 'y_coordinate': 1, 'symbol': ' D '}, test_map)
-    {'x_coordinate': 1, 'y_coordinate': 1, 'symbol': ' D '}
-    >>> test_map
-    {(1, 1): ' D '}
     """
     map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"],
                 "   ")
@@ -107,7 +103,19 @@ def player_rewrite(direction: str, character: dict, map_key: dict):
     :precondition: a string and two dictionaries
     :postcondition: a string or a dictionary
     :param direction: a string
-    :param :
+    :param character: a dictionary containing at minimum the key strings 'x_coordinate', 'y_coordinate' and 'area' with
+    positive integer values
+    :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
+    an integer or string as the value
+    :return: the map modified to be rewritten with corrupted tiles
+
+    >>> test_map = {}
+    >>> player_rewrite('s', {'x_coordinate': 1, 'y_coordinate': 1, 'area': 1}, test_map)
+    >>> test_map
+    {(2, 1): 3}
+    >>> player_rewrite('s', {'x_coordinate': 1, 'y_coordinate': 1, 'area': 1}, test_map)
+    >>> test_map
+    {(2, 1): '   '}
     """
     if len(direction.split()) > 1:
         direction = direction.split()[1][0]
@@ -142,7 +150,7 @@ def how_died(map_key: dict, character: dict):
     as the value
     :param character: a dictionary containing at least two keys called Y-coordinate and X-coordinate corresponding to
     the location of the character
-    :return: a string corresponding to what killed the chaacter
+    :return: a string corresponding to what killed the character
     """
     place = map_key[(character["y_coordinate"], character["x_coordinate"])]
     you_died = (f",--.   ,--.                 ,------.  ,--.          ,--. "
