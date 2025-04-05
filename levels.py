@@ -7,9 +7,9 @@ def append_mobs(character):
     """
     Creates a list of mobs based on what level the player is.
 
-    :precondition: a dictionary
-    :postcondition: a list
     :param character: the player character dictionary with at least one key named 'level' with an integer value
+    :precondition: a dictionary
+    :postcondition: one list
     :return: a list containing dictionaries pertaining to the mobs in the level
 
     >>> append_mobs({"level": 0})
@@ -54,10 +54,10 @@ def check_level_goal(mobs: list):
     """
     Finds if the goal of a level has been completed.
 
-    :precondition: two dictionaries
-    :postconditon: a boolean value
     :param mobs: a list containing dictionaries each containing a key called 'alive' with a boolean value and a
     key called 'name' with a string value
+    :precondition: two dictionaries
+    :postconditon: a boolean value
     :return: the correct boolean value pertaining to whether the level goal has been achieved or not
 
     >>> check_level_goal([{"name": "name"}])
@@ -78,14 +78,14 @@ def overwritten(map_key: dict, mobs: list, character: dict):
     """
     Checks if a mob has been overwritten.
 
-    :precondition: two dictionaries and a list of dictionaries
-    :postconditon: a list of dictionaries
     :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
     an integer or string as the value
     :param mobs: a list of dictionaries containing mob stats which are at minimum, the key strings "alive", "name",
      "y_coordinate", "x_coordinate", and "symbol"
     :param character: a dictionary containing at minimum the key strings "y_coordinate", "x_coordinate" with integer values
     and "symbol" with a string value
+    :precondition: two dictionaries and a list of dictionaries
+    :postconditon: a list of dictionaries
     :return: each mob dictionary in the mobs list modified correctly to have the value corresponding to whether or not
     they have been overwritten
 
@@ -114,10 +114,6 @@ def happens_when_died(map_key: dict, mob: dict, mobs: list, character: dict):
     """
     Either kills the player or removes the mob depending on which mob died.
 
-    :precondition: the dictionary for the map, the current mob dictionary, a list of mob dictionaries, and
-    the player dictionary
-    :postcondition: either the position or character overwritten with the name of the mob or the mob being removed from
-    the mob list
     :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
     an integer or string as the value
     :param mob: a dictionary within mobs containing mob stats which are at minimum, the key strings "name",
@@ -126,6 +122,10 @@ def happens_when_died(map_key: dict, mob: dict, mobs: list, character: dict):
     "y_coordinate", "x_coordinate", and "symbol"
     :param character: a dictionary containing at minimum the key strings "y_coordinate", "x_coordinate" with integer values
     and "symbol" with a string value
+    :precondition: the dictionary for the map, the current mob dictionary, a list of mob dictionaries, and
+    the player dictionary
+    :postcondition: either the position or character overwritten with the name of the mob or the mob being removed from
+    the mob list
     :return: the mob either being removed from the mobs list or overwrite the character's position in the map
 
     >>> map_test = {(0, 0): "anything"}
@@ -164,12 +164,13 @@ def fall(mob: dict, mobs: list, map_key: dict):
     """
     Create duplicate meteors in the map
 
-    :precondition: two dictionaries and a list of dictionaries
-    :postcondition: some number of meteors appended to the mob list in locations surrounding the first mob
     :param mob: the meteor dictionary
     :param mobs: a list of mob dictionaries
     :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
     an integer or string as the value
+    :precondition: two dictionaries and a list of dictionaries
+    :postcondition: a list of dictionaries
+    :return: 20 meteors appended to the mob list in locations surrounding the first mob
     """
     if mob["time left"] == 50:
         placement_attempt = 0
@@ -191,12 +192,12 @@ def shot(direction: str, character: dict, map_key: dict):
     """
     Moves a shot character in a given direction if it wasn't just shot, and it doesn't hit a barrier
 
-    :precondition: a string and two dictionaries
-    :postcondition: character dictionary modified
     :param direction: a string of either a, d, s, or w
     :param character: the dictionary of the character that was shot
     :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
     an integer or string as the value
+    :precondition: a string and two dictionaries
+    :postcondition: character dictionary modified
     :return: True if the bullet can fly to that coordinate False if not
 
     >>> test_bullet = {"name": "bullet", "x_coordinate": 0, "y_coordinate": 0, "alive": True, "symbol": "B", "just_shot": False}
@@ -231,12 +232,12 @@ def authenticate_shot(x_coordinate: int, y_coordinate: int, map_key: dict):
     """
     Checks to see if the place the bullet is flying to is blocked.
 
-    :precondition: two integers and a dictionary
-    :postcondition: a boolean value
     :param x_coordinate: an integer
-    :param y_coordinate: an integer
+    :param y_coordinate: another integer
     :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
     an integer or string as the value
+    :precondition: two integers and a dictionary
+    :postcondition: a boolean value
     :return: True if the bullet can fly to that coordinate False if not
 
     >>> authenticate_shot(0, 0, {(0, 0): "anything_else"})
