@@ -90,6 +90,11 @@ def initialize_mob(mob: dict, map_key: dict, start_room: dict):
     :param mob: the mob dictionary with at minimum the keys y_coordinate and x_coordinate
     :param map_key: the map within which the mob is being placed
     :param start_room: the coordinates within which the mob is not allowed to be placed
+
+    >>> initialize_mob({"y_coordinate": 0, "x_coordinate": 0}, {(0, 0): "   ", (3,3): "   "}, {(0, 0): "   "})
+    {'y_coordinate': 3, 'x_coordinate': 3}
+    >>> initialize_mob({"y_coordinate": 0, "x_coordinate": 0}, {(3,3): "   "}, {(0, 0): ""})
+    {'y_coordinate': 3, 'x_coordinate': 3}
     """
     placed = False
     while not placed:
