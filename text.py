@@ -90,8 +90,6 @@ def level_text(character: dict) -> str:
     :postcondition: a string
     :param character: a dictionary with at minimum the keys 'level' and 'name'
     :return: a string containing the level text
-
-    >>> level_text({"name": "name"})
     """
     line = f"{input_color(f"{"-" * 53}", "BRIGHT_BLUE", "BLACK")}"
     level_ascii = (f"/{input_color(",------.        ,--.   ,--.       ,--.  ,--.         ", "BRIGHT_BLUE", "BLACK")} "

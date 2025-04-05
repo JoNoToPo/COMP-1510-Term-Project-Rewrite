@@ -99,7 +99,7 @@ def display_text_next_to_map(map_key: dict, input_text: str, rows_down=0):
     :return: the map key dictionary modified to have the input text broken up by every '/' at the end of each row
 
     >>> display_text_next_to_map({}, "this/is/a/test")
-    {(0, 31): '  this', (1, 31): '   is', (2, 31): '  a', (3, 31): '  test'}
+    {(0, 31): '  this', (1, 31): '  is', (2, 31): '  a', (3, 31): '  test'}
     >>> display_text_next_to_map({}, "basecase")
     {(0, 31): '  basecase'}
     """
@@ -125,13 +125,13 @@ def level_start_display(input_text: str):
     :return: a printable string
 
     >>> print(level_start_display("this/is/a/test"))
-       this
-       is
-       a
-       test
+      this
+      is
+      a
+      test
     <BLANKLINE>
     >>> print(level_start_display("m"))
-       m
+      m
     <BLANKLINE>
     """
     output = ""

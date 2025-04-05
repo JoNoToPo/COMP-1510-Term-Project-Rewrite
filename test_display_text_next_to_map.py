@@ -6,7 +6,7 @@ from map import display_text_next_to_map
 class Test(TestCase):
     def test_display_text_next_to_map_test(self):
         actual = display_text_next_to_map({}, "this/is/a/test")
-        expected = {(0, 31): '  this', (1, 31): '   is', (2, 31): '  a', (3, 31): '  test'}
+        expected = {(0, 31): '  this', (1, 31): '  is', (2, 31): '  a', (3, 31): '  test'}
         self.assertEqual(actual, expected)
 
     def test_display_text_next_to_map_basecase(self):

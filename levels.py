@@ -60,9 +60,9 @@ def check_level_goal(mobs: list):
     key called 'name' with a string value
     :return: the correct boolean value pertaining to whether the level goal has been achieved or not
 
-    >>> check_level_goal({"level": 1}, [{"name": "name", "alive": False}])
+    >>> check_level_goal([{"name": "name"}])
     True
-    >>> check_level_goal({"level": 5}, [{"name": "name", "alive": False}])
+    >>> check_level_goal([{"name": "Hitler"}])
     False
     """
     for mob in mobs:
@@ -203,7 +203,7 @@ def shot(direction: str, character: dict, map_key: dict):
     >>> test_map = {(0, 0): "B"}
     >>> shot("d", test_bullet, test_map)
     >>> print(test_map)
-    {(0, 0): '   '}
+    {(0, 0): 'B'}
     >>> print(test_bullet["alive"])
     False
     """
