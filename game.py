@@ -17,9 +17,9 @@ def game():
     time_machine = {"name": "Time Machine", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                     "symbol": input_color(" T ", "DARK_GRAY", "BRIGHT_BLUE")}
     time_in_level = 0
-    # current_map = {}
-    # mobs = []
-    # level_text = ""
+    current_map = {}
+    mobs = []
+    level_text = ""
     amount_of_bullets = 0
     while True:
         if achieved_goal:
@@ -124,9 +124,9 @@ def game():
                 direction = random.choice([("w", 0, -1), ("a", -1, 0), ("s", 0, 1), ("d", 1, 0)])
                 if mob["ai"][0] == "move":
                     player.move(direction[0], mob, current_map)
-                if (mob["ai"][0] == "shoot" and levels.authenticate_shot(mob["x_coordinate"] + direction[1],
-                                                                         mob["y_coordinate"] + direction[2],
-                                                                         current_map)):
+                if (mob["ai"][0] == "shoot" and
+                        levels.authenticate_shot(mob["x_coordinate"] + direction[1], mob["y_coordinate"] + direction[2],
+                                                 current_map)):
                     mobs.append({"name": "bullet", "x_coordinate": mob["x_coordinate"] + direction[1],
                                  "y_coordinate": mob["y_coordinate"] + direction[2], "alive": True,
                                  "symbol": input_color(" • ", "BRIGHT_RED"), "id": amount_of_bullets,
@@ -134,7 +134,7 @@ def game():
                     amount_of_bullets += 1
                 if mob["ai"][0] == "shot":
                     levels.shot(mob["direction"], mob, current_map)
-                    if (mob["alive"] and levels.authenticate_shot(mob["x_coordinate"] - 1, mob["y_coordinate"],
+                    if (mob["alive"] and levels.authenticate_shot(mob["x_coordinate"], mob["y_coordinate"],
                                                                   current_map)):
                         map.rewrite(current_map, mob["x_coordinate"], mob["y_coordinate"], mob["symbol"])
                 if mob["ai"][0] == "fall":
