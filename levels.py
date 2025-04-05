@@ -173,17 +173,13 @@ def fall(mob: dict, mobs: list, map_key: dict):
     :return: 20 meteors appended to the mob list in locations surrounding the first mob
     """
     if mob["time left"] == 25:
-        placement_attempt = 0
-        while placement_attempt < 20:
+        for meteor_id in range(20):
             place = [random.randrange(-3, 3), random.randrange(-3, 3)]
-            placement_attempt += 1
-            if (mob["y_coordinate"] + place[1], mob["x_coordinate"] + place[0]) in map_key.keys():
-                if (map_key[(mob["y_coordinate"] + place[1], mob["x_coordinate"] + place[0])]
-                        == input_color(" M ", "BRIGHT_RED")):
-                    continue
+            if (mob["y_coordinate"] + place[1], mob["x_coordinate"] + place[0]) not in map_key.keys():
+                continue
             mobs.append({"name": "meteor", "x_coordinate": mob["x_coordinate"] + place[0],
                          "y_coordinate": mob["y_coordinate"] + place[1], "alive": True,
-                         "symbol": input_color(" M ", "RED"), "id": placement_attempt,
+                         "symbol": input_color(" M ", "RED"), "id": meteor_id,
                          "ai": ["countdown", "shoot"], "time left": 25})
             map.rewrite(map_key, mobs[-1]["x_coordinate"], mobs[-1]["y_coordinate"], mobs[-1]["symbol"])
 
