@@ -92,9 +92,8 @@ def authenticate_move(x_coordinate: int, y_coordinate: int, map_key: dict, goal_
     if (y_coordinate, x_coordinate) in map_key.keys():
         if map_key[(y_coordinate, x_coordinate)] == "   ":
             return True
-        if goal_achieved:
-            if map_key[(y_coordinate, x_coordinate)] == input_color(" T ", "DARK_GRAY", "BRIGHT_BLUE"):
-                return True
+        elif goal_achieved and map_key[(y_coordinate, x_coordinate)] == input_color(" T ", "DARK_GRAY", "BRIGHT_BLUE"):
+            return True
     return False
 
 
