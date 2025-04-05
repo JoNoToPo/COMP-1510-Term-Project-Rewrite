@@ -105,7 +105,7 @@ def game():
                       "/after you are finished with the goal in a level,"
                       "/move to the time machine ' T ' and you will continue the story.")
         elif player_input[0] in ["w", "a", "s", "d"]:
-            player.move(player_input, current_character, current_map, achieved_goal)
+            action = player.move(player_input, current_character, current_map, achieved_goal)
         elif player_input[0] == "r":
             action = player.player_rewrite(player_input, current_character, current_map)
         elif player_input == "level text":

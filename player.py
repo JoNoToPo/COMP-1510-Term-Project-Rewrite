@@ -23,7 +23,7 @@ def move(user_input: str, character: dict, map_key: dict, goal_achieved=True):
     Moves the character based on the input string
 
     :precondition: a string two dictionaries and optionally a boolean
-    :postcondition: a dictionary
+    :postcondition: a string or a dictionary
     :param user_input: a string consisting of one of the following 'w', 'a', 's', or 'd'
     :param character: a dictionary consisting of at least the key strings 'x_coordinate' and 'y_coordinate' with
     integer values, and 'symbol' with a string value of length three
@@ -58,6 +58,16 @@ def move(user_input: str, character: dict, map_key: dict, goal_achieved=True):
     elif user_input[0] == "w" and authenticate_move(character["x_coordinate"], character["y_coordinate"] - 1, map_key,
                                                     goal_achieved):
         character["y_coordinate"] -= 1
+    else:
+        map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"],
+                    character["symbol"])
+        return ("/////////////You walk into the wall"
+                "/and feel quite silly."
+                "//to move up type w and enter"
+                "/to move left type a and enter"
+                "/to move down type s and enter"
+                "/to move right type d and enter"
+                "//////////////////")
     map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"],
                 character["symbol"])
     return character
@@ -90,12 +100,19 @@ def authenticate_move(x_coordinate: int, y_coordinate: int, map_key: dict, goal_
     return False
 
 
-def player_rewrite(user_input: str, character: dict, map_key: dict):
-    direction = None
-    if len(user_input) > 1:
-        direction = user_input[1]
-    if len(user_input.split()) > 1:
-        direction = user_input.split()[1][0]
+def player_rewrite(direction: str, character: dict, map_key: dict):
+    """
+    Rewrites an area of the map next to the character according to the direction input
+
+    :precondition: a string and two dictionaries
+    :postcondition: a string or a dictionary
+    :param direction: a string
+    :param :
+    """
+    if len(direction.split()) > 1:
+        direction = direction.split()[1][0]
+    if len(direction) > 1:
+        direction = direction[1]
     if direction == "a":
         map.rewrite(map_key, character["x_coordinate"] - (int(character["area"] / 2) + 1),
                     character["y_coordinate"], 3, character["area"])
