@@ -73,7 +73,6 @@ def game():
         player_input = str(
             input(f"{time_in_level} seconds spent in level.\nMove with 'w', 'a', 's', or 'd'")).strip().lower()
         time_in_level += 1
-        action = 0
         if not player_input:
             action = ("///////////"
                       "Invalid Input,"

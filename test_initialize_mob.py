@@ -1,4 +1,3 @@
-import random
 from unittest import TestCase
 from unittest.mock import patch
 from initialize import initialize_mob

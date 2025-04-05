@@ -1,4 +1,3 @@
-from sys import activate_stack_trampoline
 from unittest import TestCase
 from unittest.mock import patch
 

@@ -1,6 +1,4 @@
-from tabnanny import check
 from unittest import TestCase
-
 from levels import check_level_goal
 
 

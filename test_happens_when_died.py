@@ -4,7 +4,7 @@ from levels import happens_when_died
 
 class Test(TestCase):
     def test_happens_when_died_dummy(self):
-        mob ={"alive": True, "name": "Dummy", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D "}
+        mob = {"alive": True, "name": "Dummy", "y_coordinate": 0, "x_coordinate": 0, "symbol": " D "}
         mobs = [mob]
         map_key = {(0, 0): "something"}
         character = {"y_coordinate": 0, "x_coordinate": 0}
