@@ -93,27 +93,27 @@ def level_text(character: dict) -> str:
 
     >>> level_text({"name": "name"})
     """
-    line = "-" * 53
-    level_ascii = ("/,------.        ,--.   ,--.       ,--.  ,--."
-                   "/|  .--. ' ,---. |  |   |  |,--.--.`--',-'  '-. ,---.  "
-                   "/|  '--'.'| .-. :|  |.'.|  ||  .--',--.'-.  .-'| .-. : "
-                   "/|  |\\  \\ \\   --.|   ,'.   ||  |   |  |  |  |  \\   --. "
-                   "/`--' '--' `----''--'   '--'`--'   `--'  `--'   `----' /",
-                   "/,--.                         ,--.     ,--."
-                   "/|  |    ,---.,--.  ,--.,---. |  |    ,   |"
-                   "/|  |   | .-. :\\  `'  ,| .-. :|  |    `|  | "
-                   "/|  '--.\\   --. \\    , \\   --.|  |     |  | "
-                   "/`-----' `----'  `--'   `----'`--'     `--'/",
-                   "/,--.                         ,--.     ,---.  "
-                   "/|  |    ,---.,--.  ,--.,---. |  |    '.-.  \\ "
-                   "/|  |   | .-. :\\  `'  ,| .-. :|  |     .-' .' "
-                   "/|  '--.\\   --. \\    , \\   --.|  |    |   '-. "
-                   "/`-----' `----'  `--'   `----'`--'    '-----' /",
-                   "/,--.                         ,--.    ,----.  "
-                   "/|  |    ,---.,--.  ,--.,---. |  |    '.-.  | "
-                   "/|  |   | .-. :\\  `'  ,| .-. :|  |      .' <  "
-                   "/|  '--.\\   --. \\    , \\   --.|  |    ,'-'  | "
-                   "/`-----' `----'  `--'   `----'`--'    `----' /")
+    line = f"{input_color(f"{"-" * 53}", "BRIGHT_BLUE", "BLACK")}"
+    level_ascii = (f"/{input_color(",------.        ,--.   ,--.       ,--.  ,--.         ", "BRIGHT_BLUE", "BLACK")} "
+                   f"/{input_color("|  .--. ' ,---. |  |   |  |,--.--.`--',-'  '-. ,---. ", "BRIGHT_BLUE", "BLACK")} "
+                   f"/{input_color("|  '--'.'| .-. :|  |.'.|  ||  .--',--.'-.  .-'| .-. :", "BRIGHT_BLUE", "BLACK")} "
+                   f"/{input_color("|  |\\  \\ \\   --.|   ,'.   ||  |   |  |  |  |  \\   --.", "BRIGHT_BLUE", "BLACK")} "
+                   f"/{input_color("`--' '--' `----''--'   '--'`--'   `--'  `--'   `----'", "BRIGHT_BLUE", "BLACK")} /",
+                   f"/{input_color("     ,--.                         ,--.     ,--.      ", "BRIGHT_BLUE", "BLACK")} "
+                   f"/{input_color("     |  |    ,---.,--.  ,--.,---. |  |    ,   |      ", "BRIGHT_BLUE", "BLACK")} "
+                   f"/{input_color("     |  |   | .-. :\\  `'  ,| .-. :|  |    `|  |      ", "BRIGHT_BLUE", "BLACK")} "
+                   f"/{input_color("     |  '--.\\   --. \\    , \\   --.|  |     |  |      ", "BRIGHT_BLUE", "BLACK")} "
+                   f"/{input_color("     `-----' `----'  `--'   `----'`--'     `--'      ", "BRIGHT_BLUE", "BLACK")} /",
+                   f"/{input_color("     ,--.                         ,--.     ,---.     ", "BRIGHT_BLUE", "BLACK")} "
+                   f"/{input_color("     |  |    ,---.,--.  ,--.,---. |  |    '.-.  \\    ", "BRIGHT_BLUE", "BLACK")} "
+                   f"/{input_color("     |  |   | .-. :\\  `'  ,| .-. :|  |     .-' .'    ", "BRIGHT_BLUE", "BLACK")} "
+                   f"/{input_color("     |  '--.\\   --. \\    , \\   --.|  |    |   '-.    ", "BRIGHT_BLUE", "BLACK")} "
+                   f"/{input_color("     `-----' `----'  `--'   `----'`--'    '-----'    ", "BRIGHT_BLUE", "BLACK")} /",
+                   f"/{input_color("     ,--.                         ,--.    ,----.     ", "BRIGHT_BLUE", "BLACK")} "
+                   f"/{input_color("     |  |    ,---.,--.  ,--.,---. |  |    '.-.  |    ", "BRIGHT_BLUE", "BLACK")} "
+                   f"/{input_color("     |  |   | .-. :\\  `'  ,| .-. :|  |      .' <     ", "BRIGHT_BLUE", "BLACK")} "
+                   f"/{input_color("     |  '--.\\   --. \\    , \\   --.|  |    ,'-'  |    ", "BRIGHT_BLUE", "BLACK")} "
+                   f"/{input_color("     `-----' `----'  `--'   `----'`--'    `----'     ", "BRIGHT_BLUE", "BLACK")} /")
     preamble = (f"//You \"{input_color(" @ ", "GREEN")}\" wake up in a laboratory. "
                 f"/You don't remember anything except this."
                 f"//Your name is {character["name"]} /and you are going to rewrite History",
@@ -137,8 +137,8 @@ def level_text(character: dict) -> str:
                  "/then 'w', or 'a', or 's', or 'd' to rewrite the dummy"
                  "/(in whichever direction the dummy is in)\""
                  "/(eg. type \"rw\" then press enter to rewrite up)."
-                 "(If I am blocking your way, please don't kill me. "
-                 "/ you can rewrite walls and rewrite rewritten tiles into floor tiles to get around me.)"
+                 "/(If I am blocking your way, please don't kill me. "
+                 "/you can rewrite walls and rewrite rewritten tiles into floor tiles to get around me.)"
                  "//To learn how to play type \"help\" at any time,"
                  "/if you want to see the welcome text, type \"level text\"/"),
                 ("/"
@@ -186,7 +186,7 @@ def level_text(character: dict) -> str:
                  "//////To learn how to play type \"help\" at any time,"
                  "/if you want to see the level text, type \"level text\"/"
                  )]
-    return (f"{line} {level_ascii[character["level"] - 1]} {line} {preamble[character["level"] - 1]}"
+    return (f"{line}{level_ascii[character["level"] - 1]}{line}{preamble[character["level"] - 1]}"
             f" {lvl_text[character["level"] - 1]}")
 
 
@@ -199,27 +199,27 @@ def end_txt(character: dict) -> str:
     :param character: a dictionary with at minimum a key string 'level' with a positive integer value less than five
     :return: a string containing the correct end text of the level
     """
-    line = "-" * 53
-    level_ascii = ("/,------.        ,--.   ,--.       ,--.  ,--."
-                   "/|  .--. ' ,---. |  |   |  |,--.--.`--',-'  '-. ,---.  "
-                   "/|  '--'.'| .-. :|  |.'.|  ||  .--',--.'-.  .-'| .-. : "
-                   "/|  |\\  \\ \\   --.|   ,'.   ||  |   |  |  |  |  \\   --. "
-                   "/`--' '--' `----''--'   '--'`--'   `--'  `--'   `----' /",
-                   "/,--.                         ,--.     ,--."
-                   "/|  |    ,---.,--.  ,--.,---. |  |    ,   |"
-                   "/|  |   | .-. :\\  `'  ,| .-. :|  |    `|  | "
-                   "/|  '--.\\   --. \\    , \\   --.|  |     |  | "
-                   "/`-----' `----'  `--'   `----'`--'     `--'/",
-                   "/,--.                         ,--.     ,---.  "
-                   "/|  |    ,---.,--.  ,--.,---. |  |    '.-.  \\ "
-                   "/|  |   | .-. :\\  `'  ,| .-. :|  |     .-' .' "
-                   "/|  '--.\\   --. \\    , \\   --.|  |    |   '-. "
-                   "/`-----' `----'  `--'   `----'`--'    '-----' /",
-                   "/,--.                         ,--.    ,----.  "
-                   "/|  |    ,---.,--.  ,--.,---. |  |    '.-.  | "
-                   "/|  |   | .-. :\\  `'  ,| .-. :|  |      .' <  "
-                   "/|  '--.\\   --. \\    , \\   --.|  |    ,'-'  | "
-                   "/`-----' `----'  `--'   `----'`--'    `----' /")
+    line = f"{input_color("-", "BRIGHT_BLUE", "BLACK")}" * 53
+    level_ascii = (f"/{input_color(",------.        ,--.   ,--.       ,--.  ,--.         ", "BLACK", "BRIGHT_BLUE")} "
+                   f"/{input_color("|  .--. ' ,---. |  |   |  |,--.--.`--',-'  '-. ,---. ", "BLACK", "BRIGHT_BLUE")} "
+                   f"/{input_color("|  '--'.'| .-. :|  |.'.|  ||  .--',--.'-.  .-'| .-. :", "BLACK", "BRIGHT_BLUE")} "
+                   f"/{input_color("|  |\\  \\ \\   --.|   ,'.   ||  |   |  |  |  |  \\   --.", "BLACK", "BRIGHT_BLUE")} "
+                   f"/{input_color("`--' '--' `----''--'   '--'`--'   `--'  `--'   `----'", "BLACK", "BRIGHT_BLUE")}/",
+                   f"/{input_color("      ,--.                         ,--.     ,--.     ", "BLACK", "BRIGHT_BLUE")} "
+                   f"/{input_color("      |  |    ,---.,--.  ,--.,---. |  |    ,   |     ", "BLACK", "BRIGHT_BLUE")} "
+                   f"/{input_color("      |  |   | .-. :\\  `'  ,| .-. :|  |    `|  |     ", "BLACK", "BRIGHT_BLUE")} "
+                   f"/{input_color("      |  '--.\\   --. \\    , \\   --.|  |     |  |     ", "BLACK", "BRIGHT_BLUE")} "
+                   f"/{input_color("      `-----' `----'  `--'   `----'`--'     `--'     ", "BLACK", "BRIGHT_BLUE")} /",
+                   f"/{input_color("     ,--.                         ,--.     ,---.     ", "BLACK", "BRIGHT_BLUE")} "
+                   f"/{input_color("     |  |    ,---.,--.  ,--.,---. |  |    '.-.  \\    ", "BLACK", "BRIGHT_BLUE")} "
+                   f"/{input_color("     |  |   | .-. :\\  `'  ,| .-. :|  |     .-' .'    ", "BLACK", "BRIGHT_BLUE")} "
+                   f"/{input_color("     |  '--.\\   --. \\    , \\   --.|  |    |   '-.    ", "BLACK", "BRIGHT_BLUE")} "
+                   f"/{input_color("     `-----' `----'  `--'   `----'`--'    '-----'    ", "BLACK", "BRIGHT_BLUE")} /",
+                   f"/{input_color("     ,--.                         ,--.    ,----.     ", "BLACK", "BRIGHT_BLUE")} "
+                   f"/{input_color("     |  |    ,---.,--.  ,--.,---. |  |    '.-.  |    ", "BLACK", "BRIGHT_BLUE")} "
+                   f"/{input_color("     |  |   | .-. :\\  `'  ,| .-. :|  |      .' <     ", "BLACK", "BRIGHT_BLUE")} "
+                   f"/{input_color("     |  '--.\\   --. \\    , \\   --.|  |    ,'-'  |    ", "BLACK", "BRIGHT_BLUE")} "
+                   f"/{input_color("     `-----' `----'  `--'   `----'`--'    `----'      ", "BLACK", "BRIGHT_BLUE")} /")
     with_a_random_thing_from_history = (f"{random.choices(["with an assortment of greco-roman jewelery",
                                                            "with a complete garbled mess of shapes and colors",
                                                            "with a pile of cow turds and"
@@ -229,7 +229,7 @@ def end_txt(character: dict) -> str:
                                                            "from the Phoenician era"])[0]}"
                                         f" which quickly shifts into something else.")
     output = [
-        f"{line} {level_ascii[0]} {line} //{input_color("With a blast from your not-gun ", "BRIGHT_BLUE", "BLACK")}"
+        f"{line}{level_ascii[0]}{line} //{input_color("With a blast from your not-gun ", "BRIGHT_BLUE", "BLACK")}"
         f"/{input_color("the dummy is replaced with a strange quickly ", "BRIGHT_BLUE", "BLACK")}"
         f"/{input_color("shifting assortment of materials and shapes", "BRIGHT_BLUE", "BLACK")}"
         f"/{input_color("as you stare into it your eyes start to hurt and you get a headache.", "BRIGHT_BLUE", "BLACK")}"
@@ -257,7 +257,7 @@ def end_txt(character: dict) -> str:
         f"{input_color(" T ", "DARK_GRAY", "BRIGHT_BLUE")}"
         f"{input_color(" in the room is a time machine. Enter it and you will start your first mission", "BRIGHT_BLUE", "BLACK")}"
         f"///////////",
-        f"/{line} {level_ascii[1]} {line} //"
+        f"/{line}{level_ascii[1]}{line} //"
         f"/{input_color("With a blast from your Rewriter ", "BRIGHT_BLUE", "BLACK")}"
         f"/{input_color(f"Hitler is replaced {with_a_random_thing_from_history},", "BRIGHT_BLUE", "BLACK")}"
         f"/"
@@ -267,7 +267,7 @@ def end_txt(character: dict) -> str:
         f"/{input_color("Well I don't know why we had you do that, we should've had you kill Meinard Goudier.", "BRIGHT_BLUE", "BLACK")}"
         f"/{input_color("anyways go back to the time machine for your next mission.\"", "BRIGHT_BLUE", "BLACK")}"
         f"////////////",
-        f"/{line} {level_ascii[2]} {line} //"
+        f"/{line}{level_ascii[2]}{line} //"
         f"/{input_color("After your preparation, the meteors fall into spaces replaced", "BRIGHT_BLUE", "BLACK")}"
         f"/{input_color(f"{with_a_random_thing_from_history}", "BRIGHT_BLUE", "BLACK")}"
         f"/{input_color("you expect to hear something over the time machine's telecom like last time", "BRIGHT_BLUE", "BLACK")}"
@@ -280,7 +280,7 @@ def end_txt(character: dict) -> str:
         f"/{input_color("", "BRIGHT_BLUE", "BLACK")}"
         f"/{input_color("", "BRIGHT_BLUE", "BLACK")}"
         f"////////////",
-        f"/{line} {level_ascii[3]} {line}"
+        f"/{line}{level_ascii[3]}{line}"
         f"/{input_color("", "BRIGHT_BLUE", "BLACK")}"
         f"/{input_color("As the world around you warps and strains at the tears in reality", "BRIGHT_BLUE", "BLACK")}"
         f"/{input_color("created by the battle, The man Yells", "BRIGHT_BLUE", "BLACK")}"

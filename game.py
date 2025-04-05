@@ -31,13 +31,13 @@ def game():
                 current_character["area"] += 2
                 if current_character["level"] == 5:
                     print(f"\n\n\n\n\n"
-                          f"{"-" * 53}"
+                          f"{f"{input_color(" ", "BRIGHT_BLUE", "BRIGHT_BLUE")}" * 53}"
                           f"\n,--.   ,--.                 ,--.   ,--.,--.         "
                           f"\n \\  `.'  /,---. ,--.,--.    |  |   |  |`--',--,--,  "
                           f"\n  '.    /| .-. ||  ||  |    |  |.'.|  |,--.|      \\ "
                           f"\n    |  | ' '-' ''  ''  '    |   ,'.   ||  ||  ||  | "
                           f"\n    `--'  `---'  `----'     '--'   '--'`--'`--''--' "
-                          f"\n{"-" * 53}"
+                          f"\n{f"{input_color(" ", "BRIGHT_BLUE", "BRIGHT_BLUE")}" * 53}"
                           f"\n\nYou enter the time machine and realize"
                           f"{random.choice(["\n... Now that you think about it, you didn't need to rewrite history at all"
                                             "\nyou thought that you would make your mark on history but it turns out that "
@@ -111,11 +111,13 @@ def game():
         elif player_input == "level text":
             action = text.level_text(current_character)
         else:
-            action = ("//////////"
+            action = ("/////////"
+                      f"/{input_color(" ", "BRIGHT_BLUE", "BRIGHT_BLUE") * 53}"
                       "Invalid Input,"
                       "//To move type 'w', 'a', 's', or 'd' then press enter"
                       "//To rewrite type 'rw', 'ra', 'rs', or 'rd then press enter'"
                       "//to get help type 'help' then press enter"
+                      f"/{input_color(" ", "BRIGHT_BLUE", "BRIGHT_BLUE") * 53}"
                       "//////////")
         if type(action) != type("string"):
             levels.overwritten(current_map, mobs, current_character)
