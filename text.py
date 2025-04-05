@@ -161,7 +161,7 @@ def level_text(character: dict) -> str:
                 ("/"
                  "/You stumble out of the time machine and are startled "
                  f"/by the cavemen \"{input_color(" G ", "YELLOW")}\" and the lush trees all around you. "
-                 f"it's night but somehow everything is illuminated by a red, firey light."
+                 f"/it's night but somehow everything is illuminated by a red, fiery light."
                  f"//The professor's voice crackles over the time machine's telecom."
                  f"//\"That was a warmup. We're here to see how far we can go."
                  f"/it's 39000000 B.C. we're about to bring the dinosaurs back."
