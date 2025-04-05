@@ -25,7 +25,7 @@ def room(y_length: int, x_length: int, x_offset: int, y_offset: int):
     output = {}
     for row in range(y_offset + 1, y_length + y_offset + 1):
         for column in range(x_offset + 1, x_length + x_offset + 1):
-            output[(row, column)] = "   "
+            output[row, column] = "   "
     return output
 
 

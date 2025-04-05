@@ -120,7 +120,7 @@ def game():
                       "//////////")
         if type(action) != type("string"):
             levels.overwritten(current_map, mobs, current_character)
-            for mob in mobs:
+            for mob in [mob for mob in mobs if mob["ai"][0] != "stay"]:
                 direction = random.choice([("w", 0, -1), ("a", -1, 0), ("s", 0, 1), ("d", 1, 0)])
                 if mob["ai"][0] == "move":
                     player.move(direction[0], mob, current_map)
