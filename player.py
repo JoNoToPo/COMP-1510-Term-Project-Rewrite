@@ -13,7 +13,7 @@ def new_character():
     """
     first_name = random.choice(["Chris", "Derek", "Peter", "Johnny", "Thomas"])
     last_name = random.choice(["Thompson", "\"The Axe\" Morgan", "The Wise", "Jefferson"])
-    character_spread = {"name": f"{first_name} {last_name}", "level": 2, "area": -1, "x_coordinate": 0,
+    character_spread = {"name": f"{first_name} {last_name}", "level": 0, "area": -1, "x_coordinate": 0,
                         "y_coordinate": 0, "alive": True, "symbol": input_color(" @ ", "GREEN", )}
     return character_spread
 

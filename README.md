@@ -4,7 +4,7 @@
 
 |            Requirements            | File, line number |
 |:----------------------------------:|:-----------------:|
-|         List comprehension         |    map.py, 47     | to skip mobs that aren't going to do anything anyways
+|         List comprehension         |    map.py, 47     |
 |   Selection using if statements    |    map.py, 80     |
 |   Repetition using the for loop    |    map.py, 103    |
 | Membership operator used correctly |  levels.py, 105   |
@@ -31,4 +31,17 @@ the fact that it obscures your vision and flips all the text in a line is also i
 I wanted to increase the difficulty of the game and add to
 the "meddling with forces beyond your imagining"
 feel of the game, without adding unnecessary complexity.
-  
+
+# PS
+
+If the game is too hard, read these tips and tricks:
+
+1. If you type or rw, ra, rs, or rd and enter that will create a wall if you do it again it will replace the wall with a
+   floor (I don't know why everyone seems to have trouble with that)
+2. If it's too hard to track where things are because of the distortion caused by rewriting,
+   rewrite immediately after you create the wall in order to remove all the distortion effect
+3. If you are having trouble with mobs blocking your path, rewrite the walls twice to create a path around them.
+4. You can rewrite bullets as they fly towards you.
+5. if you are having trouble with the final boss stay still outside his range and keep rewriting in his general.
+   direction. He will eventually walk into your range and you will.
+
