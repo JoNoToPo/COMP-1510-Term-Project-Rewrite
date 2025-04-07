@@ -4,21 +4,23 @@ import player
 from text import input_color
 
 
-def ai_parse(mob, mobs, current_map, current_character, amount_of_bullets):
-    direction = random.choice([("w", 0, -1), ("a", -1, 0), ("s", 0, 1), ("d", 1, 0)])
+def ai_parse(mob, mobs, current_map, current_character, amount_of_bullets, direction):
+    """
+
+    """
     if mob["ai"][0] == "move":
-        player.move(direction[0], mob, current_map)
+        return player.move(direction[0], mob, current_map)
     elif (mob["ai"][0] == "shoot" and authenticate_shot(mob["x_coordinate"] + direction[1],
                                                         mob["y_coordinate"] + direction[2], current_map)):
-        shoot(direction, mobs, mob, amount_of_bullets)
+        return shoot(direction, mobs, mob, amount_of_bullets)
     elif mob["ai"][0] == "shot":
-        shot(mob["direction"], mob, current_map)
+        return shot(mob["direction"], mob, current_map)
     elif mob["ai"][0] == "fall":
-        fall(mob, mobs, current_map)
+        return fall(mob, mobs, current_map)
     elif mob["ai"][0] == "countdown":
-        countdown(mob, current_map, current_character)
+        return countdown(mob, current_map, current_character)
     elif mob["ai"][0] == "rewrite":
-        player.player_rewrite(random.choice(["rw", "ra", "rs", "rd"]), mob, current_map)
+        return player.player_rewrite(random.choice(["rw", "ra", "rs", "rd"]), mob, current_map)
 
 
 def append_mobs(character):

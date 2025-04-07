@@ -85,7 +85,8 @@ def game():
         if type(action) != type("string"):
             levels.overwritten(current_map, mobs, current_character)
             for mob in mobs:
-                levels.ai_parse(mob, mobs, current_map, current_character, amount_of_bullets)
+                levels.ai_parse(mob, mobs, current_map, current_character, amount_of_bullets,
+                                random.choice([("w", 0, -1), ("a", -1, 0), ("s", 0, 1), ("d", 1, 0)]))
                 if len(mob["ai"]) == 2:
                     mob["ai"] = [mob["ai"][1], mob["ai"][0]]
             achieved_goal = levels.check_level_goal(mobs)
