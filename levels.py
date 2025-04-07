@@ -252,25 +252,28 @@ def shot(direction: str, character: dict, map_key: dict):
     """
     if not character["just_shot"]:
         map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"], "   ")
-        if (direction[0] == "a"
-                and authenticate_shot(character["x_coordinate"] - 1, character["y_coordinate"], map_key)):
-            character["x_coordinate"] -= 1
-        elif (direction[0] == "d"
-              and authenticate_shot(character["x_coordinate"] + 1, character["y_coordinate"], map_key)):
-            character["x_coordinate"] += 1
-        elif (direction[0] == "s"
-              and authenticate_shot(character["x_coordinate"], character["y_coordinate"] + 1, map_key)):
-            character["y_coordinate"] += 1
-        elif (direction[0] == "w"
-              and authenticate_shot(character["x_coordinate"], character["y_coordinate"] - 1, map_key)):
-            character["y_coordinate"] -= 1
-        else:
-            character["alive"] = False
+        shot_move(direction, character, map_key)
     else:
         character["just_shot"] = False
-    if character["alive"] and authenticate_shot(character["x_coordinate"], character["y_coordinate"], map_key):
+    if character["alive"]:
         map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"], character["symbol"])
 
+
+def shot_move(direction: str, character: dict, map_key: dict):
+    if (direction[0] == "a"
+            and authenticate_shot(character["x_coordinate"] - 1, character["y_coordinate"], map_key)):
+        character["x_coordinate"] -= 1
+    elif (direction[0] == "d"
+          and authenticate_shot(character["x_coordinate"] + 1, character["y_coordinate"], map_key)):
+        character["x_coordinate"] += 1
+    elif (direction[0] == "s"
+          and authenticate_shot(character["x_coordinate"], character["y_coordinate"] + 1, map_key)):
+        character["y_coordinate"] += 1
+    elif (direction[0] == "w"
+          and authenticate_shot(character["x_coordinate"], character["y_coordinate"] - 1, map_key)):
+        character["y_coordinate"] -= 1
+    else:
+        character["alive"] = False
 
 def authenticate_shot(x_coordinate: int, y_coordinate: int, map_key: dict):
     """
