@@ -6,7 +6,19 @@ from text import input_color
 
 def ai_parse(mob, mobs, current_map, current_character, amount_of_bullets, direction):
     """
+    Parses between the different actions an ai can take
 
+    :param mob: the mob in the mobs list that is acting
+    :param mobs: a list containing dictionaries each containing a key called 'alive' with a boolean value and a
+    key called 'name' with a string value
+    :param current_map: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
+    an integer or string as the value
+    :param current_character: the player character's dictionary
+    :param amount_of_bullets: an integer greater than or equal to zero
+    :param direction: one of these four options ("w", 0, -1), ("a", -1, 0), ("s", 0, 1), ("d", 1, 0)
+    :precondition: three dictionaries, a list of dictionaries, an integer and a tuple of length three
+    :postcondition: one dictionary
+    :return: the correct function executed based on the ai of the mob
     """
     if mob["ai"][0] == "move":
         return player.move(direction[0], mob, current_map)
