@@ -73,51 +73,15 @@ def game():
         player_input = str(
             input(f"{time_in_level} seconds spent in level.\nMove with 'w', 'a', 's', or 'd'")).strip().lower()
         time_in_level += 1
-        if not player_input:
+        try:
+            action = player.player_parse(player_input, current_character, current_map, achieved_goal)
+        except IndexError:
             action = ("///////////"
                       "Invalid Input,"
                       "//To move type 'w', 'a', 's', or 'd' then press enter"
                       "//To rewrite type 'rw', 'ra', 'rs', or 'rd then press enter'"
                       "//to get help type 'help' then press enter"
                       "///////////")
-        elif player_input.split()[0] == "help":
-            action = (f"{"-" * 53}"
-                      "/             ,--.  ,--.       ,--.           "
-                      "/             |  '--'  | ,---. |  | ,---.     "
-                      "/             |  .--.  || .-. :|  || .-. |    "
-                      "/             |  |  |  |\\   --.|  || '-' '    "
-                      "/             `--'  `--' `----'`--'|  |-'     "
-                      "/----------------------------------`--'---------------/"
-                      "/Welcome to Rewrite!"
-                      "/To move use 'w' to move up, 'a' to move left "
-                      "/'s' to move down and 'd' to move right then press enter."
-                      "//To rewrite type 'rw', 'ra', 'rs', or 'rd then press enter'"
-                      "/for a more complete guide on rewriting simply type 'r' and enter"
-                      "//Once anything is rewritten it will display as a corrupted tile."
-                      "/corrupted tiles change your perception of reality, and act as barriers."
-                      "/however the space surrounding remains the same even if it looks different."
-                      "/if you rewrite a corrupted tile, "
-                      "/it is erased from existence leaving "
-                      "/nothing but floor behind."
-                      "/Be careful what you rewrite. You could end up "
-                      "/erasing yourself from existence if you are not careful."
-                      "/after you are finished with the goal in a level,"
-                      "/move to the time machine ' T ' and you will continue the story.")
-        elif player_input[0] in ["w", "a", "s", "d"]:
-            action = player.move(player_input, current_character, current_map, achieved_goal)
-        elif player_input[0] == "r":
-            action = player.player_rewrite(player_input, current_character, current_map)
-        elif player_input == "level text":
-            action = text.level_text(current_character)
-        else:
-            action = ("/////////"
-                      f"/{input_color(" ", "BRIGHT_BLUE", "BRIGHT_BLUE") * 53}"
-                      "Invalid Input,"
-                      "//To move type 'w', 'a', 's', or 'd' then press enter"
-                      "//To rewrite type 'rw', 'ra', 'rs', or 'rd then press enter'"
-                      "//to get help type 'help' then press enter"
-                      f"/{input_color(" ", "BRIGHT_BLUE", "BRIGHT_BLUE") * 53}"
-                      "//////////")
         if type(action) != type("string"):
             levels.overwritten(current_map, mobs, current_character)
             for mob in mobs:

@@ -137,8 +137,7 @@ def level_text(character: dict) -> str:
                  "/(eg. type \"rw\" then press enter to rewrite up)."
                  "/(If I am blocking your way, please don't kill me. "
                  "/you can rewrite walls and rewrite rewritten tiles into floor tiles to get around me.)"
-                 "//To learn how to play type \"help\" at any time,"
-                 "/if you want to see the welcome text, type \"level text\"/"),
+                 "//To learn how to play type \"help\" at any time"),
                 ("/"
                  "/You step through the door of the time machine into a nearly empty but decidedly German university."
                  "//The professor's voice crackles over the time machine's telecom."
@@ -154,8 +153,7 @@ def level_text(character: dict) -> str:
                  f"/a very angry man \"{input_color(" H ", "RED")}\" yelling in german with a hitler moustache "
                  f"/brandishing a very real gun while shooting"
                  f" it in random directions \"{input_color(" • ", "BRIGHT_RED")}\""
-                 "//////To learn how to play type \"help\" at any time,"
-                 "/if you want to see the welcome text, type \"level text\"/"),
+                 "//////To learn how to play type \"help\" at any time"),
                 ("/"
                  "/You stumble out of the time machine and are startled "
                  f"/by the cavemen \"{input_color(" G ", "YELLOW")}\" and the lush trees all around you. "
@@ -169,8 +167,7 @@ def level_text(character: dict) -> str:
                  f"/land where the \"{input_color(" M ", "RED")}\" is in roughly 50 seconds!"
                  f"//You get a feeling that if you rewrite all of the \"{input_color(" M ", "RED")}\" "
                  f"/the meteor will be shot into another dimension."
-                 "//////To learn how to play type \"help\" at any time,"
-                 "/if you want to see the welcome text, type \"level text\"/"
+                 "//////To learn how to play type \"help\" at any time"
                  ),
                 ("/"
                  "/You walk out of the time machine and are immediately blinded by an immense white light."
@@ -181,8 +178,7 @@ def level_text(character: dict) -> str:
                  "/\"You have meddled with forces beyond your imagining boy.\""
                  f"/You lock your eyes onto an incredibly muscular old man \"{input_color(" G ", "WHITE", "BRIGHT_RED")}\""
                  "/\"I will destroy you and your time machine before you break everything!\""
-                 "//////To learn how to play type \"help\" at any time,"
-                 "/if you want to see the level text, type \"level text\"/"
+                 "//////To learn how to play type \"help\" at any time"
                  )]
     return (f"{line}{level_ascii[character["level"] - 1]}{line}{preamble[character["level"] - 1]}"
             f" {lvl_text[character["level"] - 1]}")
