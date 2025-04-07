@@ -5,7 +5,17 @@ from text import input_color
 
 def player_parse(player_input, current_character, current_map, achieved_goal):
     """
+    Parses the player's input between the different actions that can be taken
 
+    :raises: IndexError
+    :param player_input: a string
+    :param current_character: the player character dictionary
+    :param current_map: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
+    an integer or string as the value
+    :param achieved_goal: a boolean value pertaining to whether or not the player has achieved their goal for the level
+    :precondition: a string, two dictionaries, and a boolean
+    :postcondition: a string or None
+    :return: the correct action that the player input
     """
     if player_input.split()[0] == "help":
         return (f"{"-" * 53}"
@@ -107,7 +117,6 @@ def move(user_input: str, character: dict, map_key: dict, goal_achieved=True):
                 "//////////////////")
     map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"],
                 character["symbol"])
-    return character
 
 
 def authenticate_move(x_coordinate: int, y_coordinate: int, map_key: dict, goal_achieved: bool) -> bool:
