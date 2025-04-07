@@ -193,6 +193,7 @@ def happens_when_died(map_key: dict, mob: dict, mobs: list, character: dict):
 
 
 def shoot(direction, mobs, mob, amount_of_bullets):
+
     mobs.append({"name": "bullet", "x_coordinate": mob["x_coordinate"] + direction[1],
                  "y_coordinate": mob["y_coordinate"] + direction[2], "alive": True,
                  "symbol": input_color(" • ", "BRIGHT_RED"), "id": amount_of_bullets,
@@ -230,49 +231,68 @@ def fall(mob: dict, mobs: list, map_key: dict):
             map.rewrite(map_key, mobs[-1]["x_coordinate"], mobs[-1]["y_coordinate"], mobs[-1]["symbol"])
 
 
-def shot(character: dict, map_key: dict):
+def shot(bullet: dict, map_key: dict):
     """
     Moves a shot character in a given direction if it wasn't just shot, and it doesn't hit a barrier
 
-    :param character: the dictionary of the character that was shot
+    :param bullet: the dictionary of the character that was shot
     :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
     an integer or string as the value
     :precondition: a string and two dictionaries
     :postcondition: character dictionary modified
-    :return: True if the bullet can fly to that coordinate False if not
+    :return: Moves the character to the correct place in the map
 
-    >>> test_bullet = {"name": "bullet", "x_coordinate": 0, "y_coordinate": 0, "alive": True, "symbol": "B", "just_shot": False}
+    >>> test_bullet = {"direction": "a", "x_coordinate": 0, "y_coordinate": 0, "alive": True, "symbol": "B", "just_shot": False}
     >>> test_map = {(0, 0): "B"}
-    >>> shot("d", test_bullet, test_map)
+    >>> shot(test_bullet, test_map)
     >>> print(test_map)
     {(0, 0): 'B'}
     >>> print(test_bullet["alive"])
     False
     """
-    if not character["just_shot"]:
-        map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"], "   ")
-        shot_move(character, map_key)
+    if not bullet["just_shot"]:
+        map.rewrite(map_key, bullet["x_coordinate"], bullet["y_coordinate"], "   ")
+        shot_move(bullet, map_key)
     else:
-        character["just_shot"] = False
-    if character["alive"]:
-        map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"], character["symbol"])
+        bullet["just_shot"] = False
+    if bullet["alive"]:
+        map.rewrite(map_key, bullet["x_coordinate"], bullet["y_coordinate"], bullet["symbol"])
 
 
-def shot_move(character: dict, map_key: dict):
-    if (character["direction"] == "a"
-            and authenticate_shot(character["x_coordinate"] - 1, character["y_coordinate"], map_key)):
-        character["x_coordinate"] -= 1
-    elif (character["direction"] == "d"
-          and authenticate_shot(character["x_coordinate"] + 1, character["y_coordinate"], map_key)):
-        character["x_coordinate"] += 1
-    elif (character["direction"] == "s"
-          and authenticate_shot(character["x_coordinate"], character["y_coordinate"] + 1, map_key)):
-        character["y_coordinate"] += 1
-    elif (character["direction"] == "w"
-          and authenticate_shot(character["x_coordinate"], character["y_coordinate"] - 1, map_key)):
-        character["y_coordinate"] -= 1
+def shot_move(bullet: dict, map_key: dict):
+    """
+    Moves the shot character if the bullet is able to move into that spot
+
+    :param bullet: the dictionary of the character that was shot
+    :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
+    an integer or string as the value
+    :precondition: a string and two dictionaries
+    :postcondition: character dictionary modified
+    :return: character's coordinates correctly changed or character dies
+
+    >>> test_bullet = {"x_coordinate": 2, "y_coordinate": 2, "alive": True, "direction": "w"}
+    >>> test_map = {(1, 2): "   "}
+    >>> shot_move(test_bullet, test_map)
+    >>> test_bullet
+    {'x_coordinate': 2, 'y_coordinate': 1, 'alive': True, 'direction': 'w'}
+    >>> shot_move(test_bullet, test_map)
+    >>> test_bullet
+    {'x_coordinate': 2, 'y_coordinate': 1, 'alive': False, 'direction': 'w'}
+    """
+    if (bullet["direction"] == "a"
+            and authenticate_shot(bullet["x_coordinate"] - 1, bullet["y_coordinate"], map_key)):
+        bullet["x_coordinate"] -= 1
+    elif (bullet["direction"] == "d"
+          and authenticate_shot(bullet["x_coordinate"] + 1, bullet["y_coordinate"], map_key)):
+        bullet["x_coordinate"] += 1
+    elif (bullet["direction"] == "s"
+          and authenticate_shot(bullet["x_coordinate"], bullet["y_coordinate"] + 1, map_key)):
+        bullet["y_coordinate"] += 1
+    elif (bullet["direction"] == "w"
+          and authenticate_shot(bullet["x_coordinate"], bullet["y_coordinate"] - 1, map_key)):
+        bullet["y_coordinate"] -= 1
     else:
-        character["alive"] = False
+        bullet["alive"] = False
 
 def authenticate_shot(x_coordinate: int, y_coordinate: int, map_key: dict):
     """
