@@ -26,7 +26,7 @@ def ai_parse(mob, mobs, current_map, current_character, amount_of_bullets, direc
                                                         mob["y_coordinate"] + direction[2], current_map)):
         return shoot(direction, mobs, mob, amount_of_bullets)
     elif mob["ai"][0] == "shot":
-        return shot(mob["direction"], mob, current_map)
+        return shot(mob, current_map)
     elif mob["ai"][0] == "fall":
         return fall(mob, mobs, current_map)
     elif mob["ai"][0] == "countdown":
