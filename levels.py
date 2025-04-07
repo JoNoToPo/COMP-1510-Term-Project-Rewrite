@@ -8,30 +8,17 @@ def ai_parse(mob, mobs, current_map, current_character, amount_of_bullets):
     direction = random.choice([("w", 0, -1), ("a", -1, 0), ("s", 0, 1), ("d", 1, 0)])
     if mob["ai"][0] == "move":
         player.move(direction[0], mob, current_map)
-    elif (mob["ai"][0] == "shoot" and
-          authenticate_shot(mob["x_coordinate"] + direction[1], mob["y_coordinate"] + direction[2],
-                            current_map)):
-        mobs.append({"name": "bullet", "x_coordinate": mob["x_coordinate"] + direction[1],
-                     "y_coordinate": mob["y_coordinate"] + direction[2], "alive": True,
-                     "symbol": input_color(" • ", "BRIGHT_RED"), "id": amount_of_bullets,
-                     "ai": ["shot"], "direction": direction[0], "just_shot": True})
-        amount_of_bullets += 1
+    elif (mob["ai"][0] == "shoot" and authenticate_shot(mob["x_coordinate"] + direction[1],
+                                                        mob["y_coordinate"] + direction[2], current_map)):
+        shoot(direction, mobs, mob, amount_of_bullets)
     elif mob["ai"][0] == "shot":
         shot(mob["direction"], mob, current_map)
-        if (mob["alive"] and authenticate_shot(mob["x_coordinate"], mob["y_coordinate"],
-                                               current_map)):
-            map.rewrite(current_map, mob["x_coordinate"], mob["y_coordinate"], mob["symbol"])
     elif mob["ai"][0] == "fall":
         fall(mob, mobs, current_map)
     elif mob["ai"][0] == "countdown":
-        mob["time left"] -= 1
-        if mob["time left"] < 1:
-            current_map[(current_character["y_coordinate"],
-                         current_character["x_coordinate"])] = "demolished by a meteor"
+        countdown(mob, current_map, current_character)
     elif mob["ai"][0] == "rewrite":
         player.player_rewrite(random.choice(["rw", "ra", "rs", "rd"]), mob, current_map)
-    if len(mob["ai"]) > 1:
-        mob["ai"] = [mob["ai"][1], mob["ai"][0]]
 
 
 def append_mobs(character):
@@ -191,6 +178,20 @@ def happens_when_died(map_key: dict, mob: dict, mobs: list, character: dict):
             map_key[(mob["y_coordinate"], mob["x_coordinate"])] = mob["symbol"]
 
 
+def shoot(direction, mobs, mob, amount_of_bullets):
+    mobs.append({"name": "bullet", "x_coordinate": mob["x_coordinate"] + direction[1],
+                 "y_coordinate": mob["y_coordinate"] + direction[2], "alive": True,
+                 "symbol": input_color(" • ", "BRIGHT_RED"), "id": amount_of_bullets,
+                 "ai": ["shot"], "direction": direction[0], "just_shot": True})
+    amount_of_bullets += 1
+
+
+def countdown(mob, map_key, character):
+    mob["time left"] -= 1
+    if mob["time left"] < 1:
+        map_key[(character["y_coordinate"], character["x_coordinate"])] = "demolished by a meteor"
+
+
 def fall(mob: dict, mobs: list, map_key: dict):
     """
     Create duplicate meteors in the map
@@ -253,6 +254,8 @@ def shot(direction: str, character: dict, map_key: dict):
             character["alive"] = False
     else:
         character["just_shot"] = False
+    if character["alive"] and authenticate_shot(character["x_coordinate"], character["y_coordinate"], map_key):
+        map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"], character["symbol"])
 
 
 def authenticate_shot(x_coordinate: int, y_coordinate: int, map_key: dict):

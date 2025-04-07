@@ -86,6 +86,8 @@ def game():
             levels.overwritten(current_map, mobs, current_character)
             for mob in mobs:
                 levels.ai_parse(mob, mobs, current_map, current_character, amount_of_bullets)
+                if len(mob["ai"]) == 2:
+                    mob["ai"] = [mob["ai"][1], mob["ai"][0]]
             achieved_goal = levels.check_level_goal(mobs)
             if achieved_goal:
                 level_text = text.end_txt(current_character)
