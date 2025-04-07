@@ -44,8 +44,7 @@ def room_combiner(first_room: dict, second_room: dict):
     >>> room_combiner({(1, 1): '   '}, {(1, 1): '   '})
     {(1, 1): '   '}
     """
-    output = {key: "   " for key in list(first_room.keys()) + list(second_room.keys())}
-    return output
+    return {key: "   " for key in list(first_room.keys()) + list(second_room.keys())}
 
 
 def rewrite(map_key: dict, x_coordinate: int, y_coordinate: int, content, area=1):
