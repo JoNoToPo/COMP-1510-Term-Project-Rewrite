@@ -34,28 +34,7 @@ def game():
                 current_character["y_coordinate"] = time_machine["y_coordinate"]
                 current_character["x_coordinate"] = time_machine["x_coordinate"]
                 if current_character["level"] == 5:
-                    print(f"\n\n\n\n\n"
-                          f"{f"{input_color(" ", "BRIGHT_BLUE", "BRIGHT_BLUE")}" * 53}"
-                          f"\n,--.   ,--.                 ,--.   ,--.,--.         "
-                          f"\n \\  `.'  /,---. ,--.,--.    |  |   |  |`--',--,--,  "
-                          f"\n  '.    /| .-. ||  ||  |    |  |.'.|  |,--.|      \\ "
-                          f"\n    |  | ' '-' ''  ''  '    |   ,'.   ||  ||  ||  | "
-                          f"\n    `--'  `---'  `----'     '--'   '--'`--'`--''--' "
-                          f"\n{f"{input_color(" ", "BRIGHT_BLUE", "BRIGHT_BLUE")}" * 53}"
-                          f"\n\nYou enter the time machine and realize"
-                          f"{random.choice(["\n... Now that you think about it, you didn't need to rewrite history at all"
-                                            "\nyou thought that you would make your mark on history but it turns out that "
-                                            "\nyou just destroyed reality, and that really sucks."
-                                            "\n... maybe in another timeline things could have been different..."
-                                            "\n [You go the Depressed ending]",
-                                            "\nWith this time machine and rewriting device "
-                                            "\nyou can now reshape history however you would like"
-                                            "\nThis is just the beginning and the world will be written in your image."
-                                            "\n[You got the Playing God ending]",
-                                            "\n... nothing. You try to think of a satisfying conclusion to all of this madness,"
-                                            "\nbut nothing comes to mind. a bunch of random stuff happened and you have no clue why."
-                                            "\n[You got the Confused ending]"])} "
-                          f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThank you Chris for playing the game and making a fun assignment, please give me a good grade lol")
+                    text.you_win()
                     break
                 current_map = i.starting_map(start_room, 8, 4, current_character["level"] + 1)
                 map.rewrite(current_map, current_character["x_coordinate"], current_character["y_coordinate"],

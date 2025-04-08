@@ -287,3 +287,35 @@ def end_txt(character: dict) -> str:
         f"/{input_color("think of anything to do except go back to your time machine", "BRIGHT_BLUE", "BLACK")}"
         f"////////////"]
     return output[character["level"] - 1]
+
+def you_win():
+    """
+    Prints the win screen of the game
+
+    :precondition: none
+    :postcondition: a string
+    :return: the end text of the game with a randomized ending
+    """
+    print(f"\n\n\n\n\n"
+          f"{f"{input_color(" ", "BRIGHT_BLUE", "BRIGHT_BLUE")}" * 53}"
+          f"\n,--.   ,--.                 ,--.   ,--.,--.         "
+          f"\n \\  `.'  /,---. ,--.,--.    |  |   |  |`--',--,--,  "
+          f"\n  '.    /| .-. ||  ||  |    |  |.'.|  |,--.|      \\ "
+          f"\n    |  | ' '-' ''  ''  '    |   ,'.   ||  ||  ||  | "
+          f"\n    `--'  `---'  `----'     '--'   '--'`--'`--''--' "
+          f"\n{f"{input_color(" ", "BRIGHT_BLUE", "BRIGHT_BLUE")}" * 53}"
+          f"\n\nYou enter the time machine and realize"
+          f"{random.choice(["\n... Now that you think about it, you didn't need to rewrite history at all"
+                            "\nyou thought that you would make your mark on history but it turns out that "
+                            "\nyou just destroyed reality, and that really sucks."
+                            "\n... maybe in another timeline things could have been different..."
+                            "\n [You go the Depressed ending]",
+                            "\nWith this time machine and rewriting device "
+                            "\nyou can now reshape history however you would like"
+                            "\nThis is just the beginning and the world will be written in your image."
+                            "\n[You got the Playing God ending]",
+                            "\n... nothing. You try to think of a satisfying conclusion to all of this madness,"
+                            "\nbut nothing comes to mind. a bunch of random stuff happened and you have no clue why."
+                            "\n[You got the Confused ending]"])} "
+          f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThank you Chris for playing the game and making a fun assignment, please give me a good grade lol")
+
