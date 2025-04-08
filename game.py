@@ -27,7 +27,12 @@ def game():
                   f"\"{input_color(" T ", "DARK_GRAY", "BRIGHT_BLUE")}\"")
             if (current_character["y_coordinate"] == time_machine["y_coordinate"] and
                     current_character["x_coordinate"] == time_machine["x_coordinate"]):
-                start_room = i.initialize(current_character, time_machine)
+                current_character["level"] += 1
+                current_character["area"] += 2
+                start_room = i.room_randomizer(8 + current_character["level"], 4 + current_character["level"])
+                current_character(time_machine, start_room, {(0, 0): 1})
+                current_character["y_coordinate"] = time_machine["y_coordinate"]
+                current_character["x_coordinate"] = time_machine["x_coordinate"]
                 if current_character["level"] == 5:
                     print(f"\n\n\n\n\n"
                           f"{f"{input_color(" ", "BRIGHT_BLUE", "BRIGHT_BLUE")}" * 53}"

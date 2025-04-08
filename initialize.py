@@ -64,16 +64,6 @@ def room_connector(first_room: dict, second_room: dict):
     return map.room_combiner(first_room, map.room_combiner(second_room, map.room_combiner(first_hall, second_hall)))
 
 
-def initialize(player_character, time_machine):
-    player_character["level"] += 1
-    player_character["area"] += 2
-    room = room_randomizer(8 + player_character["level"], 4 + player_character["level"])
-    initialize_mob(time_machine, room, {(0, 0): 1})
-    player_character["y_coordinate"] = time_machine["y_coordinate"]
-    player_character["x_coordinate"] = time_machine["x_coordinate"]
-    return room
-
-
 def starting_map(starting_room: dict, max_room_size: int, min_room_size: int, number_of_rooms: int):
     """
     Randomizes the initial ascii map for a floor
