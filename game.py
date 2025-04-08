@@ -58,7 +58,7 @@ def game():
                           f"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThank you Chris for playing the game and making a fun assignment, please give me a good grade lol")
                     break
                 current_map = i.starting_map(start_room, 8, 4, current_character["level"] + 1)
-                map.rewrite(start_room, current_character["x_coordinate"], current_character["y_coordinate"],
+                map.rewrite(current_map, current_character["x_coordinate"], current_character["y_coordinate"],
                             current_character["symbol"])
                 mobs = levels.append_mobs(current_character)
                 for mob in mobs:
