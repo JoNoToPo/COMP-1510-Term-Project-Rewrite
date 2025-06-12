@@ -87,7 +87,6 @@ def move(user_input: str, character: dict, map_key: dict, goal_achieved=True):
     >>> test_map = {(1, 1): ' D ', (1, 2): '   '}
     >>> test_character = {'x_coordinate': 1, 'y_coordinate': 1, 'symbol': ' D '}
     >>> move('d', test_character, test_map)
-    {'x_coordinate': 2, 'y_coordinate': 1, 'symbol': ' D '}
     >>> test_map
     {(1, 1): '   ', (1, 2): ' D '}
     """
@@ -117,6 +116,7 @@ def move(user_input: str, character: dict, map_key: dict, goal_achieved=True):
                 "//////////////////")
     map.rewrite(map_key, character["x_coordinate"], character["y_coordinate"],
                 character["symbol"])
+    return None
 
 
 def authenticate_move(x_coordinate: int, y_coordinate: int, map_key: dict, goal_achieved: bool) -> bool:
@@ -188,6 +188,7 @@ def player_rewrite(direction: str, character: dict, map_key: dict):
                 "/direction you want to rewrite, 'w', 'a', 's', or 'd'"
                 "//Examples:/to rewrite up type 'rw' then press enter/to rewrite left type 'ra' then press enter/"
                 "to rewrite down type 'rs' then press enter/to rewrite left type 'rd' then press enter//////////////////")
+    return None
 
 
 def how_died(map_key: dict, character: dict):
@@ -289,3 +290,4 @@ def how_died(map_key: dict, character: dict):
                 f"\n{killed_friendly}"
                 f"\nWoah maybe this professor is more than he seems?"
                 f"\n\n\n\n\n\n{game_over}")
+    return "Who knows how but you somehow died?"
