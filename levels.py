@@ -6,7 +6,7 @@ from text import input_color
 
 def ai_parse(mob, mobs, current_map, current_character, amount_of_bullets, direction):
     """
-    Parses between the different actions an ai can take
+    Parses between the different actions an AI can take
 
     :param mob: the mob in the mobs list that is acting
     :param mobs: a list containing dictionaries each containing a key called 'alive' with a boolean value and a
@@ -18,7 +18,7 @@ def ai_parse(mob, mobs, current_map, current_character, amount_of_bullets, direc
     :param direction: one of these four options ("w", 0, -1), ("a", -1, 0), ("s", 0, 1), ("d", 1, 0)
     :precondition: three dictionaries, a list of dictionaries, an integer and a tuple of length three
     :postcondition: one dictionary
-    :return: the correct function executed based on the ai of the mob
+    :return: the correct function executed based on the AI of the mob
     """
     if mob["ai"][0] == "move":
         return player.move(direction[0], mob, current_map)
@@ -33,6 +33,7 @@ def ai_parse(mob, mobs, current_map, current_character, amount_of_bullets, direc
         return countdown(mob, current_map, current_character)
     elif mob["ai"][0] == "rewrite":
         return player.player_rewrite(random.choice(["rw", "ra", "rs", "rd"]), mob, current_map)
+    return None
 
 
 def append_mobs(character):
@@ -193,7 +194,6 @@ def happens_when_died(map_key: dict, mob: dict, mobs: list, character: dict):
 
 
 def shoot(direction, mobs, mob, amount_of_bullets):
-
     mobs.append({"name": "bullet", "x_coordinate": mob["x_coordinate"] + direction[1],
                  "y_coordinate": mob["y_coordinate"] + direction[2], "alive": True,
                  "symbol": input_color(" • ", "BRIGHT_RED"), "id": amount_of_bullets,
@@ -293,6 +293,7 @@ def shot_move(bullet: dict, map_key: dict):
         bullet["y_coordinate"] -= 1
     else:
         bullet["alive"] = False
+
 
 def authenticate_shot(x_coordinate: int, y_coordinate: int, map_key: dict):
     """
