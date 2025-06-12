@@ -24,7 +24,7 @@ class Test(TestCase):
         actual = append_mobs({"level": 3})
         expected = [{"name": "meteor", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                      "symbol": input_color(" M ", "RED"),
-                     "ai": ["fall", "countdown"], "time left": 50},
+                     "ai": ["fall", "countdown"], "time left": 25},
                     {"name": f"{"Great-" * 500}Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                      "symbol": input_color(" G ", "YELLOW"),
                      "ai": ["stay"], "id": 0},
@@ -45,7 +45,7 @@ class Test(TestCase):
         actual = append_mobs({"level": 3})
         expected = [{"name": "meteor", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                      "symbol": input_color(" M ", "RED"),
-                     "ai": ["fall", "countdown"], "time left": 50},
+                     "ai": ["fall", "countdown"], "time left": 25},
                     {"name": f"{"Great-" * 500}Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                      "symbol": input_color(" G ", "YELLOW"),
                      "ai": ["stay"], "id": 0},
@@ -69,7 +69,7 @@ class Test(TestCase):
         actual = append_mobs({"level": 3})
         expected = [{"name": "meteor", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                      "symbol": input_color(" M ", "RED"),
-                     "ai": ["fall", "countdown"], "time left": 50},
+                     "ai": ["fall", "countdown"], "time left": 25},
                     {"name": f"{"Great-" * 500}Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                      "symbol": input_color(" G ", "YELLOW"),
                      "ai": ["stay"], "id": 0},
@@ -96,7 +96,7 @@ class Test(TestCase):
         actual = append_mobs({"level": 3})
         expected = [{"name": "meteor", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                      "symbol": input_color(" M ", "RED"),
-                     "ai": ["fall", "countdown"], "time left": 50},
+                     "ai": ["fall", "countdown"], "time left": 25},
                     {"name": f"{"Great-" * 500}Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                      "symbol": input_color(" G ", "YELLOW"),
                      "ai": ["stay"], "id": 0},
@@ -126,7 +126,7 @@ class Test(TestCase):
         actual = append_mobs({"level": 3})
         expected = [{"name": "meteor", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                      "symbol": input_color(" M ", "RED"),
-                     "ai": ["fall", "countdown"], "time left": 50},
+                     "ai": ["fall", "countdown"], "time left": 25},
                     {"name": f"{"Great-" * 500}Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                      "symbol": input_color(" G ", "YELLOW"),
                      "ai": ["stay"], "id": 0},
@@ -159,7 +159,7 @@ class Test(TestCase):
         actual = append_mobs({"level": 3})
         expected = [{"name": "meteor", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                      "symbol": input_color(" M ", "RED"),
-                     "ai": ["fall", "countdown"], "time left": 50},
+                     "ai": ["fall", "countdown"], "time left": 25},
                     {"name": f"{"Great-" * 500}Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                      "symbol": input_color(" G ", "YELLOW"),
                      "ai": ["move"], "id": 0},
@@ -180,7 +180,7 @@ class Test(TestCase):
         actual = append_mobs({"level": 3})
         expected = [{"name": "meteor", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                      "symbol": input_color(" M ", "RED"),
-                     "ai": ["fall", "countdown"], "time left": 50},
+                     "ai": ["fall", "countdown"], "time left": 25},
                     {"name": f"{"Great-" * 500}Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                      "symbol": input_color(" G ", "YELLOW"),
                      "ai": ["move"], "id": 0},
@@ -204,7 +204,7 @@ class Test(TestCase):
         actual = append_mobs({"level": 3})
         expected = [{"name": "meteor", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                      "symbol": input_color(" M ", "RED"),
-                     "ai": ["fall", "countdown"], "time left": 50},
+                     "ai": ["fall", "countdown"], "time left": 25},
                     {"name": f"{"Great-" * 500}Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                      "symbol": input_color(" G ", "YELLOW"),
                      "ai": ["move"], "id": 0},
@@ -231,7 +231,7 @@ class Test(TestCase):
         actual = append_mobs({"level": 3})
         expected = [{"name": "meteor", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                      "symbol": input_color(" M ", "RED"),
-                     "ai": ["fall", "countdown"], "time left": 50},
+                     "ai": ["fall", "countdown"], "time left": 25},
                     {"name": f"{"Great-" * 500}Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                      "symbol": input_color(" G ", "YELLOW"),
                      "ai": ["move"], "id": 0},
@@ -261,7 +261,7 @@ class Test(TestCase):
         actual = append_mobs({"level": 3})
         expected = [{"name": "meteor", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                      "symbol": input_color(" M ", "RED"),
-                     "ai": ["fall", "countdown"], "time left": 50},
+                     "ai": ["fall", "countdown"], "time left": 25},
                     {"name": f"{"Great-" * 500}Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                      "symbol": input_color(" G ", "YELLOW"),
                      "ai": ["move"], "id": 0},
@@ -294,7 +294,7 @@ class Test(TestCase):
         actual = append_mobs({"level": 3})
         expected = [{"name": "meteor", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                      "symbol": input_color(" M ", "RED"),
-                     "ai": ["fall", "countdown"], "time left": 50},
+                     "ai": ["fall", "countdown"], "time left": 25},
                     {"name": f"{"Great-" * 500}Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                      "symbol": input_color(" G ", "YELLOW"),
                      "ai": ["move"], "id": 0},
