@@ -10,7 +10,7 @@ def room_randomizer(max_size: int, min_size: int):
     :param max_size: an integer indicating the maximum size the room can be 1 < max_size < 29
     :param min_size: an integer indicating the minimum size the room can be 1 < min_size < 29
     :precondition: two integers
-    :postcondition: a dictionary
+    :postcondition: one dictionary
     :return: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
     '   ' as the value
     """
@@ -35,6 +35,7 @@ def room_connector(first_room: dict, second_room: dict):
     :postcondition: one dictionary
     :return: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
     '   ' as the value
+
     >>> room_connector({(1, 1): "   "}, {(3, 3): "   "})
     {(1, 1): '   ', (3, 3): '   ', (2, 1): '   ', (3, 1): '   ', (3, 2): '   '}
 
@@ -108,6 +109,29 @@ def initialize_mob(mob: dict, map_key: dict, start_room: dict):
                 and place not in start_room.keys()):
             placed = True
     return mob
+
+
+def initialize_player(player_character: dict, time_machine: dict):
+    """
+    Levels up the player and places the player on the time machine
+
+    :param player_character: the player dictionary
+    :param time_machine: the time machine dictionary
+    :precondition: two dictionaries
+    :postcondition: one dictionary
+    :return: the player dictionary modified with "level" incremented by one, "area" incremented by two, and the player's
+    coordinates the same as the time machine
+
+    >>> test_player = {"level": 0, "area": -1, "x_coordinate": 0, "y_coordinate": 0}
+    >>> test_time_machine = {"x_coordinate": 1, "y_coordinate": 1}
+    >>> initialize_player(test_player, test_time_machine)
+    {'level': 1, 'area': 1, 'x_coordinate': 1, 'y_coordinate': 1}
+    """
+    player_character["level"] += 1
+    player_character["area"] += 2
+    player_character["y_coordinate"] = time_machine["y_coordinate"]
+    player_character["x_coordinate"] = time_machine["x_coordinate"]
+    return player_character
 
 
 def main():
