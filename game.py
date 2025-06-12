@@ -1,8 +1,6 @@
-import initialize
 import map
 import initialize as i
 import player
-import text
 import text as t
 import levels
 from text import input_color
@@ -32,7 +30,7 @@ def game():
                 i.initialize_mob(time_machine, start_room, {(0, 0): 1})
                 current_character = i.initialize_player(current_character, time_machine)
                 if current_character["level"] == 5:
-                    text.you_win()
+                    t.you_win()
                     break
                 current_map = i.starting_map(start_room, 8, 4, current_character["level"] + 1)
                 map.rewrite(current_map, current_character["x_coordinate"], current_character["y_coordinate"],
@@ -68,7 +66,7 @@ def game():
                     mob["ai"] = [mob["ai"][1], mob["ai"][0]]
             achieved_goal = levels.check_level_goal(mobs)
             if achieved_goal:
-                level_text = text.end_txt(current_character)
+                level_text = t.end_txt(current_character)
             levels.overwritten(current_map, [time_machine, current_character], current_character)
             time_machine["alive"] = True
             if current_character["alive"]:
