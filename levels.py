@@ -217,7 +217,6 @@ def fall(mob: dict, mobs: list, map_key: dict):
     an integer or string as the value
     :precondition: two dictionaries and a list of dictionaries
     :postcondition: a list of dictionaries
-    :return: 20 meteors appended to the mob list in locations surrounding the first mob
     """
     if mob["time left"] == 25:
         for meteor_id in range(20):
