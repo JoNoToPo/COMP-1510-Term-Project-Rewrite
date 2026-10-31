@@ -14,7 +14,8 @@ then open http://localhost:8000. No enter key needed:
 
 - Hold `w`, `a`, `s`, or `d` to move. Time only passes while you hold a direction (3 ticks a second), so standing
   still freezes the world.
-- Press `r` to toggle rewrite mode. While it is on, the direction keys rewrite in that direction instead of moving.
+- Press `r` then a direction to rewrite once in that direction, just like typing `rw`, `ra`, `rs`, or `rd` in the
+  terminal version. Press `r` again to cancel.
 - Press `h` for help, and space to start a level or play again.
 
 # Requirements

@@ -22,10 +22,9 @@ TICKS_PER_SECOND = 3
 HELP_TEXT = ("///////////HELP"
              "//Hold 'w', 'a', 's', or 'd' to move."
              "/Time only moves while you hold a direction."
-             "//Press 'r' to toggle rewrite mode."
-             "/While rewrite mode is on, 'w', 'a', 's', or 'd'"
-             "/rewrite in that direction instead of moving."
-             "/Press 'r' again to go back to moving."
+             "//Press 'r' then 'w', 'a', 's', or 'd'"
+             "/to rewrite once in that direction."
+             "/Press 'r' again to cancel the rewrite."
              "//Rewriting a floor makes a corrupted wall,"
              "/rewriting a corrupted wall turns it back into floor."
              "//Press 'h' to close this help."
@@ -88,10 +87,11 @@ def player_action(state: dict, key: str):
     :param state: the game state dictionary
     :param key: one of 'w', 'a', 's', or 'd'
     :precondition: a game state dictionary in the playing phase
-    :postcondition: the player moved or rewrote next to themselves
+    :postcondition: the player moved or rewrote next to themselves, and rewrite mode is off after a rewrite
     """
     if state["rewrite_mode"]:
         player.player_rewrite(f"r{key}", state["character"], state["map"])
+        state["rewrite_mode"] = False
     else:
         player.move(key, state["character"], state["map"], state["achieved_goal"])
 

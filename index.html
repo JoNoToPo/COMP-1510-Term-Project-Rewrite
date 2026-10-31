@@ -22,7 +22,7 @@
 <header>
   <h1>Rewrite</h1>
   <div id="status">Loading Python…</div>
-  <div id="hint">Hold w/a/s/d to move (time only flows while you move) · r toggles rewrite · h help</div>
+  <div id="hint">Hold w/a/s/d to move (time only flows while you move) · r then a direction rewrites · h help</div>
 </header>
 <main><pre id="screen"></pre></main>
 
@@ -101,7 +101,9 @@ document.addEventListener("keydown", (event) => {
   if (DIRECTIONS.includes(key)) {
     event.preventDefault();
     if (event.repeat) return;
-    held = held.filter((k) => k !== key).concat(key);
+    const rewriting = state.get("rewrite_mode") && state.get("phase") === "playing";
+    // A rewrite is a single action, so holding the key afterwards should not start walking that way.
+    held = held.filter((k) => k !== key).concat(rewriting ? [] : [key]);
     step(key);
     restartClock();
   } else if (key === "r" || key === "h" || key === " ") {
