@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rewrite</title>
+<style>
+  :root { --bg: #0c0c0c; --fg: #cccccc; --dim: #767676; --accent: #3b78ff; --warn: #e74856; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg); font-family: Consolas, "Courier New", monospace; }
+  header { display: flex; gap: 24px; flex-wrap: wrap; align-items: baseline; padding: 10px 16px; border-bottom: 1px solid #222; }
+  header h1 { margin: 0; font-size: 18px; color: var(--accent); }
+  #status span { margin-right: 18px; }
+  #mode.rewrite { color: var(--warn); font-weight: bold; }
+  #hint { color: var(--dim); font-size: 13px; }
+  main { padding: 12px 16px; overflow-x: auto; }
+  #screen { margin: 0; font-size: 14px; line-height: 1.15; white-space: pre; }
+  .time-frozen #screen { filter: saturate(0.75); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Rewrite</h1>
+  <div id="status">Loading Python…</div>
+  <div id="hint">Hold w/a/s/d to move (time only flows while you move) · r toggles rewrite · h help</div>
+</header>
+<main><pre id="screen"></pre></main>
+
+<script src="https://cdn.jsdelivr.net/pyodide/v0.27.2/full/pyodide.js"></script>
+<script>
+const TICK_MS = 1000 / 3;
+const MODULES = ["map.py", "initialize.py", "player.py", "text.py", "levels.py", "web_game.py"];
+const DIRECTIONS = ["w", "a", "s", "d"];
+const FG = {30: "#0c0c0c", 31: "#c50f1f", 32: "#13a10e", 33: "#c19c00", 34: "#0037da", 35: "#881798", 36: "#3a96dd",
+            37: "#cccccc", 90: "#767676", 91: "#e74856", 92: "#16c60c", 93: "#f9f1a5", 94: "#3b78ff", 95: "#b4009e",
+            96: "#61d6d6", 97: "#f2f2f2"};
+
+const screen = document.getElementById("screen");
+const statusBar = document.getElementById("status");
+let game, state;
+let held = [];          // directions currently held down, most recent last
+let timer = null;
+
+function escapeHtml(s) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+// Convert the terminal colour codes produced by text.input_color into HTML spans.
+function ansiToHtml(text) {
+  let html = "", fg = null, bg = null;
+  for (const part of text.split(/\x1b\[(\d+)m/).entries()) {
+    const [index, chunk] = part;
+    if (index % 2 === 1) {
+      const code = Number(chunk);
+      if (code === 0) { fg = null; bg = null; }
+      else if (FG[code]) fg = FG[code];
+      else if (FG[code - 10]) bg = FG[code - 10];
+      continue;
+    }
+    if (!chunk) continue;
+    const style = (fg ? `color:${fg};` : "") + (bg ? `background:${bg};` : "");
+    html += style ? `<span style="${style}">${escapeHtml(chunk)}</span>` : escapeHtml(chunk);
+  }
+  return html;
+}
+
+function render() {
+  screen.innerHTML = ansiToHtml(state.get("screen"));
+  const s = game.status(state).toJs({dict_converter: Object.fromEntries});
+  const moving = held.length > 0;
+  document.body.classList.toggle("time-frozen", !moving);
+  if (s.phase !== "playing") {
+    statusBar.textContent = `${s.name} · Level ${s.level}`;
+    return;
+  }
+  statusBar.innerHTML =
+    `<span>${escapeHtml(s.name)}</span><span>Level ${s.level}</span>` +
+    `<span id="mode" class="${s.rewrite_mode ? "rewrite" : ""}">Mode: ${s.rewrite_mode ? "REWRITE" : "MOVE"}</span>` +
+    `<span>${s.seconds}s in level</span><span>${moving ? "▶ time flowing" : "❚❚ time frozen"}</span>` +
+    (s.goal ? `<span>Goal done: reach the time machine</span>` : "");
+}
+
+function step(key) {
+  game.tick(state, key ?? null);
+  render();
+}
+
+function onTick() {
+  step(held[held.length - 1] ?? null);
+}
+
+// Restart the 3 Hz clock so a fresh press acts immediately instead of waiting for the next tick.
+function restartClock() {
+  clearInterval(timer);
+  timer = setInterval(onTick, TICK_MS);
+}
+
+document.addEventListener("keydown", (event) => {
+  if (!state || event.ctrlKey || event.metaKey || event.altKey) return;
+  const key = event.key.toLowerCase();
+  if (DIRECTIONS.includes(key)) {
+    event.preventDefault();
+    if (event.repeat) return;
+    held = held.filter((k) => k !== key).concat(key);
+    step(key);
+    restartClock();
+  } else if (key === "r" || key === "h" || key === " ") {
+    event.preventDefault();
+    if (!event.repeat) step(key);
+  }
+});
+
+document.addEventListener("keyup", (event) => {
+  const key = event.key.toLowerCase();
+  held = held.filter((k) => k !== key);
+});
+
+window.addEventListener("blur", () => { held = []; });
+
+async function main() {
+  const pyodide = await loadPyodide();
+  for (const name of MODULES) {
+    const response = await fetch(name);
+    if (!response.ok) throw new Error(`Could not load ${name} (${response.status})`);
+    pyodide.FS.writeFile(name, await response.text());
+  }
+  game = pyodide.pyimport("web_game");
+  state = game.new_game();
+  step(null);
+  restartClock();
+}
+
+main().catch((error) => {
+  statusBar.textContent = "Failed to start: " + error.message +
+    " — serve this folder over HTTP (python -m http.server) rather than opening the file directly.";
+});
+</script>
+</body>
+</html>

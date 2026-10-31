@@ -1,3 +1,7 @@
+"""
+Welcome to Rewrite!
+"""
+
 import map
 import initialize as i
 import player

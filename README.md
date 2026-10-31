@@ -1,5 +1,22 @@
 # COMP-1510-Term-Project-Rewrite
 
+This is a terminal game I made for my python term project, to play simply run game.py in your terminal.
+
+# Playing in the browser
+
+The same game can be played in a browser (the Python runs in the page through Pyodide). From this folder run
+
+```
+python -m http.server 8000
+```
+
+then open http://localhost:8000. No enter key needed:
+
+- Hold `w`, `a`, `s`, or `d` to move. Time only passes while you hold a direction (3 ticks a second), so standing
+  still freezes the world.
+- Press `r` to toggle rewrite mode. While it is on, the direction keys rewrite in that direction instead of moving.
+- Press `h` for help, and space to start a level or play again.
+
 # Requirements
 
 |            Requirements            | File, line number |
