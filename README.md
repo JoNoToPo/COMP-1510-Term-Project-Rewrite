@@ -54,7 +54,7 @@ feel of the game, without adding unnecessary complexity.
 
 If the game is too hard, read these tips and tricks:
 
-1. If you type or rw, ra, rs, or rd and enter that will create a wall if you do it again it will replace the wall with a
+1. If you press r then w, a, s, or d that will create a wall if you do it again it will replace the wall with a
    floor (I don't know why everyone seems to have trouble with that)
 2. If it's too hard to track where things are because of the distortion caused by rewriting,
    rewrite immediately after you create the wall in order to remove all the distortion effect.

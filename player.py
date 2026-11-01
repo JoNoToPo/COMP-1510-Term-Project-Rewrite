@@ -17,7 +17,7 @@ def player_parse(player_input, current_character, current_map, achieved_goal):
     :postcondition: a string or None
     :return: the correct action that the player input
     """
-    if player_input.split()[0] == "help":
+    if player_input.split()[0] in ["help", "h"]:
         return (f"{"-" * 53}"
                 "/             ,--.  ,--.       ,--.           "
                 "/             |  '--'  | ,---. |  | ,---.     "

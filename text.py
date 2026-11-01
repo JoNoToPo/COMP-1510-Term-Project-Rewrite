@@ -131,13 +131,13 @@ def level_text(character: dict) -> str:
                  f"/he hands you a gun. "
                  f"/\"It's not a gun! It's a rewriting device. "
                  f"/Walk to the training dummy \"{input_color(" D ", "RED")}\" using wasd."
-                 "/once you reach the dummy, type r "
+                 "/once you reach the dummy, press r "
                  "/then 'w', or 'a', or 's', or 'd' to rewrite the dummy"
                  "/(in whichever direction the dummy is in)\""
-                 "/(eg. type \"rw\" then press enter to rewrite up)."
+                 "/(eg. press \"r\" then \"w\" to rewrite up)."
                  "/(If I am blocking your way, please don't kill me. "
                  "/you can rewrite walls and rewrite rewritten tiles into floor tiles to get around me.)"
-                 "//To learn how to play type \"help\" at any time"),
+                 "//To learn how to play press \"h\" at any time"),
                 ("/"
                  "/You step through the door of the time machine into a nearly empty but decidedly German university."
                  "//The professor's voice crackles over the time machine's telecom."
