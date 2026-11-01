@@ -18,6 +18,18 @@ then open http://localhost:8000. No enter key needed:
   terminal version. Press `r` again to cancel.
 - Press `h` for help, and space to start a level or play again.
 
+# Rewriting history
+
+What you do carries over to your next playthrough, and every change can be undone by changing history again:
+
+- Kill Hitler and next time your target is Meinard Goudier. Kill Goudier and Hitler comes back.
+- Stop the meteor and the dinosaurs survive, so you play the next run as a dinosaur and have to destroy the raptors'
+  meteor defense, then escape before it lands. Make the meteor fall and the humans come back.
+- Beat the final boss and your character becomes the next final boss.
+
+History only changes when you finish a level by entering the time machine. The terminal version saves it in
+`timeline.json` (delete it to restore the original history) and the browser version saves it in the browser.
+
 # Requirements
 
 |            Requirements            | File, line number |

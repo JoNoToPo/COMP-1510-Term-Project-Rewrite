@@ -29,7 +29,9 @@
 <script src="https://cdn.jsdelivr.net/pyodide/v0.27.2/full/pyodide.js"></script>
 <script>
 const TICK_MS = 1000 / 3;
-const MODULES = ["map.py", "initialize.py", "player.py", "text.py", "levels.py", "web_game.py"];
+const MODULES = ["map.py", "initialize.py", "player.py", "text.py", "levels.py", "timeline.py", "web_game.py"];
+const TIMELINE_FILE = "timeline.json";
+const TIMELINE_KEY = "rewrite-timeline";
 const DIRECTIONS = ["w", "a", "s", "d"];
 const FG = {30: "#0c0c0c", 31: "#c50f1f", 32: "#13a10e", 33: "#c19c00", 34: "#0037da", 35: "#881798", 36: "#3a96dd",
             37: "#cccccc", 90: "#767676", 91: "#e74856", 92: "#16c60c", 93: "#f9f1a5", 94: "#3b78ff", 95: "#b4009e",
@@ -37,7 +39,8 @@ const FG = {30: "#0c0c0c", 31: "#c50f1f", 32: "#13a10e", 33: "#c19c00", 34: "#00
 
 const screen = document.getElementById("screen");
 const statusBar = document.getElementById("status");
-let game, state;
+let game, state, files;
+let savedTimeline = null;
 let held = [];          // directions currently held down, most recent last
 let timer = null;
 
@@ -80,8 +83,27 @@ function render() {
     (s.goal ? `<span>Goal done: reach the time machine</span>` : "");
 }
 
+// Pyodide's files disappear on reload, so the timeline Python saves is mirrored into localStorage.
+function restoreTimeline() {
+  try {
+    savedTimeline = localStorage.getItem(TIMELINE_KEY);
+    if (savedTimeline) files.writeFile(TIMELINE_FILE, savedTimeline);
+  } catch (error) { /* no storage: history just won't carry over */ }
+}
+
+function persistTimeline() {
+  try {
+    const current = files.readFile(TIMELINE_FILE, {encoding: "utf8"});
+    if (current !== savedTimeline) {
+      localStorage.setItem(TIMELINE_KEY, current);
+      savedTimeline = current;
+    }
+  } catch (error) { /* nothing saved yet, or no storage */ }
+}
+
 function step(key) {
   game.tick(state, key ?? null);
+  persistTimeline();
   render();
 }
 
@@ -122,10 +144,13 @@ window.addEventListener("blur", () => { held = []; });
 async function main() {
   const pyodide = await loadPyodide();
   for (const name of MODULES) {
-    const response = await fetch(name);
+    // Revalidate every load so an update never mixes new and stale cached modules.
+    const response = await fetch(name, {cache: "no-cache"});
     if (!response.ok) throw new Error(`Could not load ${name} (${response.status})`);
     pyodide.FS.writeFile(name, await response.text());
   }
+  files = pyodide.FS;
+  restoreTimeline();
   game = pyodide.pyimport("web_game");
   state = game.new_game();
   step(null);

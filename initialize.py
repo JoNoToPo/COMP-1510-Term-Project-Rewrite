@@ -1,4 +1,5 @@
 import random
+from collections import deque
 import map
 import player
 
@@ -108,6 +109,76 @@ def initialize_mob(mob: dict, map_key: dict, start_room: dict):
         if (player.authenticate_move(mob["x_coordinate"], mob["y_coordinate"], map_key, False)
                 and place not in start_room.keys()):
             placed = True
+    return mob
+
+
+def find_path(map_key: dict, start: tuple, goal: tuple):
+    """
+    Finds the shortest walkable path between two places in the map.
+
+    :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
+    an integer or string as the value
+    :param start: a tuple of two integers, the (y, x) place the path starts from
+    :param goal: a tuple of two integers, the (y, x) place the path ends at
+    :precondition: a dictionary and two tuples
+    :postcondition: a list
+    :return: a list of the (y, x) places from start to goal walking only on floor tiles, or an empty list if goal
+    cannot be reached
+
+    >>> find_path({(1, 1): "@", (1, 2): "   ", (1, 3): "D"}, (1, 1), (1, 3))
+    [(1, 1), (1, 2), (1, 3)]
+    >>> find_path({(1, 1): "@", (1, 3): "D"}, (1, 1), (1, 3))
+    []
+    """
+    came_from = {start: None}
+    queue = deque([start])
+    while queue:
+        place = queue.popleft()
+        if place == goal:
+            path = []
+            while place is not None:
+                path.insert(0, place)
+                place = came_from[place]
+            return path
+        for y_step, x_step in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+            next_place = (place[0] + y_step, place[1] + x_step)
+            if next_place not in came_from and (map_key.get(next_place) == "   " or next_place == goal):
+                came_from[next_place] = place
+                queue.append(next_place)
+    return []
+
+
+def block_corridor(mob: dict, map_key: dict, start_room: dict, start: tuple, goal: tuple):
+    """
+    Moves a mob onto the first one tile wide corridor between start and goal so it blocks the way.
+
+    :param mob: the mob dictionary with at minimum the keys y_coordinate, x_coordinate, and symbol
+    :param map_key: the map within which the mob is being placed
+    :param start_room: the coordinates of the room the player starts in
+    :param start: a tuple of two integers, the (y, x) place of the player
+    :param goal: a tuple of two integers, the (y, x) place the player is trying to reach
+    :precondition: three dictionaries and two tuples
+    :postcondition: a dictionary
+    :return: the mob dictionary moved onto the first corridor tile outside the start room on the way to the goal,
+    or the first tile outside the start room if there is no corridor, or unmoved if the goal cannot be reached
+
+    >>> test_map = {(1, 1): "@", (1, 2): "   ", (1, 3): "   ", (1, 4): "D", (5, 5): "P"}
+    >>> block_corridor({"y_coordinate": 5, "x_coordinate": 5, "symbol": "P"}, test_map, {(1, 1): "   "},
+    ...                (1, 1), (1, 4))
+    {'y_coordinate': 1, 'x_coordinate': 2, 'symbol': 'P'}
+    >>> test_map[(1, 2)], test_map[(5, 5)]
+    ('P', '   ')
+    """
+    map.rewrite(map_key, mob["x_coordinate"], mob["y_coordinate"], "   ")
+    path = [place for place in find_path(map_key, start, goal)[1:-1] if place not in start_room]
+    corridor = [(y, x) for y, x in path
+                if map_key.get((y - 1, x)) != "   " and map_key.get((y + 1, x)) != "   "
+                or map_key.get((y, x - 1)) != "   " and map_key.get((y, x + 1)) != "   "]
+    if corridor:
+        mob["y_coordinate"], mob["x_coordinate"] = corridor[0]
+    elif path:
+        mob["y_coordinate"], mob["x_coordinate"] = path[0]
+    map.rewrite(map_key, mob["x_coordinate"], mob["y_coordinate"], mob["symbol"])
     return mob
 
 

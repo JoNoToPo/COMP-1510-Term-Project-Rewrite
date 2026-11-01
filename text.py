@@ -1,4 +1,5 @@
 import random
+import timeline
 
 
 def input_color(input_string: str, color: str, bg_color="") -> str:
@@ -82,6 +83,30 @@ def input_color(input_string: str, color: str, bg_color="") -> str:
     return f"{color}{bg_color}{input_string}\033[0m"
 
 
+def dinofy(text_to_change: str, character: dict) -> str:
+    """
+    Renames every grandfather and the professor when the dinosaurs survived.
+
+    :precondition: a string and a dictionary
+    :postcondition: a string
+    :param text_to_change: any text shown to the player
+    :param character: a dictionary with the key 'timeline' holding a dictionary with the key 'dinosaurs'
+    :return: the text with grandfathers turned into dinofathers and the professor into the dino professor if the
+    dinosaurs survived, otherwise the text unchanged
+
+    >>> dinofy("Professor Hart met a Great-Grandfather", {"timeline": {"dinosaurs": True}})
+    'Dino Professor Hart met a Great-Dinofather'
+    >>> dinofy("I am the GREATEST GRANDFATHER", {"timeline": {"dinosaurs": False}})
+    'I am the GREATEST GRANDFATHER'
+    """
+    if not character.get("timeline", {}).get("dinosaurs"):
+        return text_to_change
+    for old, new in [("Grandfather", "Dinofather"), ("grandfather", "dinofather"), ("GRANDFATHER", "DINOFATHER"),
+                     ("Professor", "Dino Professor"), ("professor", "dino professor")]:
+        text_to_change = text_to_change.replace(old, new)
+    return text_to_change
+
+
 def level_text(character: dict) -> str:
     """
     Ascii art and text given the character's level
@@ -112,8 +137,12 @@ def level_text(character: dict) -> str:
                    f"/{input_color("     |  |   | .-. :\\  `'  ,| .-. :|  |      .' <     ", "BRIGHT_BLUE", "BLACK")} "
                    f"/{input_color("     |  '--.\\   --. \\    , \\   --.|  |    ,'-'  |    ", "BRIGHT_BLUE", "BLACK")} "
                    f"/{input_color("     `-----' `----'  `--'   `----'`--'    `----'     ", "BRIGHT_BLUE", "BLACK")} /")
-    preamble = (f"//You \"{input_color(" @ ", "GREEN")}\" wake up in a laboratory. "
+    history = character.get("timeline", timeline.ORIGINAL_HISTORY)
+    dinosaur_line = ("/You look down at your scaly claws. Everyone here is a dinosaur, including you."
+                     "/Somehow that feels completely normal." if history["dinosaurs"] else "")
+    preamble = (f"//You \"{character.get("symbol", input_color(" @ ", "GREEN"))}\" wake up in a laboratory. "
                 f"/You don't remember anything except this."
+                f"{dinosaur_line}"
                 f"//Your name is {character["name"]} /and you are going to rewrite History",
                 "",
                 "",
@@ -153,7 +182,7 @@ def level_text(character: dict) -> str:
                  f"/a very angry man \"{input_color(" H ", "RED")}\" yelling in german with a hitler moustache "
                  f"/brandishing a very real gun while shooting"
                  f" it in random directions \"{input_color(" • ", "BRIGHT_RED")}\""
-                 "//////To learn how to play type \"help\" at any time"),
+                 "//////To learn how to play press \"h\" at any time"),
                 ("/"
                  "/You stumble out of the time machine and are startled "
                  f"/by the cavemen \"{input_color(" G ", "YELLOW")}\" and the lush trees all around you. "
@@ -167,7 +196,7 @@ def level_text(character: dict) -> str:
                  f"/land where the \"{input_color(" M ", "RED")}\" is in roughly 50 seconds!"
                  f"//You get a feeling that if you rewrite all of the \"{input_color(" M ", "RED")}\" "
                  f"/the meteor will be shot into another dimension."
-                 "//////To learn how to play type \"help\" at any time"
+                 "//////To learn how to play press \"h\" at any time"
                  ),
                 ("/"
                  "/You walk out of the time machine and are immediately blinded by an immense white light."
@@ -178,10 +207,65 @@ def level_text(character: dict) -> str:
                  "/\"You have meddled with forces beyond your imagining boy.\""
                  f"/You lock your eyes onto an incredibly muscular old man \"{input_color(" G ", "WHITE", "BRIGHT_RED")}\""
                  "/\"I will destroy you and your time machine before you break everything!\""
-                 "//////To learn how to play type \"help\" at any time"
+                 "//////To learn how to play press \"h\" at any time"
                  )]
-    return (f"{line}{level_ascii[character["level"] - 1]}{line}{preamble[character["level"] - 1]}"
-            f" {lvl_text[character["level"] - 1]}")
+    if history["hitler_killed"]:
+        lvl_text[1] = ("/"
+                       "/You step through the door of the time machine into a nearly empty but decidedly German "
+                       "university."
+                       "//The professor's voice crackles over the time machine's telecom."
+                       f"/\"It's 1929. {character["name"]} Your mission is to find and kill Meinard Goudier. "
+                       "/He's an adult. obviously it's wrong to kill a baby.\""
+                       "/He's still organizing the art students into a collective"
+                       "/so this should be easy."
+                       "/Oh and try not to kill anyone else,"
+                       "/there's almost a 100% chance you'd be related to them."
+                       f"/{input_color("\"Remember your rewrite device is more powerful now so be careful",
+                                       "BRIGHT_GREEN", "BLACK")}"
+                       f"//{input_color("\"Again rewrite a space once to make a wall.", "BRIGHT_GREEN", "BLACK")}"
+                       f"/{input_color("rewrite twice to make a floor.", "BRIGHT_GREEN", "BLACK")}"
+                       f"//As you walk the halls you see"
+                       f"/a very angry man \"{input_color(" M ", "BRIGHT_RED")}\" yelling in german about the "
+                       f"proletariat"
+                       f"/with a moustache that is somehow even more communist than it is angry,"
+                       f"/brandishing a very real, collectively owned gun while shooting"
+                       f" it in random directions \"{input_color(" • ", "BRIGHT_RED")}\""
+                       "//////To learn how to play press \"h\" at any time")
+    if history["dinosaurs"]:
+        lvl_text[2] = ("/"
+                       "/You stumble out of the time machine and are startled "
+                       f"/by your Great-Great-Great-Dinofathers \"{input_color(" G ", "YELLOW")}\" grazing in the "
+                       f"lush trees "
+                       f"all around you."
+                       f"/Above them, huge metal towers hum and point straight up at the sky."
+                       f"//The professor's voice crackles over the time machine's telecom."
+                       f"//\"That was a warmup. We're here to see how far we can go."
+                       f"/Our ancestors built a meteor defense and it is still running."
+                       f"/Old legends say that rock was meant to land and give some furry little"
+                       f"/creatures called 'humans' a turn. Let's find out if they're right.\""
+                       f"//You look directly above head and see the meteor \"{input_color(" M ", "RED")}\" "
+                       f"hanging in the sky,"
+                       f"/held back by raptor gunners \"{input_color(" R ", "RED")}\" "
+                       f"shooting at it \"{input_color(" • ", "BRIGHT_RED")}\" and anything else that moves."
+                       f"//\"Rewrite every raptor gunner \"{input_color(" R ", "RED")}\" and the meteor will fall."
+                       f"/Then get back to the time machine before it lands"
+                       f"/unless you want to be the first dinosaur to see it up close.\""
+                       "//////To learn how to play press \"h\" at any time")
+    if history["boss_name"]:
+        lvl_text[3] = ("/"
+                       "/You walk out of the time machine and are immediately blinded by an immense white light."
+                       "/The time machine's timer displays 00000000000"
+                       "//\"Where am I?\" "
+                       "You say as your eyes slowly adjust to the world around you."
+                       "/A booming voice echoes above your head, and it sounds strangely familiar."
+                       "/\"You have meddled with forces beyond your imagining. I should know, I did it first.\""
+                       f"/You lock your eyes onto an incredibly muscular old man \"{input_color(" G ", "WHITE",
+                                                                                                "BRIGHT_RED")}\""
+                       f"/\"I am {history["boss_name"]} THE GREATEST GRANDFATHER!"
+                       "/I will destroy you and your time machine before you make my mistakes!\""
+                       "//////To learn how to play press \"h\" at any time")
+    return dinofy(f"{line}{level_ascii[character["level"] - 1]}{line}{preamble[character["level"] - 1]}"
+                  f" {lvl_text[character["level"] - 1]}", character)
 
 
 def end_txt(character: dict) -> str:
@@ -286,7 +370,48 @@ def end_txt(character: dict) -> str:
         f"/{input_color("With that ominous message hanging in the air you can't ", "BRIGHT_BLUE", "BLACK")}"
         f"/{input_color("think of anything to do except go back to your time machine", "BRIGHT_BLUE", "BLACK")}"
         f"////////////"]
-    return output[character["level"] - 1]
+    history = character.get("timeline", timeline.ORIGINAL_HISTORY)
+    if history["hitler_killed"]:
+        output[1] = (
+            f"/{line}{level_ascii[1]}{line} //"
+            f"/{input_color("With a blast from your Rewriter ", "BRIGHT_BLUE", "BLACK")}"
+            f"/{input_color(f"Meinard Goudier is replaced {with_a_random_thing_from_history},", "BRIGHT_BLUE",
+                            "BLACK")}"
+            f"/"
+            f"/{input_color("\"Good job, it looks like you did your mission.", "BRIGHT_BLUE", "BLACK")}"
+            f"/{input_color("Strange, the history books on my desk just changed.", "BRIGHT_BLUE", "BLACK")}"
+            f"/{input_color("They're all about some art student called Adolf? Heighter? no Hitter.", "BRIGHT_BLUE",
+                            "BLACK")}"
+            f"/{input_color("Eh, I'm sure that's fine.", "BRIGHT_BLUE", "BLACK")}"
+            f"/{input_color("anyways go back to the time machine for your next mission.\"", "BRIGHT_BLUE", "BLACK")}"
+            f"////////////")
+    if history["dinosaurs"]:
+        output[2] = (
+            f"/{line}{level_ascii[2]}{line} //"
+            f"/{input_color("With the last raptor gunner rewritten, the towers fall silent.", "BRIGHT_BLUE", "BLACK")}"
+            f"/{input_color("The sky turns a red, fiery orange as the meteor finally starts to fall.", "BRIGHT_BLUE",
+                            "BLACK")}"
+            f"//{input_color("\"Well done! Now RUN. Get back to the time machine!\"", "BRIGHT_GREEN", "BLACK")}"
+            f"//{input_color(f"Impact in {character.get("impact", "a few")} moves.", "BRIGHT_RED", "BLACK")}"
+            f"/{input_color("proceed to the time machine to continue.", "BRIGHT_BLUE", "BLACK")}"
+            f"////////////")
+    if history["boss_name"]:
+        output[3] = (
+            f"/{line}{level_ascii[3]}{line}"
+            f"/{input_color("", "BRIGHT_BLUE", "BLACK")}"
+            f"/{input_color("As the world around you warps and strains at the tears in reality", "BRIGHT_BLUE", "BLACK")}"
+            f"/{input_color("created by the battle, The man Yells", "BRIGHT_BLUE", "BLACK")}"
+            f"/{input_color(f"\"I am {history["boss_name"]} THE GREATEST GRANDFATHER, I CANNOT BE DEFEATED!\"",
+                            "BRIGHT_BLUE", "BLACK")}"
+            f"/{input_color("Slowly the man fades away into nothingness and", "BRIGHT_BLUE", "BLACK")}"
+            f"/{input_color("closes his eyes in defeat. \"You will regret this day...", "BRIGHT_BLUE", "BLACK")}"
+            f"/{input_color("I certainly did...\"", "BRIGHT_BLUE", "BLACK")}"
+            f"/{input_color("", "BRIGHT_BLUE", "BLACK")}"
+            f"/{input_color("For a moment his face looked a lot like yours.", "BRIGHT_BLUE", "BLACK")}"
+            f"/{input_color("With that thought hanging in the air you can't ", "BRIGHT_BLUE", "BLACK")}"
+            f"/{input_color("think of anything to do except go back to your time machine", "BRIGHT_BLUE", "BLACK")}"
+            f"////////////")
+    return dinofy(output[character["level"] - 1], character)
 
 def you_win():
     """

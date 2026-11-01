@@ -1,6 +1,7 @@
 import map
 import random
-from text import input_color
+from text import input_color, dinofy
+import timeline
 
 
 def player_parse(player_input, current_character, current_map, achieved_goal):
@@ -53,19 +54,45 @@ def player_parse(player_input, current_character, current_map, achieved_goal):
                 "///////////")
 
 
-def new_character():
+def new_character(history=None):
     """
     Initializes the player character and gives a random name.
 
-    :precondition: none
+    :param history: a dictionary of how history has been rewritten, see timeline.py, or None for the original history
+    :precondition: a dictionary or None
     :postcondition: a dictionary
-    :return: player's dictionary of starting stats and a randomized name
+    :return: player's dictionary of starting stats, a randomized name, and the history of this playthrough, as a
+    dinosaur if the dinosaurs survived
     """
+    history = dict(history or timeline.ORIGINAL_HISTORY)
     first_name = random.choice(["Chris", "Derek", "Peter", "Johnny", "Thomas"])
     last_name = random.choice(["Thompson", "\"The Axe\" Morgan", "The Wise", "Jefferson"])
+    symbol = input_color(" @ ", "GREEN", )
+    if history["dinosaurs"]:
+        last_name = insert_dino(last_name)
+        symbol = input_color(" & ", "GREEN", )
     character_spread = {"name": f"{first_name} {last_name}", "level": 0, "area": -1, "x_coordinate": 0,
-                        "y_coordinate": 0, "alive": True, "symbol": input_color(" @ ", "GREEN", )}
+                        "y_coordinate": 0, "alive": True, "symbol": symbol, "timeline": history}
     return character_spread
+
+
+def insert_dino(last_name: str) -> str:
+    """
+    Inserts 'dino' at a random place inside the last word of a last name.
+
+    :param last_name: a string ending in a word at least two letters long
+    :precondition: a string
+    :postcondition: a string
+    :return: the last name with 'dino' somewhere between the first and last letter of its last word
+
+    >>> insert_dino("Thompson") in [f"Thompson"[:place] + "dino" + "Thompson"[place:] for place in range(1, 8)]
+    True
+    >>> insert_dino('"The Axe" Morgan').startswith('"The Axe" M')
+    True
+    """
+    first_words, _, last_word = last_name.rpartition(" ")
+    place = random.randint(1, len(last_word) - 1)
+    return f"{first_words} {last_word[:place]}dino{last_word[place:]}".strip()
 
 
 def move(user_input: str, character: dict, map_key: dict, goal_achieved=True):
@@ -193,6 +220,22 @@ def player_rewrite(direction: str, character: dict, map_key: dict):
 
 def how_died(map_key: dict, character: dict):
     """
+    Gives a description of how the character died and ascii art, in the dinosaur timeline's words if the dinosaurs
+    survived.
+
+    :param map_key: a dictionary containing tuples of the room coordinates as the keys and a string of the contents
+    as the value
+    :param character: a dictionary containing at least two keys called Y-coordinate and X-coordinate corresponding to
+    the location of the character
+    :precondition: two dictionaries
+    :postcondition: a string
+    :return: the correct string corresponding to what killed the character
+    """
+    return dinofy(death_message(map_key, character), character)
+
+
+def death_message(map_key: dict, character: dict):
+    """
     Gives a description of how the character died and ascii art.
 
     :param map_key: a dictionary containing tuples of the room coordinates as the keys and a string of the contents
@@ -244,6 +287,13 @@ def how_died(map_key: dict, character: dict):
     elif place == input_color(" H ", "RED"):
         return ("\n\n\n\n\n\nHitler pulls out a knife and stabs you."
                 f"\n\n\n\n\n\n{game_over}")
+    elif place == input_color(" M ", "BRIGHT_RED"):
+        return ("\n\n\n\n\n\nMeinard Goudier pulls out a sickle and seizes the means of your production."
+                f"\n\n\n\n\n\n{game_over}")
+    elif place == input_color(" R ", "RED"):
+        return (f"\n{you_died}"
+                "\n\n\n\n\n\nThe raptor gunner decides you would be more useful as lunch than as a threat."
+                f"\n\n\n\n\n\n{game_over}")
     elif place == 3:
         return (f"\n{you_died}"
                 "\n\n\n\n\nThrough the distortions and tears in reality, "
@@ -278,7 +328,8 @@ def how_died(map_key: dict, character: dict):
     elif place == f"{"Great-" * 500}Grandfather":
         return (f"\n{you_died}"
                 f"\n\n\n\n\n\nUnderestimating the power of the rewrite device"
-                f"\nyou accidentally rewrite a caveman"
+                f"\nyou accidentally rewrite a "
+                f"{"baby dinosaur" if character.get("timeline", {}).get("dinosaurs") else "caveman"}"
                 f"\n{with_a_random_thing_from_history}"
                 f"\n{killed_friendly}"
                 f"\noops you killed one of your \n{"Great-" * 500}Grandfathers."

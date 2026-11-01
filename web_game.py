@@ -15,6 +15,7 @@ import initialize as i
 import player
 import text as t
 import levels
+import timeline
 from text import input_color
 
 TICKS_PER_SECOND = 3
@@ -39,7 +40,7 @@ def new_game():
     :postcondition: a dictionary
     :return: a dictionary holding everything the game loop needs between ticks
     """
-    return {"phase": "travel", "character": player.new_character(),
+    return {"phase": "travel", "character": player.new_character(timeline.load_timeline()),
             "time_machine": {"name": "Time Machine", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                              "symbol": input_color(" T ", "DARK_GRAY", "BRIGHT_BLUE")},
             "map": {}, "mobs": [], "level_text": "", "achieved_goal": True, "ticks": 0,
@@ -56,6 +57,7 @@ def start_level(state: dict):
     """
     character = state["character"]
     time_machine = state["time_machine"]
+    timeline.rewrite_history(character)
     start_room = i.room_randomizer(8 + character["level"] + 1, 4 + character["level"])
     i.initialize_mob(time_machine, start_room, {(0, 0): 1})
     i.initialize_player(character, time_machine)
@@ -72,6 +74,10 @@ def start_level(state: dict):
     for mob in state["mobs"]:
         i.initialize_mob(mob, state["map"], start_room)
         map.rewrite(state["map"], mob["x_coordinate"], mob["y_coordinate"], mob["symbol"])
+    if character["level"] == 1:
+        dummy, professor = state["mobs"]
+        i.block_corridor(professor, state["map"], start_room, (character["y_coordinate"], character["x_coordinate"]),
+                         (dummy["y_coordinate"], dummy["x_coordinate"]))
     state["level_text"] = t.level_text(character)
     state["achieved_goal"] = False
     state["rewrite_mode"] = False
@@ -114,6 +120,7 @@ def world_step(state: dict):
                         random.choice([("w", 0, -1), ("a", -1, 0), ("s", 0, 1), ("d", 1, 0)]))
         if len(mob["ai"]) == 2:
             mob["ai"] = [mob["ai"][1], mob["ai"][0]]
+    levels.meteor_impact(character, mobs, current_map, time_machine)
     state["achieved_goal"] = levels.check_level_goal(mobs)
     if state["achieved_goal"]:
         state["level_text"] = t.end_txt(character)

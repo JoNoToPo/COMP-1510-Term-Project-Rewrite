@@ -1,7 +1,11 @@
 import random
 import map
 import player
+import initialize
+import timeline
 from text import input_color
+
+TARGETS = ["meteor", "Hitler", "Meinard Goudier", "Raptor Gunner", "Dummy"]
 
 
 def ai_parse(mob, mobs, current_map, current_character, amount_of_bullets, direction):
@@ -47,17 +51,24 @@ def append_mobs(character):
 
     >>> append_mobs({"level": 0})
     []
+    >>> append_mobs({"level": 4, "timeline": {"boss_name": "Chris", "hitler_killed": False, "dinosaurs": False}})[0]["name"]
+    'Chris THE GREATEST GRANDFATHER'
     """
+    history = character.get("timeline", timeline.ORIGINAL_HISTORY)
     if character["level"] == 1:
         return [{"name": "Dummy", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                  "symbol": input_color(" D ", "RED"), "ai": ["stay"]},
                 {"name": "Professor", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                  "symbol": input_color(" P ", "YELLOW"),
-                 "ai": ["move"]}]
+                 "ai": ["stay"]}]
     elif character["level"] == 2:
-        return [{"name": "Hitler", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
-                 "symbol": input_color(" H ", "RED"),
-                 "ai": ["shoot", "move"]},
+        if history["hitler_killed"]:
+            target = {"name": "Meinard Goudier", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
+                      "symbol": input_color(" M ", "BRIGHT_RED"), "ai": ["shoot", "move"]}
+        else:
+            target = {"name": "Hitler", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
+                      "symbol": input_color(" H ", "RED"), "ai": ["shoot", "move"]}
+        return [target,
                 {"name": "Great-Grandfather", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                  "symbol": input_color(" G ", "YELLOW"),
                  "ai": ["move"], "id": 0},
@@ -65,9 +76,14 @@ def append_mobs(character):
                  "symbol": input_color(" G ", "YELLOW"),
                  "ai": ["move"], "id": 1}]
     elif character["level"] == 3:
-        mob_list = [{"name": "meteor", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
-                     "symbol": input_color(" M ", "RED"),
-                     "ai": ["fall", "countdown"], "time left": 25}]
+        if history["dinosaurs"]:
+            mob_list = [{"name": "Raptor Gunner", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
+                         "symbol": input_color(" R ", "RED"), "ai": ["shoot", "move"], "id": gunner}
+                        for gunner in range(3)]
+        else:
+            mob_list = [{"name": "meteor", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
+                         "symbol": input_color(" M ", "RED"),
+                         "ai": ["fall", "countdown"], "time left": 25}]
         for number in range(random.randrange(4, 8)):
             ai = random.choice(["move", "stay"])
             mob_list.append(
@@ -76,7 +92,8 @@ def append_mobs(character):
                  "ai": [ai], "id": number})
         return mob_list
     elif character["level"] == 4:
-        return [{"name": "GREATEST GRANDFATHER", "x_coordinate": 0, "y_coordinate": 0, "alive": True,
+        boss_name = f"{history["boss_name"]} THE GREATEST GRANDFATHER" if history["boss_name"] else "GREATEST GRANDFATHER"
+        return [{"name": boss_name, "x_coordinate": 0, "y_coordinate": 0, "alive": True,
                  "symbol": input_color(" G ", "WHITE", "BRIGHT_RED"),
                  "ai": ["move", "rewrite"], "area": 7}]
     else:
@@ -99,12 +116,28 @@ def check_level_goal(mobs: list):
     False
     """
     for mob in mobs:
-        if (mob["name"] == "meteor"
-                or mob["name"] == "Hitler"
-                or mob["name"] == "Dummy"
-                or mob["name"] == "GREATEST GRANDFATHER"):
+        if is_target(mob):
             return False
     return True
+
+
+def is_target(mob: dict) -> bool:
+    """
+    Finds if a mob has to be rewritten to finish a level.
+
+    :param mob: a dictionary containing a key called 'name' with a string value
+    :precondition: a dictionary
+    :postcondition: a boolean value
+    :return: True if the mob is one of the level goals, False if not
+
+    >>> is_target({"name": "Meinard Goudier"})
+    True
+    >>> is_target({"name": "Chris The Wise THE GREATEST GRANDFATHER"})
+    True
+    >>> is_target({"name": "Great-Grandfather"})
+    False
+    """
+    return mob["name"] in TARGETS or mob["name"].endswith("GREATEST GRANDFATHER")
 
 
 def overwritten(map_key: dict, mobs: list, character: dict):
@@ -173,11 +206,7 @@ def happens_when_died(map_key: dict, mob: dict, mobs: list, character: dict):
     {(0, 0): 'T'}
     """
     mob["alive"] = False
-    if (mob["name"] == "bullet"
-            or mob["name"] == "meteor"
-            or mob["name"] == "Hitler"
-            or mob["name"] == "Dummy"
-            or mob["name"] == "GREATEST GRANDFATHER"):
+    if mob["name"] == "bullet" or is_target(mob):
         mobs.remove(mob)
     elif (mob["name"] == "Great-Grandfather"
           or mob["name"] == "Professor"
@@ -199,6 +228,42 @@ def shoot(direction, mobs, mob, amount_of_bullets):
                  "symbol": input_color(" • ", "BRIGHT_RED"), "id": amount_of_bullets,
                  "ai": ["shot"], "direction": direction[0], "just_shot": True})
     amount_of_bullets += 1
+
+
+def meteor_impact(character: dict, mobs: list, map_key: dict, time_machine: dict):
+    """
+    Counts down to the meteor landing once every raptor gunner defending against it has been rewritten.
+
+    :param character: the player dictionary with at minimum the keys 'level', 'timeline', 'y_coordinate', and
+    'x_coordinate'
+    :param mobs: a list of mob dictionaries each with at minimum a key called 'name'
+    :param map_key: a dictionary of non-zero length containing two integer coordinates in a tuple for each key and
+    an integer or string as the value
+    :param time_machine: the time machine dictionary
+    :precondition: two dictionaries, a list of dictionaries, and a dictionary
+    :postcondition: the character's 'impact' countdown started or lowered by one, and the character demolished when it
+    reaches zero
+    :return: the number of ticks left before impact or None if the meteor is not falling
+
+    >>> test_character = {"level": 3, "timeline": {"dinosaurs": True}, "y_coordinate": 1, "x_coordinate": 1}
+    >>> meteor_impact(test_character, [], {(1, 1): "@", (1, 2): "T"}, {"y_coordinate": 1, "x_coordinate": 2})
+    16
+    >>> meteor_impact(test_character, [{"name": "Raptor Gunner"}], {}, {})
+    15
+    >>> meteor_impact({"level": 3, "timeline": {"dinosaurs": False}}, [], {}, {})
+    """
+    if character["level"] != 3 or not character.get("timeline", {}).get("dinosaurs"):
+        return None
+    if "impact" not in character:
+        if any(mob["name"] == "Raptor Gunner" for mob in mobs):
+            return None
+        path = initialize.find_path(map_key, (character["y_coordinate"], character["x_coordinate"]),
+                                    (time_machine["y_coordinate"], time_machine["x_coordinate"]))
+        character["impact"] = len(path) + 15 if path else 40
+    character["impact"] -= 1
+    if character["impact"] < 1:
+        map_key[(character["y_coordinate"], character["x_coordinate"])] = "demolished by a meteor"
+    return character["impact"]
 
 
 def countdown(mob, map_key, character):
@@ -314,6 +379,8 @@ def authenticate_shot(x_coordinate: int, y_coordinate: int, map_key: dict):
     if (y_coordinate, x_coordinate) in map_key.keys():
         if (map_key[(y_coordinate, x_coordinate)] != 3
                 and map_key[(y_coordinate, x_coordinate)] != input_color(" M ", "RED")
-                and map_key[(y_coordinate, x_coordinate)] != input_color(" H ", "RED")):
+                and map_key[(y_coordinate, x_coordinate)] != input_color(" H ", "RED")
+                and map_key[(y_coordinate, x_coordinate)] != input_color(" M ", "BRIGHT_RED")
+                and map_key[(y_coordinate, x_coordinate)] != input_color(" R ", "RED")):
             return True
     return False

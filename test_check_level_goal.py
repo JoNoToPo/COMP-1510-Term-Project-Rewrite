@@ -28,6 +28,21 @@ class Test(TestCase):
         expected = False
         self.assertEqual(actual, expected)
 
+    def test_check_level_goal_meinard_goudier(self):
+        actual = check_level_goal([{"name": "Meinard Goudier"}])
+        expected = False
+        self.assertEqual(actual, expected)
+
+    def test_check_level_goal_raptor_gunner(self):
+        actual = check_level_goal([{"name": "Raptor Gunner"}])
+        expected = False
+        self.assertEqual(actual, expected)
+
+    def test_check_level_goal_named_boss(self):
+        actual = check_level_goal([{"name": "Chris The Wise THE GREATEST GRANDFATHER"}])
+        expected = False
+        self.assertEqual(actual, expected)
+
     def test_check_level_goal_empty(self):
         actual = check_level_goal([])
         expected = True
